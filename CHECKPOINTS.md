@@ -74,7 +74,7 @@ This document serves as an immutable, verifiable ledger of project milestones, t
 
 ## Checkpoint 004: MapLibre GL v6 Web Worker Loading & Map Lifecycle in Turbopack
 - **Date & Time:** 2026-10-17 21:02 IST
-- **Commit Hash:** *(Pending commit)*
+- **Commit Hash:** `d5934e8` (and tracking `main`)
 - **Git Branch:** `main`
 - **Working Tree:** `apps/web/src/components/MapComponent.tsx`, `apps/web/package.json`, `apps/web/public/maplibre-gl-worker.mjs`, `PROJECT_STATE.md`, `STATUS.md`, `HANDOFF.md`
 - **Root Cause Identified:**

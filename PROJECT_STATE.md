@@ -2,7 +2,7 @@
 
 **Repository:** `https://github.com/manya1106/DishaAI.git`  
 **Current Branch:** `main`  
-**Current HEAD Commit:** `9e6b062`  
+**Current HEAD Commit:** `d5934e8`  
 **Latest Git Tag:** `contracts-v1` (at `563ad6c`)  
 **Working Tree Status:** Clean  
 **Inspection Date:** 2026-10-17  
