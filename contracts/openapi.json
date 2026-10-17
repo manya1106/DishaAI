@@ -1,0 +1,1751 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Disha AI API",
+    "description": "Location Intelligence & Trustworthy AI Verification Engine",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/health": {
+      "get": {
+        "tags": [
+          "Health"
+        ],
+        "summary": "Get Health",
+        "operationId": "get_health_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HealthResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/meta": {
+      "get": {
+        "tags": [
+          "Metadata"
+        ],
+        "summary": "Get Meta",
+        "operationId": "get_meta_api_v1_meta_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MetaResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/analyses": {
+      "post": {
+        "tags": [
+          "Analyses"
+        ],
+        "summary": "Create Analysis",
+        "operationId": "create_analysis_api_v1_analyses_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AnalysisRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AnalysisResult"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/analyses/{analysis_id}": {
+      "get": {
+        "tags": [
+          "Analyses"
+        ],
+        "summary": "Get Analysis",
+        "operationId": "get_analysis_api_v1_analyses__analysis_id__get",
+        "parameters": [
+          {
+            "name": "analysis_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Analysis Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AnalysisResult"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/analyses/{analysis_id}/locations/{location_id}": {
+      "get": {
+        "tags": [
+          "Analyses"
+        ],
+        "summary": "Get Location Report",
+        "operationId": "get_location_report_api_v1_analyses__analysis_id__locations__location_id__get",
+        "parameters": [
+          {
+            "name": "analysis_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Analysis Id"
+            }
+          },
+          {
+            "name": "location_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Location Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReportResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/analyses/{analysis_id}/compare": {
+      "post": {
+        "tags": [
+          "Analyses"
+        ],
+        "summary": "Compare Locations",
+        "operationId": "compare_locations_api_v1_analyses__analysis_id__compare_post",
+        "parameters": [
+          {
+            "name": "analysis_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Analysis Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CompareRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CompareResult"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/analyses/{analysis_id}/chat": {
+      "post": {
+        "tags": [
+          "Chat"
+        ],
+        "summary": "Chat Analysis",
+        "operationId": "chat_analysis_api_v1_analyses__analysis_id__chat_post",
+        "parameters": [
+          {
+            "name": "analysis_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Analysis Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChatRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ChatResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/trust/stats": {
+      "get": {
+        "tags": [
+          "Trust"
+        ],
+        "summary": "Get Trust Stats",
+        "operationId": "get_trust_stats_api_v1_trust_stats_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TrustStatsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/trust/traces/{trace_id}": {
+      "get": {
+        "tags": [
+          "Trust"
+        ],
+        "summary": "Get Trace Detail",
+        "operationId": "get_trace_detail_api_v1_trust_traces__trace_id__get",
+        "parameters": [
+          {
+            "name": "trace_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Trace Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TraceDetailResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AnalysisInputs": {
+        "properties": {
+          "city_id": {
+            "type": "string",
+            "title": "City Id"
+          },
+          "category_id": {
+            "type": "string",
+            "title": "Category Id"
+          },
+          "budget_tier": {
+            "type": "string",
+            "title": "Budget Tier"
+          },
+          "top_n": {
+            "type": "integer",
+            "title": "Top N"
+          },
+          "weight_overrides": {
+            "anyOf": [
+              {
+                "additionalProperties": {
+                  "type": "number"
+                },
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Weight Overrides"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "city_id",
+          "category_id",
+          "budget_tier",
+          "top_n"
+        ],
+        "title": "AnalysisInputs"
+      },
+      "AnalysisRequest": {
+        "properties": {
+          "city_id": {
+            "type": "string",
+            "title": "City Id",
+            "description": "City identifier",
+            "default": "blr"
+          },
+          "category_id": {
+            "type": "string",
+            "title": "Category Id",
+            "description": "Business category: cafe, pharmacy, or gym"
+          },
+          "budget_tier": {
+            "type": "string",
+            "title": "Budget Tier",
+            "description": "Budget tier: low, medium, or high"
+          },
+          "top_n": {
+            "type": "integer",
+            "maximum": 50.0,
+            "minimum": 1.0,
+            "title": "Top N",
+            "description": "Number of top ranked zones to return",
+            "default": 10
+          },
+          "weight_overrides": {
+            "anyOf": [
+              {
+                "additionalProperties": {
+                  "type": "number"
+                },
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Weight Overrides",
+            "description": "Optional weight overrides"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "category_id",
+          "budget_tier"
+        ],
+        "title": "AnalysisRequest"
+      },
+      "AnalysisResult": {
+        "properties": {
+          "analysis_id": {
+            "type": "string",
+            "title": "Analysis Id"
+          },
+          "inputs": {
+            "$ref": "#/components/schemas/AnalysisInputs"
+          },
+          "dataset": {
+            "$ref": "#/components/schemas/DatasetMeta"
+          },
+          "weights": {
+            "additionalProperties": {
+              "type": "number"
+            },
+            "type": "object",
+            "title": "Weights"
+          },
+          "locations": {
+            "items": {
+              "$ref": "#/components/schemas/LocationResult"
+            },
+            "type": "array",
+            "title": "Locations"
+          },
+          "heatmap": {
+            "$ref": "#/components/schemas/GeoJSONFeatureCollection"
+          },
+          "evidence": {
+            "items": {
+              "$ref": "#/components/schemas/EvidenceItem"
+            },
+            "type": "array",
+            "title": "Evidence"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "analysis_id",
+          "inputs",
+          "dataset",
+          "weights",
+          "locations",
+          "heatmap",
+          "evidence"
+        ],
+        "title": "AnalysisResult"
+      },
+      "Block": {
+        "properties": {
+          "text": {
+            "type": "string",
+            "title": "Text",
+            "description": "Exactly one verified natural language sentence"
+          },
+          "claims": {
+            "items": {
+              "$ref": "#/components/schemas/Claim"
+            },
+            "type": "array",
+            "title": "Claims"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "text"
+        ],
+        "title": "Block"
+      },
+      "BudgetTierMeta": {
+        "properties": {
+          "tier_id": {
+            "type": "string",
+            "title": "Tier Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "max_acceptable_tier": {
+            "type": "integer",
+            "title": "Max Acceptable Tier"
+          },
+          "description": {
+            "type": "string",
+            "title": "Description"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "tier_id",
+          "name",
+          "max_acceptable_tier",
+          "description"
+        ],
+        "title": "BudgetTierMeta"
+      },
+      "CategoryMeta": {
+        "properties": {
+          "category_id": {
+            "type": "string",
+            "title": "Category Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "category_id",
+          "name"
+        ],
+        "title": "CategoryMeta"
+      },
+      "Centroid": {
+        "properties": {
+          "lat": {
+            "type": "number",
+            "title": "Lat"
+          },
+          "lng": {
+            "type": "number",
+            "title": "Lng"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "lat",
+          "lng"
+        ],
+        "title": "Centroid"
+      },
+      "ChatMode": {
+        "type": "string",
+        "enum": [
+          "llm_verified",
+          "llm_partially_verified",
+          "deterministic_fallback",
+          "deterministic_requested",
+          "refused_insufficient_data"
+        ],
+        "title": "ChatMode"
+      },
+      "ChatRequest": {
+        "properties": {
+          "message": {
+            "type": "string",
+            "maxLength": 500,
+            "title": "Message",
+            "description": "User question"
+          },
+          "selected_location_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "maxItems": 3,
+            "title": "Selected Location Ids"
+          },
+          "history": {
+            "items": {
+              "$ref": "#/components/schemas/HistoryTurn"
+            },
+            "type": "array",
+            "maxItems": 6,
+            "title": "History"
+          },
+          "mode": {
+            "type": "string",
+            "title": "Mode",
+            "description": "Either 'auto' or 'deterministic'",
+            "default": "auto"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "message"
+        ],
+        "title": "ChatRequest"
+      },
+      "ChatResponse": {
+        "properties": {
+          "trace_id": {
+            "type": "string",
+            "title": "Trace Id"
+          },
+          "mode": {
+            "$ref": "#/components/schemas/ChatMode"
+          },
+          "verification": {
+            "$ref": "#/components/schemas/VerificationSummary"
+          },
+          "blocks": {
+            "items": {
+              "$ref": "#/components/schemas/Block"
+            },
+            "type": "array",
+            "title": "Blocks"
+          },
+          "uncertainty": {
+            "$ref": "#/components/schemas/UncertaintyInfo"
+          },
+          "latency_ms": {
+            "type": "integer",
+            "title": "Latency Ms"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "trace_id",
+          "mode",
+          "verification",
+          "blocks",
+          "uncertainty",
+          "latency_ms"
+        ],
+        "title": "ChatResponse"
+      },
+      "CityMeta": {
+        "properties": {
+          "city_id": {
+            "type": "string",
+            "title": "City Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "country": {
+            "type": "string",
+            "title": "Country"
+          },
+          "center": {
+            "$ref": "#/components/schemas/Centroid"
+          },
+          "h3_resolution": {
+            "type": "integer",
+            "title": "H3 Resolution"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "city_id",
+          "name",
+          "country",
+          "center",
+          "h3_resolution"
+        ],
+        "title": "CityMeta"
+      },
+      "Claim": {
+        "properties": {
+          "claim_id": {
+            "type": "string",
+            "title": "Claim Id"
+          },
+          "type": {
+            "$ref": "#/components/schemas/ClaimType"
+          },
+          "location_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Location Ids"
+          },
+          "signal_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Signal Id"
+          },
+          "polarity": {
+            "$ref": "#/components/schemas/ClaimPolarity",
+            "default": "neutral"
+          },
+          "evidence_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "minItems": 1,
+            "title": "Evidence Ids"
+          },
+          "numbers": {
+            "items": {
+              "type": "number"
+            },
+            "type": "array",
+            "title": "Numbers"
+          },
+          "verified": {
+            "type": "boolean",
+            "title": "Verified",
+            "default": true
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "claim_id",
+          "type",
+          "evidence_ids"
+        ],
+        "title": "Claim"
+      },
+      "ClaimPolarity": {
+        "type": "string",
+        "enum": [
+          "strength",
+          "weakness",
+          "neutral"
+        ],
+        "title": "ClaimPolarity"
+      },
+      "ClaimType": {
+        "type": "string",
+        "enum": [
+          "score",
+          "rank",
+          "comparison",
+          "fact",
+          "reasoning"
+        ],
+        "title": "ClaimType"
+      },
+      "CompareRequest": {
+        "properties": {
+          "location_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "maxItems": 3,
+            "minItems": 2,
+            "title": "Location Ids"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "location_ids"
+        ],
+        "title": "CompareRequest"
+      },
+      "CompareResult": {
+        "properties": {
+          "analysis_id": {
+            "type": "string",
+            "title": "Analysis Id"
+          },
+          "locations": {
+            "items": {
+              "$ref": "#/components/schemas/LocationResult"
+            },
+            "type": "array",
+            "title": "Locations"
+          },
+          "signal_deltas": {
+            "items": {
+              "$ref": "#/components/schemas/SignalDelta"
+            },
+            "type": "array",
+            "title": "Signal Deltas"
+          },
+          "evidence": {
+            "items": {
+              "$ref": "#/components/schemas/EvidenceItem"
+            },
+            "type": "array",
+            "title": "Evidence"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "analysis_id",
+          "locations",
+          "signal_deltas",
+          "evidence"
+        ],
+        "title": "CompareResult"
+      },
+      "ConfidenceLevel": {
+        "type": "string",
+        "enum": [
+          "high",
+          "medium",
+          "low"
+        ],
+        "title": "ConfidenceLevel"
+      },
+      "DatasetMeta": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "mode": {
+            "type": "string",
+            "title": "Mode"
+          },
+          "as_of": {
+            "type": "string",
+            "title": "As Of"
+          },
+          "attribution": {
+            "type": "string",
+            "title": "Attribution"
+          },
+          "contains_simulated": {
+            "type": "boolean",
+            "title": "Contains Simulated"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "mode",
+          "as_of",
+          "attribution",
+          "contains_simulated"
+        ],
+        "title": "DatasetMeta"
+      },
+      "EvaluationRunSummary": {
+        "properties": {
+          "run_id": {
+            "type": "string",
+            "title": "Run Id"
+          },
+          "created_at": {
+            "type": "string",
+            "title": "Created At"
+          },
+          "llm_model": {
+            "type": "string",
+            "title": "Llm Model"
+          },
+          "metrics": {
+            "$ref": "#/components/schemas/TrustMetrics"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "run_id",
+          "created_at",
+          "llm_model",
+          "metrics"
+        ],
+        "title": "EvaluationRunSummary"
+      },
+      "EvidenceItem": {
+        "properties": {
+          "evidence_id": {
+            "type": "string",
+            "title": "Evidence Id"
+          },
+          "location_id": {
+            "type": "string",
+            "title": "Location Id"
+          },
+          "signal_id": {
+            "type": "string",
+            "title": "Signal Id"
+          },
+          "kind": {
+            "type": "string",
+            "title": "Kind"
+          },
+          "label": {
+            "type": "string",
+            "title": "Label"
+          },
+          "value": {
+            "title": "Value"
+          },
+          "unit": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Unit"
+          },
+          "provenance": {
+            "$ref": "#/components/schemas/ProvenanceClass"
+          },
+          "source": {
+            "type": "string",
+            "title": "Source"
+          },
+          "as_of": {
+            "type": "string",
+            "title": "As Of"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "evidence_id",
+          "location_id",
+          "signal_id",
+          "kind",
+          "label",
+          "value",
+          "provenance",
+          "source",
+          "as_of"
+        ],
+        "title": "EvidenceItem"
+      },
+      "GeoJSONFeature": {
+        "properties": {
+          "type": {
+            "type": "string",
+            "title": "Type",
+            "default": "Feature"
+          },
+          "geometry": {
+            "$ref": "#/components/schemas/GeoJSONPolygonGeometry"
+          },
+          "properties": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Properties"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "geometry"
+        ],
+        "title": "GeoJSONFeature"
+      },
+      "GeoJSONFeatureCollection": {
+        "properties": {
+          "type": {
+            "type": "string",
+            "title": "Type",
+            "default": "FeatureCollection"
+          },
+          "features": {
+            "items": {
+              "$ref": "#/components/schemas/GeoJSONFeature"
+            },
+            "type": "array",
+            "title": "Features"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "features"
+        ],
+        "title": "GeoJSONFeatureCollection"
+      },
+      "GeoJSONPolygonGeometry": {
+        "properties": {
+          "type": {
+            "type": "string",
+            "title": "Type",
+            "default": "Polygon"
+          },
+          "coordinates": {
+            "items": {
+              "items": {
+                "items": {
+                  "type": "number"
+                },
+                "type": "array"
+              },
+              "type": "array"
+            },
+            "type": "array",
+            "title": "Coordinates"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "coordinates"
+        ],
+        "title": "GeoJSONPolygonGeometry"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "HealthResponse": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "title": "Status",
+            "example": "ok"
+          },
+          "version": {
+            "type": "string",
+            "title": "Version",
+            "example": "1.0.0"
+          },
+          "data_mode": {
+            "type": "string",
+            "title": "Data Mode",
+            "example": "snapshot"
+          },
+          "db": {
+            "type": "string",
+            "title": "Db",
+            "example": "connected"
+          },
+          "llm": {
+            "type": "string",
+            "title": "Llm",
+            "example": "configured"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "status",
+          "version",
+          "data_mode",
+          "db",
+          "llm"
+        ],
+        "title": "HealthResponse"
+      },
+      "HistoryTurn": {
+        "properties": {
+          "role": {
+            "type": "string",
+            "title": "Role"
+          },
+          "content": {
+            "type": "string",
+            "title": "Content"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "role",
+          "content"
+        ],
+        "title": "HistoryTurn"
+      },
+      "LiveStats": {
+        "properties": {
+          "total_chats": {
+            "type": "integer",
+            "title": "Total Chats"
+          },
+          "verified_rate": {
+            "type": "number",
+            "title": "Verified Rate"
+          },
+          "partially_verified_rate": {
+            "type": "number",
+            "title": "Partially Verified Rate"
+          },
+          "fallback_rate": {
+            "type": "number",
+            "title": "Fallback Rate"
+          },
+          "refusal_rate": {
+            "type": "number",
+            "title": "Refusal Rate"
+          },
+          "avg_latency_ms": {
+            "type": "integer",
+            "title": "Avg Latency Ms"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "total_chats",
+          "verified_rate",
+          "partially_verified_rate",
+          "fallback_rate",
+          "refusal_rate",
+          "avg_latency_ms"
+        ],
+        "title": "LiveStats"
+      },
+      "LocationResult": {
+        "properties": {
+          "location_id": {
+            "type": "string",
+            "title": "Location Id"
+          },
+          "rank": {
+            "type": "integer",
+            "title": "Rank"
+          },
+          "display_name": {
+            "type": "string",
+            "title": "Display Name"
+          },
+          "centroid": {
+            "$ref": "#/components/schemas/Centroid"
+          },
+          "polygon": {
+            "items": {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            "type": "array",
+            "title": "Polygon"
+          },
+          "overall_score": {
+            "type": "number",
+            "title": "Overall Score"
+          },
+          "confidence": {
+            "$ref": "#/components/schemas/ConfidenceLevel"
+          },
+          "coverage": {
+            "type": "number",
+            "title": "Coverage"
+          },
+          "signals": {
+            "items": {
+              "$ref": "#/components/schemas/SignalResult"
+            },
+            "type": "array",
+            "title": "Signals"
+          },
+          "strengths": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Strengths"
+          },
+          "limitations": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Limitations"
+          },
+          "why_vs_neighbours": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Why Vs Neighbours"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "location_id",
+          "rank",
+          "display_name",
+          "centroid",
+          "polygon",
+          "overall_score",
+          "confidence",
+          "coverage",
+          "signals",
+          "strengths",
+          "limitations",
+          "why_vs_neighbours"
+        ],
+        "title": "LocationResult"
+      },
+      "MetaResponse": {
+        "properties": {
+          "cities": {
+            "items": {
+              "$ref": "#/components/schemas/CityMeta"
+            },
+            "type": "array",
+            "title": "Cities"
+          },
+          "categories": {
+            "items": {
+              "$ref": "#/components/schemas/CategoryMeta"
+            },
+            "type": "array",
+            "title": "Categories"
+          },
+          "budget_tiers": {
+            "items": {
+              "$ref": "#/components/schemas/BudgetTierMeta"
+            },
+            "type": "array",
+            "title": "Budget Tiers"
+          },
+          "signals": {
+            "items": {
+              "$ref": "#/components/schemas/SignalMeta"
+            },
+            "type": "array",
+            "title": "Signals"
+          },
+          "default_weights": {
+            "additionalProperties": {
+              "additionalProperties": {
+                "type": "number"
+              },
+              "type": "object"
+            },
+            "type": "object",
+            "title": "Default Weights"
+          },
+          "dataset": {
+            "$ref": "#/components/schemas/DatasetMeta"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "cities",
+          "categories",
+          "budget_tiers",
+          "signals",
+          "default_weights",
+          "dataset"
+        ],
+        "title": "MetaResponse"
+      },
+      "ProvenanceClass": {
+        "type": "string",
+        "enum": [
+          "measured",
+          "estimated",
+          "heuristic",
+          "simulated",
+          "unavailable"
+        ],
+        "title": "ProvenanceClass"
+      },
+      "ReportResponse": {
+        "properties": {
+          "analysis_id": {
+            "type": "string",
+            "title": "Analysis Id"
+          },
+          "location": {
+            "$ref": "#/components/schemas/LocationResult"
+          },
+          "evidence": {
+            "items": {
+              "$ref": "#/components/schemas/EvidenceItem"
+            },
+            "type": "array",
+            "title": "Evidence"
+          },
+          "dataset": {
+            "$ref": "#/components/schemas/DatasetMeta"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "analysis_id",
+          "location",
+          "evidence",
+          "dataset"
+        ],
+        "title": "ReportResponse"
+      },
+      "SignalDelta": {
+        "properties": {
+          "signal_id": {
+            "type": "string",
+            "title": "Signal Id"
+          },
+          "scores": {
+            "additionalProperties": {
+              "anyOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "type": "object",
+            "title": "Scores"
+          },
+          "winner_location_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Winner Location Id"
+          },
+          "delta_explanation": {
+            "type": "string",
+            "title": "Delta Explanation"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "signal_id",
+          "scores",
+          "delta_explanation"
+        ],
+        "title": "SignalDelta"
+      },
+      "SignalMeta": {
+        "properties": {
+          "signal_id": {
+            "type": "string",
+            "title": "Signal Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "better_when": {
+            "type": "string",
+            "title": "Better When"
+          },
+          "provenance": {
+            "$ref": "#/components/schemas/ProvenanceClass"
+          },
+          "description": {
+            "type": "string",
+            "title": "Description"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "signal_id",
+          "name",
+          "better_when",
+          "provenance",
+          "description"
+        ],
+        "title": "SignalMeta"
+      },
+      "SignalResult": {
+        "properties": {
+          "signal_id": {
+            "type": "string",
+            "title": "Signal Id"
+          },
+          "score": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Score"
+          },
+          "weight": {
+            "type": "number",
+            "title": "Weight"
+          },
+          "effective_weight": {
+            "type": "number",
+            "title": "Effective Weight"
+          },
+          "contribution": {
+            "type": "number",
+            "title": "Contribution"
+          },
+          "status": {
+            "$ref": "#/components/schemas/SignalStatus"
+          },
+          "provenance": {
+            "$ref": "#/components/schemas/ProvenanceClass"
+          },
+          "evidence_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Evidence Ids"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "signal_id",
+          "weight",
+          "effective_weight",
+          "contribution",
+          "status",
+          "provenance",
+          "evidence_ids"
+        ],
+        "title": "SignalResult"
+      },
+      "SignalStatus": {
+        "type": "string",
+        "enum": [
+          "ok",
+          "low_confidence",
+          "unavailable"
+        ],
+        "title": "SignalStatus"
+      },
+      "TraceDetailResponse": {
+        "properties": {
+          "trace_id": {
+            "type": "string",
+            "title": "Trace Id"
+          },
+          "created_at": {
+            "type": "string",
+            "title": "Created At"
+          },
+          "analysis_id": {
+            "type": "string",
+            "title": "Analysis Id"
+          },
+          "question": {
+            "type": "string",
+            "title": "Question"
+          },
+          "selected_location_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Selected Location Ids"
+          },
+          "mode": {
+            "type": "string",
+            "title": "Mode"
+          },
+          "llm_model": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Llm Model"
+          },
+          "verification": {
+            "$ref": "#/components/schemas/VerificationSummary"
+          },
+          "violations": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Violations"
+          },
+          "latency_ms": {
+            "type": "integer",
+            "title": "Latency Ms"
+          },
+          "blocks": {
+            "items": {
+              "$ref": "#/components/schemas/Block"
+            },
+            "type": "array",
+            "title": "Blocks"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "trace_id",
+          "created_at",
+          "analysis_id",
+          "question",
+          "selected_location_ids",
+          "mode",
+          "verification",
+          "latency_ms",
+          "blocks"
+        ],
+        "title": "TraceDetailResponse"
+      },
+      "TrustMetrics": {
+        "properties": {
+          "cases_total": {
+            "type": "integer",
+            "title": "Cases Total"
+          },
+          "raw_violation_rate": {
+            "type": "number",
+            "title": "Raw Violation Rate"
+          },
+          "leaked_unsupported": {
+            "type": "integer",
+            "title": "Leaked Unsupported"
+          },
+          "refusal_correct_rate": {
+            "type": "number",
+            "title": "Refusal Correct Rate"
+          },
+          "answer_rate": {
+            "type": "number",
+            "title": "Answer Rate"
+          },
+          "fallback_rate": {
+            "type": "number",
+            "title": "Fallback Rate"
+          },
+          "latency_p50_ms": {
+            "type": "integer",
+            "title": "Latency P50 Ms"
+          },
+          "latency_p95_ms": {
+            "type": "integer",
+            "title": "Latency P95 Ms"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "cases_total",
+          "raw_violation_rate",
+          "leaked_unsupported",
+          "refusal_correct_rate",
+          "answer_rate",
+          "fallback_rate",
+          "latency_p50_ms",
+          "latency_p95_ms"
+        ],
+        "title": "TrustMetrics"
+      },
+      "TrustStatsResponse": {
+        "properties": {
+          "latest_eval": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/EvaluationRunSummary"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "live_stats": {
+            "$ref": "#/components/schemas/LiveStats"
+          },
+          "verifier_rules_summary": {
+            "items": {
+              "additionalProperties": {
+                "type": "string"
+              },
+              "type": "object"
+            },
+            "type": "array",
+            "title": "Verifier Rules Summary"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "live_stats",
+          "verifier_rules_summary"
+        ],
+        "title": "TrustStatsResponse"
+      },
+      "UncertaintyInfo": {
+        "properties": {
+          "insufficient_data": {
+            "type": "boolean",
+            "title": "Insufficient Data",
+            "default": false
+          },
+          "missing": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Missing"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "UncertaintyInfo"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "ctx": {
+            "type": "object",
+            "title": "Context"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      },
+      "VerificationStatus": {
+        "type": "string",
+        "enum": [
+          "verified",
+          "partially_verified",
+          "rejected_fallback"
+        ],
+        "title": "VerificationStatus"
+      },
+      "VerificationSummary": {
+        "properties": {
+          "status": {
+            "$ref": "#/components/schemas/VerificationStatus"
+          },
+          "claims_total": {
+            "type": "integer",
+            "title": "Claims Total"
+          },
+          "claims_verified": {
+            "type": "integer",
+            "title": "Claims Verified"
+          },
+          "claims_removed": {
+            "type": "integer",
+            "title": "Claims Removed"
+          },
+          "attempts": {
+            "type": "integer",
+            "title": "Attempts",
+            "default": 1
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "status",
+          "claims_total",
+          "claims_verified",
+          "claims_removed"
+        ],
+        "title": "VerificationSummary"
+      }
+    }
+  }
+}

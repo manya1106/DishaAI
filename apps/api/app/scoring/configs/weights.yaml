@@ -1,0 +1,36 @@
+# Category-specific weights for the 9 signals
+# Must sum to 1.0 for each category, minimum weight 0.04
+
+categories:
+  cafe:
+    competition_density: 0.12 # Moderate competition is normal; over-saturation kills margins
+    gap_opportunity: 0.12 # Critical for identifying unmet demand relative to population
+    footfall_anchors: 0.16 # High importance: cafes rely heavily on nearby impulse traffic (malls, colleges, transit)
+    transit_access: 0.10 # Good metro/bus connectivity boosts commuter and meeting footfall
+    complementary_mix: 0.10 # Synergies with bookstores, bakeries, and casual dining
+    residential_catchment: 0.08 # Local repeat neighbourhood customers for morning coffee
+    daytime_population: 0.14 # Office workers and students drive high-margin weekday revenue
+    road_accessibility: 0.06 # Basic street accessibility and drop-off convenience
+    rent_efficiency: 0.12 # High rent can undermine viability; budget alignment is vital
+
+  pharmacy:
+    competition_density: 0.10 # Pharmacies can cluster near clinics, but direct oversaturation hurts
+    gap_opportunity: 0.14 # High priority: discovering neighbourhoods with sparse healthcare retail
+    footfall_anchors: 0.12 # Hospitals, major clinics, and supermarkets generate steady prescription demand
+    transit_access: 0.08 # Convenient access for sick or elderly patrons
+    complementary_mix: 0.16 # Top priority: adjacent to doctors, clinics, diagnostic labs, hospitals
+    residential_catchment: 0.18 # Very high: recurring household prescription and OTC medication needs
+    daytime_population: 0.06 # Secondary to residential density for non-emergency pharmacy needs
+    road_accessibility: 0.08 # Emergency vehicle and customer pickup access
+    rent_efficiency: 0.08 # Pharmacies have steady margins but need affordable ground-floor space
+
+  gym:
+    competition_density: 0.12 # High gym density creates steep discounting price wars
+    gap_opportunity: 0.14 # Identifying residential areas with high disposable income but few fitness options
+    footfall_anchors: 0.08 # Useful for visibility, though gym visits are planned destinations
+    transit_access: 0.08 # Convenient for commuters working out before/after transit
+    complementary_mix: 0.08 # Synergistic with health-food stores, parks, sports venues
+    residential_catchment: 0.18 # Prime driver: members strongly prefer facilities within 1-2 km of home
+    daytime_population: 0.12 # Professionals working out during lunch or right after office hours
+    road_accessibility: 0.06 # Adequate street access and parking
+    rent_efficiency: 0.14 # Gyms require large square footage, making rent efficiency critical

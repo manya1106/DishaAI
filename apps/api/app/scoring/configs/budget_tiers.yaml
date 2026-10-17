@@ -1,0 +1,19 @@
+# Budget tier mapping to maximum acceptable heuristic rent tier (1 to 5 scale)
+# Scoring rule:
+# If area_tier <= ceiling - 1: score = 100
+# If area_tier == ceiling:     score = 70
+# If area_tier > ceiling:      score = max(0, 70 - 30 * (area_tier - ceiling))
+
+budget_tiers:
+  low:
+    name: "Budget / Value"
+    max_acceptable_tier: 2
+    description: "Prioritizes low-overhead locations (tier 1-2). Tier 3 or above penalized."
+  medium:
+    name: "Standard / Growth"
+    max_acceptable_tier: 3
+    description: "Accepts up to tier 3 prime commercial rents. Tiers 4-5 penalized."
+  high:
+    name: "Premium / Flagship"
+    max_acceptable_tier: 5
+    description: "Willing to invest in highest-tier luxury or prime high-street locations."

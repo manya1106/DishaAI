@@ -1,0 +1,3124 @@
+{
+  "analysis_id": "eyJjaXR5X2lkIjoiYmxyIiwiY2F0ZWdvcnlfaWQiOiJjYWZlIiwiYnVkZ2V0X3RpZXIiOiJtZWRpdW0iLCJ0b3BfbiI6MTAsIndlaWdodF9vdmVycmlkZXMiOm51bGx9",
+  "inputs": {
+    "city_id": "blr",
+    "category_id": "cafe",
+    "budget_tier": "medium",
+    "top_n": 10,
+    "weight_overrides": null
+  },
+  "dataset": {
+    "id": "blr-osm-snapshot",
+    "mode": "snapshot",
+    "as_of": "2026-10",
+    "attribution": "© OpenStreetMap contributors (ODbL)",
+    "contains_simulated": true
+  },
+  "weights": {
+    "competition_density": 0.12,
+    "gap_opportunity": 0.12,
+    "footfall_anchors": 0.16,
+    "transit_access": 0.1,
+    "complementary_mix": 0.1,
+    "residential_catchment": 0.08,
+    "daytime_population": 0.14,
+    "road_accessibility": 0.06,
+    "rent_efficiency": 0.12
+  },
+  "locations": [
+    {
+      "location_id": "88618925ddfffff",
+      "rank": 1,
+      "display_name": "BTM Layout 2nd Stage Udupi Garden",
+      "centroid": {
+        "lat": 12.9166,
+        "lng": 77.6101
+      },
+      "polygon": [
+        [
+          12.916070802110088,
+          77.61040912426928
+        ],
+        [
+          12.92105948233216,
+          77.61049328359796
+        ],
+        [
+          12.923569538469572,
+          77.60632295700171
+        ],
+        [
+          12.921090987787622,
+          77.60206874004393
+        ],
+        [
+          12.91610254118637,
+          77.60198472500464
+        ],
+        [
+          12.913592411644066,
+          77.6061547826395
+        ]
+      ],
+      "overall_score": 70.3,
+      "confidence": "high",
+      "coverage": 1.0,
+      "signals": [
+        {
+          "signal_id": "competition_density",
+          "score": 68.5,
+          "weight": 0.12,
+          "effective_weight": 0.12,
+          "contribution": 8.2,
+          "status": "ok",
+          "provenance": "measured",
+          "evidence_ids": [
+            "ev_0055"
+          ]
+        },
+        {
+          "signal_id": "gap_opportunity",
+          "score": 96.0,
+          "weight": 0.12,
+          "effective_weight": 0.12,
+          "contribution": 11.5,
+          "status": "ok",
+          "provenance": "estimated",
+          "evidence_ids": [
+            "ev_0056"
+          ]
+        },
+        {
+          "signal_id": "footfall_anchors",
+          "score": 65.0,
+          "weight": 0.16,
+          "effective_weight": 0.16,
+          "contribution": 10.4,
+          "status": "ok",
+          "provenance": "estimated",
+          "evidence_ids": [
+            "ev_0057"
+          ]
+        },
+        {
+          "signal_id": "transit_access",
+          "score": 72.0,
+          "weight": 0.1,
+          "effective_weight": 0.1,
+          "contribution": 7.2,
+          "status": "ok",
+          "provenance": "measured",
+          "evidence_ids": [
+            "ev_0058"
+          ]
+        },
+        {
+          "signal_id": "complementary_mix",
+          "score": 45.0,
+          "weight": 0.1,
+          "effective_weight": 0.1,
+          "contribution": 4.5,
+          "status": "ok",
+          "provenance": "measured",
+          "evidence_ids": [
+            "ev_0059"
+          ]
+        },
+        {
+          "signal_id": "residential_catchment",
+          "score": 80.0,
+          "weight": 0.08,
+          "effective_weight": 0.08,
+          "contribution": 6.4,
+          "status": "ok",
+          "provenance": "estimated",
+          "evidence_ids": [
+            "ev_0060"
+          ]
+        },
+        {
+          "signal_id": "daytime_population",
+          "score": 68.0,
+          "weight": 0.14,
+          "effective_weight": 0.14,
+          "contribution": 9.5,
+          "status": "ok",
+          "provenance": "estimated",
+          "evidence_ids": [
+            "ev_0061"
+          ]
+        },
+        {
+          "signal_id": "road_accessibility",
+          "score": 70.0,
+          "weight": 0.06,
+          "effective_weight": 0.06,
+          "contribution": 4.2,
+          "status": "ok",
+          "provenance": "measured",
+          "evidence_ids": [
+            "ev_0062"
+          ]
+        },
+        {
+          "signal_id": "rent_efficiency",
+          "score": 70.0,
+          "weight": 0.12,
+          "effective_weight": 0.12,
+          "contribution": 8.4,
+          "status": "ok",
+          "provenance": "heuristic",
+          "evidence_ids": [
+            "ev_0063"
+          ]
+        }
+      ],
+      "strengths": [
+        "Strong gap opportunity (score: 96.0)",
+        "Strong footfall anchors (score: 65.0)"
+      ],
+      "limitations": [],
+      "why_vs_neighbours": [
+        "Outperforms adjacent zones on gap opportunity by 11.5 weighted pts."
+      ]
+    },
+    {
+      "location_id": "8860145b07fffff",
+      "rank": 2,
+      "display_name": "Malleshwaram 8th Cross",
+      "centroid": {
+        "lat": 12.9982,
+        "lng": 77.5714
+      },
+      "polygon": [
+        [
+          12.998503065025522,
+          77.5738838702699
+        ],
+        [
+          13.003490137251811,
+          77.57396742639357
+        ],
+        [
+          13.005996845074431,
+          77.56979739968311
+        ],
+        [
+          13.00351655487586,
+          77.56554408619772
+        ],
+        [
+          12.998529716568424,
+          77.5654606743395
+        ],
+        [
+          12.996022934538537,
+          77.56963043170703
+        ]
+      ],
+      "overall_score": 70.0,
+      "confidence": "high",
+      "coverage": 1.0,
+      "signals": [
+        {
+          "signal_id": "competition_density",
+          "score": 72.0,
+          "weight": 0.12,
+          "effective_weight": 0.12,
+          "contribution": 8.6,
+          "status": "ok",
+          "provenance": "measured",
+          "evidence_ids": [
+            "ev_0064"
+          ]
+        },
+        {
+          "signal_id": "gap_opportunity",
+          "score": 84.0,
+          "weight": 0.12,
+          "effective_weight": 0.12,
+          "contribution": 10.1,
+          "status": "ok",
+          "provenance": "estimated",
+          "evidence_ids": [
+            "ev_0065"
+          ]
+        },
+        {
+          "signal_id": "footfall_anchors",
+          "score": 68.0,
+          "weight": 0.16,
+          "effective_weight": 0.16,
+          "contribution": 10.9,
+          "status": "ok",
+          "provenance": "estimated",
+          "evidence_ids": [
+            "ev_0066"
+          ]
+        },
+        {
+          "signal_id": "transit_access",
+          "score": 74.0,
+          "weight": 0.1,
+          "effective_weight": 0.1,
+          "contribution": 7.4,
+          "status": "ok",
+          "provenance": "measured",
+          "evidence_ids": [
+            "ev_0067"
+          ]
+        },
+        {
+          "signal_id": "complementary_mix",
+          "score": 50.4,
+          "weight": 0.1,
+          "effective_weight": 0.1,
+          "contribution": 5.0,
+          "status": "ok",
+          "provenance": "measured",
+          "evidence_ids": [
+            "ev_0068"
+          ]
+        },
+        {
+          "signal_id": "residential_catchment",
+          "score": 88.0,
+          "weight": 0.08,
+          "effective_weight": 0.08,
+          "contribution": 7.0,
+          "status": "ok",
+          "provenance": "estimated",
+          "evidence_ids": [
+            "ev_0069"
+          ]
+        },
+        {
+          "signal_id": "daytime_population",
+          "score": 62.0,
+          "weight": 0.14,
+          "effective_weight": 0.14,
+          "contribution": 8.7,
+          "status": "ok",
+          "provenance": "estimated",
+          "evidence_ids": [
+            "ev_0070"
+          ]
+        },
+        {
+          "signal_id": "road_accessibility",
+          "score": 65.0,
+          "weight": 0.06,
+          "effective_weight": 0.06,
+          "contribution": 3.9,
+          "status": "ok",
+          "provenance": "measured",
+          "evidence_ids": [
+            "ev_0071"
+          ]
+        },
+        {
+          "signal_id": "rent_efficiency",
+          "score": 70.0,
+          "weight": 0.12,
+          "effective_weight": 0.12,
+          "contribution": 8.4,
+          "status": "ok",
+          "provenance": "heuristic",
+          "evidence_ids": [
+            "ev_0072"
+          ]
+        }
+      ],
+      "strengths": [
+        "Strong footfall anchors (score: 68.0)",
+        "Strong gap opportunity (score: 84.0)"
+      ],
+      "limitations": [],
+      "why_vs_neighbours": [
+        "Outperforms adjacent zones on footfall anchors by 10.9 weighted pts."
+      ]
+    },
+    {
+      "location_id": "8861892421fffff",
+      "rank": 3,
+      "display_name": "HSR Layout Sector 1 Commercial",
+      "centroid": {
+        "lat": 12.9116,
+        "lng": 77.6389
+      },
+      "polygon": [
+        [
+          12.90847325783873,
+          77.63977379336511
+        ],
+        [
+          12.913462804660288,
+          77.6398584536585
+        ],
+        [
+          12.915973947121753,
+          77.63568709425213
+        ],
+        [
+          12.91349561591415,
+          77.63143134331467
+        ],
+        [
+          12.908506302425666,
+          77.63134682738456
+        ],
+        [
+          12.90599508680947,
+          77.6355179180344
+        ]
+      ],
+      "overall_score": 69.5,
+      "confidence": "high",
+      "coverage": 1.0,
+      "signals": [
+        {
+          "signal_id": "competition_density",
+          "score": 58.0,
+          "weight": 0.12,
+          "effective_weight": 0.12,
+          "contribution": 7.0,
+          "status": "ok",
+          "provenance": "measured",
+          "evidence_ids": [
+            "ev_0019"
+          ]
+        },
+        {
+          "signal_id": "gap_opportunity",
+          "score": 82.0,
+          "weight": 0.12,
+          "effective_weight": 0.12,
+          "contribution": 9.8,
+          "status": "ok",
+          "provenance": "estimated",
+          "evidence_ids": [
+            "ev_0020"
+          ]
+        },
+        {
+          "signal_id": "footfall_anchors",
+          "score": 78.0,
+          "weight": 0.16,
+          "effective_weight": 0.16,
+          "contribution": 12.5,
+          "status": "ok",
+          "provenance": "estimated",
+          "evidence_ids": [
+            "ev_0021"
+          ]
+        },
+        {
+          "signal_id": "transit_access",
+          "score": 65.0,
+          "weight": 0.1,
+          "effective_weight": 0.1,
+          "contribution": 6.5,
+          "status": "ok",
+          "provenance": "measured",
+          "evidence_ids": [
+            "ev_0022"
+          ]
+        },
+        {
+          "signal_id": "complementary_mix",
+          "score": 63.0,
+          "weight": 0.1,
+          "effective_weight": 0.1,
+          "contribution": 6.3,
+          "status": "ok",
+          "provenance": "measured",
+          "evidence_ids": [
+            "ev_0023"
+          ]
+        },
+        {
+          "signal_id": "residential_catchment",
+          "score": 75.0,
+          "weight": 0.08,
+          "effective_weight": 0.08,
+          "contribution": 6.0,
+          "status": "ok",
+          "provenance": "estimated",
+          "evidence_ids": [
+            "ev_0024"
+          ]
+        },
+        {
+          "signal_id": "daytime_population",
+          "score": 82.0,
+          "weight": 0.14,
+          "effective_weight": 0.14,
+          "contribution": 11.5,
+          "status": "ok",
+          "provenance": "estimated",
+          "evidence_ids": [
+            "ev_0025"
+          ]
+        },
+        {
+          "signal_id": "road_accessibility",
+          "score": 85.0,
+          "weight": 0.06,
+          "effective_weight": 0.06,
+          "contribution": 5.1,
+          "status": "ok",
+          "provenance": "measured",
+          "evidence_ids": [
+            "ev_0026"
+          ]
+        },
+        {
+          "signal_id": "rent_efficiency",
+          "score": 40.0,
+          "weight": 0.12,
+          "effective_weight": 0.12,
+          "contribution": 4.8,
+          "status": "ok",
+          "provenance": "heuristic",
+          "evidence_ids": [
+            "ev_0027"
+          ]
+        }
+      ],
+      "strengths": [
+        "Strong footfall anchors (score: 78.0)",
+        "Strong daytime population (score: 82.0)"
+      ],
+      "limitations": [
+        "Subdued rent efficiency (score: 40.0)."
+      ],
+      "why_vs_neighbours": [
+        "Outperforms adjacent zones on footfall anchors by 12.5 weighted pts."
+      ]
+    },
+    {
+      "location_id": "8861892599fffff",
+      "rank": 4,
+      "display_name": "Jayanagar 4th Block Market",
+      "centroid": {
+        "lat": 12.9299,
+        "lng": 77.5833
+      },
+      "polygon": [
+        [
+          12.923631769859837,
+          77.58947531730163
+        ],
+        [
+          12.928619816155535,
+          77.58955912013764
+        ],
+        [
+          12.931129038786205,
+          77.58538950203727
+        ],
+        [
+          12.928650288716579,
+          77.58113635021748
+        ],
+        [
+          12.923662476244791,
+          77.58105269162003
+        ],
+        [
+          12.921153180016532,
+          77.58522204060961
+        ]
+      ],
+      "overall_score": 69.2,
+      "confidence": "high",
+      "coverage": 1.0,
+      "signals": [
+        {
+          "signal_id": "competition_density",
+          "score": 65.0,
+          "weight": 0.12,
+          "effective_weight": 0.12,
+          "contribution": 7.8,
+          "status": "ok",
+          "provenance": "measured",
+          "evidence_ids": [
+            "ev_0028"
+          ]
+        },
+        {
+          "signal_id": "gap_opportunity",
+          "score": 90.0,
+          "weight": 0.12,
+          "effective_weight": 0.12,
+          "contribution": 10.8,
+          "status": "ok",
+          "provenance": "estimated",
+          "evidence_ids": [
+            "ev_0029"
+          ]
+        },
+        {
+          "signal_id": "footfall_anchors",
+          "score": 72.0,
+          "weight": 0.16,
+          "effective_weight": 0.16,
+          "contribution": 11.5,
+          "status": "ok",
+          "provenance": "estimated",
+          "evidence_ids": [
+            "ev_0030"
+          ]
+        },
+        {
+          "signal_id": "transit_access",
+          "score": 80.0,
+          "weight": 0.1,
+          "effective_weight": 0.1,
+          "contribution": 8.0,
+          "status": "ok",
+          "provenance": "measured",
+          "evidence_ids": [
+            "ev_0031"
+          ]
+        },
+        {
+          "signal_id": "complementary_mix",
+          "score": 54.0,
+          "weight": 0.1,
+          "effective_weight": 0.1,
+          "contribution": 5.4,
+          "status": "ok",
+          "provenance": "measured",
+          "evidence_ids": [
+            "ev_0032"
+          ]
+        },
+        {
+          "signal_id": "residential_catchment",
+          "score": 85.0,
+          "weight": 0.08,
+          "effective_weight": 0.08,
+          "contribution": 6.8,
+          "status": "ok",
+          "provenance": "estimated",
+          "evidence_ids": [
+            "ev_0033"
+          ]
+        },
+        {
+          "signal_id": "daytime_population",
+          "score": 70.0,
+          "weight": 0.14,
+          "effective_weight": 0.14,
+          "contribution": 9.8,
+          "status": "ok",
+          "provenance": "estimated",
+          "evidence_ids": [
+            "ev_0034"
+          ]
+        },
+        {
+          "signal_id": "road_accessibility",
+          "score": 72.0,
+          "weight": 0.06,
+          "effective_weight": 0.06,
+          "contribution": 4.3,
+          "status": "ok",
+          "provenance": "measured",
+          "evidence_ids": [
+            "ev_0035"
+          ]
+        },
+        {
+          "signal_id": "rent_efficiency",
+          "score": 40.0,
+          "weight": 0.12,
+          "effective_weight": 0.12,
+          "contribution": 4.8,
+          "status": "ok",
+          "provenance": "heuristic",
+          "evidence_ids": [
+            "ev_0036"
+          ]
+        }
+      ],
+      "strengths": [
+        "Strong footfall anchors (score: 72.0)",
+        "Strong gap opportunity (score: 90.0)"
+      ],
+      "limitations": [
+        "Subdued rent efficiency (score: 40.0)."
+      ],
+      "why_vs_neighbours": [
+        "Outperforms adjacent zones on footfall anchors by 11.5 weighted pts."
+      ]
+    },
+    {
+      "location_id": "8861892eadfffff",
+      "rank": 5,
+      "display_name": "Kalyan Nagar HRBR Layout",
+      "centroid": {
+        "lat": 13.0189,
+        "lng": 77.645
+      },
+      "polygon": [
+        [
+          13.013218281790838,
+          77.64998304578211
+        ],
+        [
+          13.018207352069117,
+          77.65006790982717
+        ],
+        [
+          13.020715943951997,
+          77.6458947382943
+        ],
+        [
+          13.018235539344685,
+          77.6416369715946
+        ],
+        [
+          13.013246702213005,
+          77.64155225203908
+        ],
+        [
+          13.010738036539776,
+          77.6457251546995
+        ]
+      ],
+      "overall_score": 66.8,
+      "confidence": "medium",
+      "coverage": 0.88,
+      "signals": [
+        {
+          "signal_id": "competition_density",
+          "score": 75.5,
+          "weight": 0.12,
+          "effective_weight": 0.1364,
+          "contribution": 10.3,
+          "status": "ok",
+          "provenance": "measured",
+          "evidence_ids": [
+            "ev_0082"
+          ]
+        },
+        {
+          "signal_id": "gap_opportunity",
+          "score": 92.0,
+          "weight": 0.12,
+          "effective_weight": 0.1364,
+          "contribution": 12.5,
+          "status": "ok",
+          "provenance": "estimated",
+          "evidence_ids": [
+            "ev_0083"
+          ]
+        },
+        {
+          "signal_id": "footfall_anchors",
+          "score": 60.0,
+          "weight": 0.16,
+          "effective_weight": 0.1818,
+          "contribution": 10.9,
+          "status": "ok",
+          "provenance": "estimated",
+          "evidence_ids": [
+            "ev_0084"
+          ]
+        },
+        {
+          "signal_id": "transit_access",
+          "score": 65.0,
+          "weight": 0.1,
+          "effective_weight": 0.1136,
+          "contribution": 7.4,
+          "status": "ok",
+          "provenance": "measured",
+          "evidence_ids": [
+            "ev_0085"
+          ]
+        },
+        {
+          "signal_id": "complementary_mix",
+          "score": 39.6,
+          "weight": 0.1,
+          "effective_weight": 0.1136,
+          "contribution": 4.5,
+          "status": "ok",
+          "provenance": "measured",
+          "evidence_ids": [
+            "ev_0086"
+          ]
+        },
+        {
+          "signal_id": "residential_catchment",
+          "score": 78.0,
+          "weight": 0.08,
+          "effective_weight": 0.0909,
+          "contribution": 7.1,
+          "status": "ok",
+          "provenance": "estimated",
+          "evidence_ids": [
+            "ev_0087"
+          ]
+        },
+        {
+          "signal_id": "daytime_population",
+          "score": 60.0,
+          "weight": 0.14,
+          "effective_weight": 0.1591,
+          "contribution": 9.5,
+          "status": "ok",
+          "provenance": "estimated",
+          "evidence_ids": [
+            "ev_0088"
+          ]
+        },
+        {
+          "signal_id": "road_accessibility",
+          "score": 68.0,
+          "weight": 0.06,
+          "effective_weight": 0.0682,
+          "contribution": 4.6,
+          "status": "ok",
+          "provenance": "measured",
+          "evidence_ids": [
+            "ev_0089"
+          ]
+        },
+        {
+          "signal_id": "rent_efficiency",
+          "score": null,
+          "weight": 0.12,
+          "effective_weight": 0.0,
+          "contribution": 0.0,
+          "status": "unavailable",
+          "provenance": "unavailable",
+          "evidence_ids": []
+        }
+      ],
+      "strengths": [
+        "Strong gap opportunity (score: 92.0)",
+        "Strong footfall anchors (score: 60.0)"
+      ],
+      "limitations": [
+        "Subdued complementary mix (score: 39.6).",
+        "rent efficiency data unavailable; weight renormalised."
+      ],
+      "why_vs_neighbours": [
+        "Outperforms adjacent zones on gap opportunity by 12.5 weighted pts."
+      ]
+    },
+    {
+      "location_id": "886189219dfffff",
+      "rank": 6,
+      "display_name": "Whitefield ITPL Main Rd",
+      "centroid": {
+        "lat": 12.9863,
+        "lng": 77.7345
+      },
+      "polygon": [
+        [
+          12.982936997605165,
+          77.74225551215812
+        ],
+        [
+          12.987928833434076,
+          77.74234194982358
+        ],
+        [
+          12.990441019645436,
+          77.73816563478826
+        ],
+        [
+          12.987961442986455,
+          77.73390315030599
+        ],
+        [
+          12.982969839403538,
+          77.73381685735492
+        ],
+        [
+          12.980457580231274,
+          77.73799290417745
+        ]
+      ],
+      "overall_score": 65.8,
+      "confidence": "high",
+      "coverage": 1.0,
+      "signals": [
+        {
+          "signal_id": "competition_density",
+          "score": 51.0,
+          "weight": 0.12,
+          "effective_weight": 0.12,
+          "contribution": 6.1,
+          "status": "ok",
+          "provenance": "measured",
+          "evidence_ids": [
+            "ev_0037"
+          ]
+        },
+        {
+          "signal_id": "gap_opportunity",
+          "score": 64.0,
+          "weight": 0.12,
+          "effective_weight": 0.12,
+          "contribution": 7.7,
+          "status": "ok",
+          "provenance": "estimated",
+          "evidence_ids": [
+            "ev_0038"
+          ]
+        },
+        {
+          "signal_id": "footfall_anchors",
+          "score": 85.0,
+          "weight": 0.16,
+          "effective_weight": 0.16,
+          "contribution": 13.6,
+          "status": "ok",
+          "provenance": "estimated",
+          "evidence_ids": [
+            "ev_0039"
+          ]
+        },
+        {
+          "signal_id": "transit_access",
+          "score": 60.0,
+          "weight": 0.1,
+          "effective_weight": 0.1,
+          "contribution": 6.0,
+          "status": "ok",
+          "provenance": "measured",
+          "evidence_ids": [
+            "ev_0040"
+          ]
+        },
+        {
+          "signal_id": "complementary_mix",
+          "score": 50.4,
+          "weight": 0.1,
+          "effective_weight": 0.1,
+          "contribution": 5.0,
+          "status": "ok",
+          "provenance": "measured",
+          "evidence_ids": [
+            "ev_0041"
+          ]
+        },
+        {
+          "signal_id": "residential_catchment",
+          "score": 65.0,
+          "weight": 0.08,
+          "effective_weight": 0.08,
+          "contribution": 5.2,
+          "status": "ok",
+          "provenance": "estimated",
+          "evidence_ids": [
+            "ev_0042"
+          ]
+        },
+        {
+          "signal_id": "daytime_population",
+          "score": 95.0,
+          "weight": 0.14,
+          "effective_weight": 0.14,
+          "contribution": 13.3,
+          "status": "ok",
+          "provenance": "estimated",
+          "evidence_ids": [
+            "ev_0043"
+          ]
+        },
+        {
+          "signal_id": "road_accessibility",
+          "score": 68.0,
+          "weight": 0.06,
+          "effective_weight": 0.06,
+          "contribution": 4.1,
+          "status": "ok",
+          "provenance": "measured",
+          "evidence_ids": [
+            "ev_0044"
+          ]
+        },
+        {
+          "signal_id": "rent_efficiency",
+          "score": 40.0,
+          "weight": 0.12,
+          "effective_weight": 0.12,
+          "contribution": 4.8,
+          "status": "ok",
+          "provenance": "heuristic",
+          "evidence_ids": [
+            "ev_0045"
+          ]
+        }
+      ],
+      "strengths": [
+        "Strong footfall anchors (score: 85.0)",
+        "Strong daytime population (score: 95.0)"
+      ],
+      "limitations": [
+        "Subdued rent efficiency (score: 40.0)."
+      ],
+      "why_vs_neighbours": [
+        "Outperforms adjacent zones on footfall anchors by 13.6 weighted pts."
+      ]
+    },
+    {
+      "location_id": "8861892ec3fffff",
+      "rank": 7,
+      "display_name": "Indiranagar 100ft Rd Corridor",
+      "centroid": {
+        "lat": 12.9784,
+        "lng": 77.6408
+      },
+      "polygon": [
+        [
+          12.975814277392754,
+          77.64513170112298
+        ],
+        [
+          12.980803488401959,
+          77.64521647172977
+        ],
+        [
+          12.983312956547762,
+          77.64104399399281
+        ],
+        [
+          12.980833287254026,
+          77.63678701449376
+        ],
+        [
+          12.975844309470634,
+          77.63670238832809
+        ],
+        [
+          12.97333476775291,
+          77.6408745972261
+        ]
+      ],
+      "overall_score": 65.5,
+      "confidence": "high",
+      "coverage": 1.0,
+      "signals": [
+        {
+          "signal_id": "competition_density",
+          "score": 37.0,
+          "weight": 0.12,
+          "effective_weight": 0.12,
+          "contribution": 4.4,
+          "status": "ok",
+          "provenance": "measured",
+          "evidence_ids": [
+            "ev_0001"
+          ]
+        },
+        {
+          "signal_id": "gap_opportunity",
+          "score": 68.0,
+          "weight": 0.12,
+          "effective_weight": 0.12,
+          "contribution": 8.2,
+          "status": "ok",
+          "provenance": "estimated",
+          "evidence_ids": [
+            "ev_0002"
+          ]
+        },
+        {
+          "signal_id": "footfall_anchors",
+          "score": 88.0,
+          "weight": 0.16,
+          "effective_weight": 0.16,
+          "contribution": 14.1,
+          "status": "ok",
+          "provenance": "estimated",
+          "evidence_ids": [
+            "ev_0003"
+          ]
+        },
+        {
+          "signal_id": "transit_access",
+          "score": 75.0,
+          "weight": 0.1,
+          "effective_weight": 0.1,
+          "contribution": 7.5,
+          "status": "ok",
+          "provenance": "measured",
+          "evidence_ids": [
+            "ev_0004"
+          ]
+        },
+        {
+          "signal_id": "complementary_mix",
+          "score": 75.6,
+          "weight": 0.1,
+          "effective_weight": 0.1,
+          "contribution": 7.6,
+          "status": "ok",
+          "provenance": "measured",
+          "evidence_ids": [
+            "ev_0005"
+          ]
+        },
+        {
+          "signal_id": "residential_catchment",
+          "score": 60.0,
+          "weight": 0.08,
+          "effective_weight": 0.08,
+          "contribution": 4.8,
+          "status": "ok",
+          "provenance": "estimated",
+          "evidence_ids": [
+            "ev_0006"
+          ]
+        },
+        {
+          "signal_id": "daytime_population",
+          "score": 92.0,
+          "weight": 0.14,
+          "effective_weight": 0.14,
+          "contribution": 12.9,
+          "status": "ok",
+          "provenance": "estimated",
+          "evidence_ids": [
+            "ev_0007"
+          ]
+        },
+        {
+          "signal_id": "road_accessibility",
+          "score": 80.0,
+          "weight": 0.06,
+          "effective_weight": 0.06,
+          "contribution": 4.8,
+          "status": "ok",
+          "provenance": "measured",
+          "evidence_ids": [
+            "ev_0008"
+          ]
+        },
+        {
+          "signal_id": "rent_efficiency",
+          "score": 10.0,
+          "weight": 0.12,
+          "effective_weight": 0.12,
+          "contribution": 1.2,
+          "status": "ok",
+          "provenance": "heuristic",
+          "evidence_ids": [
+            "ev_0009"
+          ]
+        }
+      ],
+      "strengths": [
+        "Strong footfall anchors (score: 88.0)",
+        "Strong daytime population (score: 92.0)"
+      ],
+      "limitations": [
+        "Subdued competition density (score: 37.0).",
+        "Subdued rent efficiency (score: 10.0)."
+      ],
+      "why_vs_neighbours": [
+        "Outperforms adjacent zones on footfall anchors by 14.1 weighted pts."
+      ]
+    },
+    {
+      "location_id": "8861892e9bfffff",
+      "rank": 8,
+      "display_name": "Church Street / MG Road",
+      "centroid": {
+        "lat": 12.9749,
+        "lng": 77.6074
+      },
+      "polygon": [
+        [
+          12.975932761126582,
+          77.61141922128446
+        ],
+        [
+          12.98092103872693,
+          77.61150341426608
+        ],
+        [
+          12.983429491818413,
+          77.60733223851993
+        ],
+        [
+          12.980949741108523,
+          77.60307713885724
+        ],
+        [
+          12.97596169707093,
+          77.60299309022386
+        ],
+        [
+          12.973453170178233,
+          77.6071639969107
+        ]
+      ],
+      "overall_score": 63.2,
+      "confidence": "high",
+      "coverage": 1.0,
+      "signals": [
+        {
+          "signal_id": "competition_density",
+          "score": 12.5,
+          "weight": 0.12,
+          "effective_weight": 0.12,
+          "contribution": 1.5,
+          "status": "ok",
+          "provenance": "measured",
+          "evidence_ids": [
+            "ev_0046"
+          ]
+        },
+        {
+          "signal_id": "gap_opportunity",
+          "score": 44.0,
+          "weight": 0.12,
+          "effective_weight": 0.12,
+          "contribution": 5.3,
+          "status": "ok",
+          "provenance": "estimated",
+          "evidence_ids": [
+            "ev_0047"
+          ]
+        },
+        {
+          "signal_id": "footfall_anchors",
+          "score": 95.0,
+          "weight": 0.16,
+          "effective_weight": 0.16,
+          "contribution": 15.2,
+          "status": "ok",
+          "provenance": "estimated",
+          "evidence_ids": [
+            "ev_0048"
+          ]
+        },
+        {
+          "signal_id": "transit_access",
+          "score": 90.0,
+          "weight": 0.1,
+          "effective_weight": 0.1,
+          "contribution": 9.0,
+          "status": "ok",
+          "provenance": "measured",
+          "evidence_ids": [
+            "ev_0049"
+          ]
+        },
+        {
+          "signal_id": "complementary_mix",
+          "score": 99.0,
+          "weight": 0.1,
+          "effective_weight": 0.1,
+          "contribution": 9.9,
+          "status": "ok",
+          "provenance": "measured",
+          "evidence_ids": [
+            "ev_0050"
+          ]
+        },
+        {
+          "signal_id": "residential_catchment",
+          "score": 40.0,
+          "weight": 0.08,
+          "effective_weight": 0.08,
+          "contribution": 3.2,
+          "status": "ok",
+          "provenance": "estimated",
+          "evidence_ids": [
+            "ev_0051"
+          ]
+        },
+        {
+          "signal_id": "daytime_population",
+          "score": 96.0,
+          "weight": 0.14,
+          "effective_weight": 0.14,
+          "contribution": 13.4,
+          "status": "ok",
+          "provenance": "estimated",
+          "evidence_ids": [
+            "ev_0052"
+          ]
+        },
+        {
+          "signal_id": "road_accessibility",
+          "score": 75.0,
+          "weight": 0.06,
+          "effective_weight": 0.06,
+          "contribution": 4.5,
+          "status": "ok",
+          "provenance": "measured",
+          "evidence_ids": [
+            "ev_0053"
+          ]
+        },
+        {
+          "signal_id": "rent_efficiency",
+          "score": 10.0,
+          "weight": 0.12,
+          "effective_weight": 0.12,
+          "contribution": 1.2,
+          "status": "ok",
+          "provenance": "heuristic",
+          "evidence_ids": [
+            "ev_0054"
+          ]
+        }
+      ],
+      "strengths": [
+        "Strong footfall anchors (score: 95.0)",
+        "Strong daytime population (score: 96.0)"
+      ],
+      "limitations": [
+        "Subdued competition density (score: 12.5).",
+        "Subdued residential catchment (score: 40.0).",
+        "Subdued rent efficiency (score: 10.0)."
+      ],
+      "why_vs_neighbours": [
+        "Outperforms adjacent zones on footfall anchors by 15.2 weighted pts."
+      ]
+    },
+    {
+      "location_id": "88618925c5fffff",
+      "rank": 9,
+      "display_name": "Koramangala 5th Block Hub",
+      "centroid": {
+        "lat": 12.9352,
+        "lng": 77.6245
+      },
+      "polygon": [
+        [
+          12.930973847269364,
+          77.6275136615166
+        ],
+        [
+          12.935962894813162,
+          77.62759811793447
+        ],
+        [
+          12.938473057486595,
+          77.62342692797712
+        ],
+        [
+          12.93599424600347,
+          77.6191715504835
+        ],
+        [
+          12.93100543189769,
+          77.61908723841617
+        ],
+        [
+          12.928495195834795,
+          77.6232581594977
+        ]
+      ],
+      "overall_score": 62.7,
+      "confidence": "high",
+      "coverage": 1.0,
+      "signals": [
+        {
+          "signal_id": "competition_density",
+          "score": 23.0,
+          "weight": 0.12,
+          "effective_weight": 0.12,
+          "contribution": 2.8,
+          "status": "ok",
+          "provenance": "measured",
+          "evidence_ids": [
+            "ev_0010"
+          ]
+        },
+        {
+          "signal_id": "gap_opportunity",
+          "score": 56.0,
+          "weight": 0.12,
+          "effective_weight": 0.12,
+          "contribution": 6.7,
+          "status": "ok",
+          "provenance": "estimated",
+          "evidence_ids": [
+            "ev_0011"
+          ]
+        },
+        {
+          "signal_id": "footfall_anchors",
+          "score": 92.0,
+          "weight": 0.16,
+          "effective_weight": 0.16,
+          "contribution": 14.7,
+          "status": "ok",
+          "provenance": "estimated",
+          "evidence_ids": [
+            "ev_0012"
+          ]
+        },
+        {
+          "signal_id": "transit_access",
+          "score": 70.0,
+          "weight": 0.1,
+          "effective_weight": 0.1,
+          "contribution": 7.0,
+          "status": "ok",
+          "provenance": "measured",
+          "evidence_ids": [
+            "ev_0013"
+          ]
+        },
+        {
+          "signal_id": "complementary_mix",
+          "score": 86.4,
+          "weight": 0.1,
+          "effective_weight": 0.1,
+          "contribution": 8.6,
+          "status": "ok",
+          "provenance": "measured",
+          "evidence_ids": [
+            "ev_0014"
+          ]
+        },
+        {
+          "signal_id": "residential_catchment",
+          "score": 55.0,
+          "weight": 0.08,
+          "effective_weight": 0.08,
+          "contribution": 4.4,
+          "status": "ok",
+          "provenance": "estimated",
+          "evidence_ids": [
+            "ev_0015"
+          ]
+        },
+        {
+          "signal_id": "daytime_population",
+          "score": 90.0,
+          "weight": 0.14,
+          "effective_weight": 0.14,
+          "contribution": 12.6,
+          "status": "ok",
+          "provenance": "estimated",
+          "evidence_ids": [
+            "ev_0016"
+          ]
+        },
+        {
+          "signal_id": "road_accessibility",
+          "score": 78.0,
+          "weight": 0.06,
+          "effective_weight": 0.06,
+          "contribution": 4.7,
+          "status": "ok",
+          "provenance": "measured",
+          "evidence_ids": [
+            "ev_0017"
+          ]
+        },
+        {
+          "signal_id": "rent_efficiency",
+          "score": 10.0,
+          "weight": 0.12,
+          "effective_weight": 0.12,
+          "contribution": 1.2,
+          "status": "ok",
+          "provenance": "heuristic",
+          "evidence_ids": [
+            "ev_0018"
+          ]
+        }
+      ],
+      "strengths": [
+        "Strong footfall anchors (score: 92.0)",
+        "Strong daytime population (score: 90.0)"
+      ],
+      "limitations": [
+        "Subdued competition density (score: 23.0).",
+        "Subdued rent efficiency (score: 10.0)."
+      ],
+      "why_vs_neighbours": [
+        "Outperforms adjacent zones on footfall anchors by 14.7 weighted pts."
+      ]
+    },
+    {
+      "location_id": "8861892541fffff",
+      "rank": 10,
+      "display_name": "Bellandur Outer Ring Road Tech Park",
+      "centroid": {
+        "lat": 12.9304,
+        "lng": 77.6784
+      },
+      "polygon": [
+        [
+          12.923275975113517,
+          77.68217669336663
+        ],
+        [
+          12.92826658791358,
+          77.68226208435976
+        ],
+        [
+          12.930778597305551,
+          77.67808888836046
+        ],
+        [
+          12.928300066862334,
+          77.67383056987842
+        ],
+        [
+          12.923309686958975,
+          77.67374532337908
+        ],
+        [
+          12.920797604599867,
+          77.67791825087376
+        ]
+      ],
+      "overall_score": 62.2,
+      "confidence": "high",
+      "coverage": 1.0,
+      "signals": [
+        {
+          "signal_id": "competition_density",
+          "score": 44.0,
+          "weight": 0.12,
+          "effective_weight": 0.12,
+          "contribution": 5.3,
+          "status": "ok",
+          "provenance": "measured",
+          "evidence_ids": [
+            "ev_0073"
+          ]
+        },
+        {
+          "signal_id": "gap_opportunity",
+          "score": 60.0,
+          "weight": 0.12,
+          "effective_weight": 0.12,
+          "contribution": 7.2,
+          "status": "ok",
+          "provenance": "estimated",
+          "evidence_ids": [
+            "ev_0074"
+          ]
+        },
+        {
+          "signal_id": "footfall_anchors",
+          "score": 80.0,
+          "weight": 0.16,
+          "effective_weight": 0.16,
+          "contribution": 12.8,
+          "status": "ok",
+          "provenance": "estimated",
+          "evidence_ids": [
+            "ev_0075"
+          ]
+        },
+        {
+          "signal_id": "transit_access",
+          "score": 55.0,
+          "weight": 0.1,
+          "effective_weight": 0.1,
+          "contribution": 5.5,
+          "status": "ok",
+          "provenance": "measured",
+          "evidence_ids": [
+            "ev_0076"
+          ]
+        },
+        {
+          "signal_id": "complementary_mix",
+          "score": 57.6,
+          "weight": 0.1,
+          "effective_weight": 0.1,
+          "contribution": 5.8,
+          "status": "ok",
+          "provenance": "measured",
+          "evidence_ids": [
+            "ev_0077"
+          ]
+        },
+        {
+          "signal_id": "residential_catchment",
+          "score": 50.0,
+          "weight": 0.08,
+          "effective_weight": 0.08,
+          "contribution": 4.0,
+          "status": "ok",
+          "provenance": "estimated",
+          "evidence_ids": [
+            "ev_0078"
+          ]
+        },
+        {
+          "signal_id": "daytime_population",
+          "score": 94.0,
+          "weight": 0.14,
+          "effective_weight": 0.14,
+          "contribution": 13.2,
+          "status": "ok",
+          "provenance": "estimated",
+          "evidence_ids": [
+            "ev_0079"
+          ]
+        },
+        {
+          "signal_id": "road_accessibility",
+          "score": 60.0,
+          "weight": 0.06,
+          "effective_weight": 0.06,
+          "contribution": 3.6,
+          "status": "ok",
+          "provenance": "measured",
+          "evidence_ids": [
+            "ev_0080"
+          ]
+        },
+        {
+          "signal_id": "rent_efficiency",
+          "score": 40.0,
+          "weight": 0.12,
+          "effective_weight": 0.12,
+          "contribution": 4.8,
+          "status": "ok",
+          "provenance": "heuristic",
+          "evidence_ids": [
+            "ev_0081"
+          ]
+        }
+      ],
+      "strengths": [
+        "Strong daytime population (score: 94.0)",
+        "Strong footfall anchors (score: 80.0)"
+      ],
+      "limitations": [
+        "Subdued rent efficiency (score: 40.0)."
+      ],
+      "why_vs_neighbours": [
+        "Outperforms adjacent zones on daytime population by 13.2 weighted pts."
+      ]
+    }
+  ],
+  "heatmap": {
+    "type": "FeatureCollection",
+    "features": [
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                77.64513170112298,
+                12.975814277392754
+              ],
+              [
+                77.64521647172977,
+                12.980803488401959
+              ],
+              [
+                77.64104399399281,
+                12.983312956547762
+              ],
+              [
+                77.63678701449376,
+                12.980833287254026
+              ],
+              [
+                77.63670238832809,
+                12.975844309470634
+              ],
+              [
+                77.6408745972261,
+                12.97333476775291
+              ],
+              [
+                77.64513170112298,
+                12.975814277392754
+              ]
+            ]
+          ]
+        },
+        "properties": {
+          "location_id": "8861892ec3fffff",
+          "display_name": "Indiranagar 100ft Rd Corridor",
+          "rank": 1,
+          "overall_score": 65.5
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                77.6275136615166,
+                12.930973847269364
+              ],
+              [
+                77.62759811793447,
+                12.935962894813162
+              ],
+              [
+                77.62342692797712,
+                12.938473057486595
+              ],
+              [
+                77.6191715504835,
+                12.93599424600347
+              ],
+              [
+                77.61908723841617,
+                12.93100543189769
+              ],
+              [
+                77.6232581594977,
+                12.928495195834795
+              ],
+              [
+                77.6275136615166,
+                12.930973847269364
+              ]
+            ]
+          ]
+        },
+        "properties": {
+          "location_id": "88618925c5fffff",
+          "display_name": "Koramangala 5th Block Hub",
+          "rank": 2,
+          "overall_score": 62.7
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                77.63977379336511,
+                12.90847325783873
+              ],
+              [
+                77.6398584536585,
+                12.913462804660288
+              ],
+              [
+                77.63568709425213,
+                12.915973947121753
+              ],
+              [
+                77.63143134331467,
+                12.91349561591415
+              ],
+              [
+                77.63134682738456,
+                12.908506302425666
+              ],
+              [
+                77.6355179180344,
+                12.90599508680947
+              ],
+              [
+                77.63977379336511,
+                12.90847325783873
+              ]
+            ]
+          ]
+        },
+        "properties": {
+          "location_id": "8861892421fffff",
+          "display_name": "HSR Layout Sector 1 Commercial",
+          "rank": 3,
+          "overall_score": 69.5
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                77.58947531730163,
+                12.923631769859837
+              ],
+              [
+                77.58955912013764,
+                12.928619816155535
+              ],
+              [
+                77.58538950203727,
+                12.931129038786205
+              ],
+              [
+                77.58113635021748,
+                12.928650288716579
+              ],
+              [
+                77.58105269162003,
+                12.923662476244791
+              ],
+              [
+                77.58522204060961,
+                12.921153180016532
+              ],
+              [
+                77.58947531730163,
+                12.923631769859837
+              ]
+            ]
+          ]
+        },
+        "properties": {
+          "location_id": "8861892599fffff",
+          "display_name": "Jayanagar 4th Block Market",
+          "rank": 4,
+          "overall_score": 69.2
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                77.74225551215812,
+                12.982936997605165
+              ],
+              [
+                77.74234194982358,
+                12.987928833434076
+              ],
+              [
+                77.73816563478826,
+                12.990441019645436
+              ],
+              [
+                77.73390315030599,
+                12.987961442986455
+              ],
+              [
+                77.73381685735492,
+                12.982969839403538
+              ],
+              [
+                77.73799290417745,
+                12.980457580231274
+              ],
+              [
+                77.74225551215812,
+                12.982936997605165
+              ]
+            ]
+          ]
+        },
+        "properties": {
+          "location_id": "886189219dfffff",
+          "display_name": "Whitefield ITPL Main Rd",
+          "rank": 5,
+          "overall_score": 65.8
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                77.61141922128446,
+                12.975932761126582
+              ],
+              [
+                77.61150341426608,
+                12.98092103872693
+              ],
+              [
+                77.60733223851993,
+                12.983429491818413
+              ],
+              [
+                77.60307713885724,
+                12.980949741108523
+              ],
+              [
+                77.60299309022386,
+                12.97596169707093
+              ],
+              [
+                77.6071639969107,
+                12.973453170178233
+              ],
+              [
+                77.61141922128446,
+                12.975932761126582
+              ]
+            ]
+          ]
+        },
+        "properties": {
+          "location_id": "8861892e9bfffff",
+          "display_name": "Church Street / MG Road",
+          "rank": 6,
+          "overall_score": 63.2
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                77.61040912426928,
+                12.916070802110088
+              ],
+              [
+                77.61049328359796,
+                12.92105948233216
+              ],
+              [
+                77.60632295700171,
+                12.923569538469572
+              ],
+              [
+                77.60206874004393,
+                12.921090987787622
+              ],
+              [
+                77.60198472500464,
+                12.91610254118637
+              ],
+              [
+                77.6061547826395,
+                12.913592411644066
+              ],
+              [
+                77.61040912426928,
+                12.916070802110088
+              ]
+            ]
+          ]
+        },
+        "properties": {
+          "location_id": "88618925ddfffff",
+          "display_name": "BTM Layout 2nd Stage Udupi Garden",
+          "rank": 7,
+          "overall_score": 70.3
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                77.5738838702699,
+                12.998503065025522
+              ],
+              [
+                77.57396742639357,
+                13.003490137251811
+              ],
+              [
+                77.56979739968311,
+                13.005996845074431
+              ],
+              [
+                77.56554408619772,
+                13.00351655487586
+              ],
+              [
+                77.5654606743395,
+                12.998529716568424
+              ],
+              [
+                77.56963043170703,
+                12.996022934538537
+              ],
+              [
+                77.5738838702699,
+                12.998503065025522
+              ]
+            ]
+          ]
+        },
+        "properties": {
+          "location_id": "8860145b07fffff",
+          "display_name": "Malleshwaram 8th Cross",
+          "rank": 8,
+          "overall_score": 70.0
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                77.68217669336663,
+                12.923275975113517
+              ],
+              [
+                77.68226208435976,
+                12.92826658791358
+              ],
+              [
+                77.67808888836046,
+                12.930778597305551
+              ],
+              [
+                77.67383056987842,
+                12.928300066862334
+              ],
+              [
+                77.67374532337908,
+                12.923309686958975
+              ],
+              [
+                77.67791825087376,
+                12.920797604599867
+              ],
+              [
+                77.68217669336663,
+                12.923275975113517
+              ]
+            ]
+          ]
+        },
+        "properties": {
+          "location_id": "8861892541fffff",
+          "display_name": "Bellandur Outer Ring Road Tech Park",
+          "rank": 9,
+          "overall_score": 62.2
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                77.64998304578211,
+                13.013218281790838
+              ],
+              [
+                77.65006790982717,
+                13.018207352069117
+              ],
+              [
+                77.6458947382943,
+                13.020715943951997
+              ],
+              [
+                77.6416369715946,
+                13.018235539344685
+              ],
+              [
+                77.64155225203908,
+                13.013246702213005
+              ],
+              [
+                77.6457251546995,
+                13.010738036539776
+              ],
+              [
+                77.64998304578211,
+                13.013218281790838
+              ]
+            ]
+          ]
+        },
+        "properties": {
+          "location_id": "8861892eadfffff",
+          "display_name": "Kalyan Nagar HRBR Layout",
+          "rank": 10,
+          "overall_score": 66.8
+        }
+      }
+    ]
+  },
+  "evidence": [
+    {
+      "evidence_id": "ev_0001",
+      "location_id": "8861892ec3fffff",
+      "signal_id": "competition_density",
+      "kind": "count",
+      "label": "Competition Density in neighbourhood",
+      "value": 18,
+      "unit": "competitor POIs",
+      "provenance": "measured",
+      "source": "OpenStreetMap snapshot / heuristics",
+      "as_of": "2026-10"
+    },
+    {
+      "evidence_id": "ev_0002",
+      "location_id": "8861892ec3fffff",
+      "signal_id": "gap_opportunity",
+      "kind": "metric",
+      "label": "Gap Opportunity in neighbourhood",
+      "value": 3.4,
+      "unit": "demand/supply ratio",
+      "provenance": "estimated",
+      "source": "OpenStreetMap snapshot / heuristics",
+      "as_of": "2026-10"
+    },
+    {
+      "evidence_id": "ev_0003",
+      "location_id": "8861892ec3fffff",
+      "signal_id": "footfall_anchors",
+      "kind": "count",
+      "label": "Footfall Anchors in neighbourhood",
+      "value": 22,
+      "unit": "major anchors",
+      "provenance": "estimated",
+      "source": "OpenStreetMap snapshot / heuristics",
+      "as_of": "2026-10"
+    },
+    {
+      "evidence_id": "ev_0004",
+      "location_id": "8861892ec3fffff",
+      "signal_id": "transit_access",
+      "kind": "count",
+      "label": "Transit Access in neighbourhood",
+      "value": 12,
+      "unit": "transit stops",
+      "provenance": "measured",
+      "source": "OpenStreetMap snapshot / heuristics",
+      "as_of": "2026-10"
+    },
+    {
+      "evidence_id": "ev_0005",
+      "location_id": "8861892ec3fffff",
+      "signal_id": "complementary_mix",
+      "kind": "count",
+      "label": "Complementary Mix in neighbourhood",
+      "value": 42,
+      "unit": "synergy businesses",
+      "provenance": "measured",
+      "source": "OpenStreetMap snapshot / heuristics",
+      "as_of": "2026-10"
+    },
+    {
+      "evidence_id": "ev_0006",
+      "location_id": "8861892ec3fffff",
+      "signal_id": "residential_catchment",
+      "kind": "count",
+      "label": "Residential Catchment in neighbourhood",
+      "value": 900,
+      "unit": "residential units proxy",
+      "provenance": "estimated",
+      "source": "OpenStreetMap snapshot / heuristics",
+      "as_of": "2026-10"
+    },
+    {
+      "evidence_id": "ev_0007",
+      "location_id": "8861892ec3fffff",
+      "signal_id": "daytime_population",
+      "kind": "count",
+      "label": "Daytime Population in neighbourhood",
+      "value": 920,
+      "unit": "workplace entities",
+      "provenance": "estimated",
+      "source": "OpenStreetMap snapshot / heuristics",
+      "as_of": "2026-10"
+    },
+    {
+      "evidence_id": "ev_0008",
+      "location_id": "8861892ec3fffff",
+      "signal_id": "road_accessibility",
+      "kind": "metric",
+      "label": "Road Accessibility in neighbourhood",
+      "value": 9.6,
+      "unit": "km road network",
+      "provenance": "measured",
+      "source": "OpenStreetMap snapshot / heuristics",
+      "as_of": "2026-10"
+    },
+    {
+      "evidence_id": "ev_0009",
+      "location_id": "8861892ec3fffff",
+      "signal_id": "rent_efficiency",
+      "kind": "heuristic",
+      "label": "Rent Efficiency in neighbourhood",
+      "value": "Tier 5/5",
+      "unit": "rent tier",
+      "provenance": "heuristic",
+      "source": "Team-assigned rent tiers",
+      "as_of": "2026-10"
+    },
+    {
+      "evidence_id": "ev_0010",
+      "location_id": "88618925c5fffff",
+      "signal_id": "competition_density",
+      "kind": "count",
+      "label": "Competition Density in neighbourhood",
+      "value": 22,
+      "unit": "competitor POIs",
+      "provenance": "measured",
+      "source": "OpenStreetMap snapshot / heuristics",
+      "as_of": "2026-10"
+    },
+    {
+      "evidence_id": "ev_0011",
+      "location_id": "88618925c5fffff",
+      "signal_id": "gap_opportunity",
+      "kind": "metric",
+      "label": "Gap Opportunity in neighbourhood",
+      "value": 2.8,
+      "unit": "demand/supply ratio",
+      "provenance": "estimated",
+      "source": "OpenStreetMap snapshot / heuristics",
+      "as_of": "2026-10"
+    },
+    {
+      "evidence_id": "ev_0012",
+      "location_id": "88618925c5fffff",
+      "signal_id": "footfall_anchors",
+      "kind": "count",
+      "label": "Footfall Anchors in neighbourhood",
+      "value": 23,
+      "unit": "major anchors",
+      "provenance": "estimated",
+      "source": "OpenStreetMap snapshot / heuristics",
+      "as_of": "2026-10"
+    },
+    {
+      "evidence_id": "ev_0013",
+      "location_id": "88618925c5fffff",
+      "signal_id": "transit_access",
+      "kind": "count",
+      "label": "Transit Access in neighbourhood",
+      "value": 12,
+      "unit": "transit stops",
+      "provenance": "measured",
+      "source": "OpenStreetMap snapshot / heuristics",
+      "as_of": "2026-10"
+    },
+    {
+      "evidence_id": "ev_0014",
+      "location_id": "88618925c5fffff",
+      "signal_id": "complementary_mix",
+      "kind": "count",
+      "label": "Complementary Mix in neighbourhood",
+      "value": 48,
+      "unit": "synergy businesses",
+      "provenance": "measured",
+      "source": "OpenStreetMap snapshot / heuristics",
+      "as_of": "2026-10"
+    },
+    {
+      "evidence_id": "ev_0015",
+      "location_id": "88618925c5fffff",
+      "signal_id": "residential_catchment",
+      "kind": "count",
+      "label": "Residential Catchment in neighbourhood",
+      "value": 825,
+      "unit": "residential units proxy",
+      "provenance": "estimated",
+      "source": "OpenStreetMap snapshot / heuristics",
+      "as_of": "2026-10"
+    },
+    {
+      "evidence_id": "ev_0016",
+      "location_id": "88618925c5fffff",
+      "signal_id": "daytime_population",
+      "kind": "count",
+      "label": "Daytime Population in neighbourhood",
+      "value": 900,
+      "unit": "workplace entities",
+      "provenance": "estimated",
+      "source": "OpenStreetMap snapshot / heuristics",
+      "as_of": "2026-10"
+    },
+    {
+      "evidence_id": "ev_0017",
+      "location_id": "88618925c5fffff",
+      "signal_id": "road_accessibility",
+      "kind": "metric",
+      "label": "Road Accessibility in neighbourhood",
+      "value": 9.4,
+      "unit": "km road network",
+      "provenance": "measured",
+      "source": "OpenStreetMap snapshot / heuristics",
+      "as_of": "2026-10"
+    },
+    {
+      "evidence_id": "ev_0018",
+      "location_id": "88618925c5fffff",
+      "signal_id": "rent_efficiency",
+      "kind": "heuristic",
+      "label": "Rent Efficiency in neighbourhood",
+      "value": "Tier 5/5",
+      "unit": "rent tier",
+      "provenance": "heuristic",
+      "source": "Team-assigned rent tiers",
+      "as_of": "2026-10"
+    },
+    {
+      "evidence_id": "ev_0019",
+      "location_id": "8861892421fffff",
+      "signal_id": "competition_density",
+      "kind": "count",
+      "label": "Competition Density in neighbourhood",
+      "value": 12,
+      "unit": "competitor POIs",
+      "provenance": "measured",
+      "source": "OpenStreetMap snapshot / heuristics",
+      "as_of": "2026-10"
+    },
+    {
+      "evidence_id": "ev_0020",
+      "location_id": "8861892421fffff",
+      "signal_id": "gap_opportunity",
+      "kind": "metric",
+      "label": "Gap Opportunity in neighbourhood",
+      "value": 4.1,
+      "unit": "demand/supply ratio",
+      "provenance": "estimated",
+      "source": "OpenStreetMap snapshot / heuristics",
+      "as_of": "2026-10"
+    },
+    {
+      "evidence_id": "ev_0021",
+      "location_id": "8861892421fffff",
+      "signal_id": "footfall_anchors",
+      "kind": "count",
+      "label": "Footfall Anchors in neighbourhood",
+      "value": 20,
+      "unit": "major anchors",
+      "provenance": "estimated",
+      "source": "OpenStreetMap snapshot / heuristics",
+      "as_of": "2026-10"
+    },
+    {
+      "evidence_id": "ev_0022",
+      "location_id": "8861892421fffff",
+      "signal_id": "transit_access",
+      "kind": "count",
+      "label": "Transit Access in neighbourhood",
+      "value": 11,
+      "unit": "transit stops",
+      "provenance": "measured",
+      "source": "OpenStreetMap snapshot / heuristics",
+      "as_of": "2026-10"
+    },
+    {
+      "evidence_id": "ev_0023",
+      "location_id": "8861892421fffff",
+      "signal_id": "complementary_mix",
+      "kind": "count",
+      "label": "Complementary Mix in neighbourhood",
+      "value": 35,
+      "unit": "synergy businesses",
+      "provenance": "measured",
+      "source": "OpenStreetMap snapshot / heuristics",
+      "as_of": "2026-10"
+    },
+    {
+      "evidence_id": "ev_0024",
+      "location_id": "8861892421fffff",
+      "signal_id": "residential_catchment",
+      "kind": "count",
+      "label": "Residential Catchment in neighbourhood",
+      "value": 1125,
+      "unit": "residential units proxy",
+      "provenance": "estimated",
+      "source": "OpenStreetMap snapshot / heuristics",
+      "as_of": "2026-10"
+    },
+    {
+      "evidence_id": "ev_0025",
+      "location_id": "8861892421fffff",
+      "signal_id": "daytime_population",
+      "kind": "count",
+      "label": "Daytime Population in neighbourhood",
+      "value": 820,
+      "unit": "workplace entities",
+      "provenance": "estimated",
+      "source": "OpenStreetMap snapshot / heuristics",
+      "as_of": "2026-10"
+    },
+    {
+      "evidence_id": "ev_0026",
+      "location_id": "8861892421fffff",
+      "signal_id": "road_accessibility",
+      "kind": "metric",
+      "label": "Road Accessibility in neighbourhood",
+      "value": 10.2,
+      "unit": "km road network",
+      "provenance": "measured",
+      "source": "OpenStreetMap snapshot / heuristics",
+      "as_of": "2026-10"
+    },
+    {
+      "evidence_id": "ev_0027",
+      "location_id": "8861892421fffff",
+      "signal_id": "rent_efficiency",
+      "kind": "heuristic",
+      "label": "Rent Efficiency in neighbourhood",
+      "value": "Tier 4/5",
+      "unit": "rent tier",
+      "provenance": "heuristic",
+      "source": "Team-assigned rent tiers",
+      "as_of": "2026-10"
+    },
+    {
+      "evidence_id": "ev_0028",
+      "location_id": "8861892599fffff",
+      "signal_id": "competition_density",
+      "kind": "count",
+      "label": "Competition Density in neighbourhood",
+      "value": 10,
+      "unit": "competitor POIs",
+      "provenance": "measured",
+      "source": "OpenStreetMap snapshot / heuristics",
+      "as_of": "2026-10"
+    },
+    {
+      "evidence_id": "ev_0029",
+      "location_id": "8861892599fffff",
+      "signal_id": "gap_opportunity",
+      "kind": "metric",
+      "label": "Gap Opportunity in neighbourhood",
+      "value": 4.5,
+      "unit": "demand/supply ratio",
+      "provenance": "estimated",
+      "source": "OpenStreetMap snapshot / heuristics",
+      "as_of": "2026-10"
+    },
+    {
+      "evidence_id": "ev_0030",
+      "location_id": "8861892599fffff",
+      "signal_id": "footfall_anchors",
+      "kind": "count",
+      "label": "Footfall Anchors in neighbourhood",
+      "value": 18,
+      "unit": "major anchors",
+      "provenance": "estimated",
+      "source": "OpenStreetMap snapshot / heuristics",
+      "as_of": "2026-10"
+    },
+    {
+      "evidence_id": "ev_0031",
+      "location_id": "8861892599fffff",
+      "signal_id": "transit_access",
+      "kind": "count",
+      "label": "Transit Access in neighbourhood",
+      "value": 13,
+      "unit": "transit stops",
+      "provenance": "measured",
+      "source": "OpenStreetMap snapshot / heuristics",
+      "as_of": "2026-10"
+    },
+    {
+      "evidence_id": "ev_0032",
+      "location_id": "8861892599fffff",
+      "signal_id": "complementary_mix",
+      "kind": "count",
+      "label": "Complementary Mix in neighbourhood",
+      "value": 30,
+      "unit": "synergy businesses",
+      "provenance": "measured",
+      "source": "OpenStreetMap snapshot / heuristics",
+      "as_of": "2026-10"
+    },
+    {
+      "evidence_id": "ev_0033",
+      "location_id": "8861892599fffff",
+      "signal_id": "residential_catchment",
+      "kind": "count",
+      "label": "Residential Catchment in neighbourhood",
+      "value": 1275,
+      "unit": "residential units proxy",
+      "provenance": "estimated",
+      "source": "OpenStreetMap snapshot / heuristics",
+      "as_of": "2026-10"
+    },
+    {
+      "evidence_id": "ev_0034",
+      "location_id": "8861892599fffff",
+      "signal_id": "daytime_population",
+      "kind": "count",
+      "label": "Daytime Population in neighbourhood",
+      "value": 700,
+      "unit": "workplace entities",
+      "provenance": "estimated",
+      "source": "OpenStreetMap snapshot / heuristics",
+      "as_of": "2026-10"
+    },
+    {
+      "evidence_id": "ev_0035",
+      "location_id": "8861892599fffff",
+      "signal_id": "road_accessibility",
+      "kind": "metric",
+      "label": "Road Accessibility in neighbourhood",
+      "value": 8.6,
+      "unit": "km road network",
+      "provenance": "measured",
+      "source": "OpenStreetMap snapshot / heuristics",
+      "as_of": "2026-10"
+    },
+    {
+      "evidence_id": "ev_0036",
+      "location_id": "8861892599fffff",
+      "signal_id": "rent_efficiency",
+      "kind": "heuristic",
+      "label": "Rent Efficiency in neighbourhood",
+      "value": "Tier 4/5",
+      "unit": "rent tier",
+      "provenance": "heuristic",
+      "source": "Team-assigned rent tiers",
+      "as_of": "2026-10"
+    },
+    {
+      "evidence_id": "ev_0037",
+      "location_id": "886189219dfffff",
+      "signal_id": "competition_density",
+      "kind": "count",
+      "label": "Competition Density in neighbourhood",
+      "value": 14,
+      "unit": "competitor POIs",
+      "provenance": "measured",
+      "source": "OpenStreetMap snapshot / heuristics",
+      "as_of": "2026-10"
+    },
+    {
+      "evidence_id": "ev_0038",
+      "location_id": "886189219dfffff",
+      "signal_id": "gap_opportunity",
+      "kind": "metric",
+      "label": "Gap Opportunity in neighbourhood",
+      "value": 3.2,
+      "unit": "demand/supply ratio",
+      "provenance": "estimated",
+      "source": "OpenStreetMap snapshot / heuristics",
+      "as_of": "2026-10"
+    },
+    {
+      "evidence_id": "ev_0039",
+      "location_id": "886189219dfffff",
+      "signal_id": "footfall_anchors",
+      "kind": "count",
+      "label": "Footfall Anchors in neighbourhood",
+      "value": 21,
+      "unit": "major anchors",
+      "provenance": "estimated",
+      "source": "OpenStreetMap snapshot / heuristics",
+      "as_of": "2026-10"
+    },
+    {
+      "evidence_id": "ev_0040",
+      "location_id": "886189219dfffff",
+      "signal_id": "transit_access",
+      "kind": "count",
+      "label": "Transit Access in neighbourhood",
+      "value": 10,
+      "unit": "transit stops",
+      "provenance": "measured",
+      "source": "OpenStreetMap snapshot / heuristics",
+      "as_of": "2026-10"
+    },
+    {
+      "evidence_id": "ev_0041",
+      "location_id": "886189219dfffff",
+      "signal_id": "complementary_mix",
+      "kind": "count",
+      "label": "Complementary Mix in neighbourhood",
+      "value": 28,
+      "unit": "synergy businesses",
+      "provenance": "measured",
+      "source": "OpenStreetMap snapshot / heuristics",
+      "as_of": "2026-10"
+    },
+    {
+      "evidence_id": "ev_0042",
+      "location_id": "886189219dfffff",
+      "signal_id": "residential_catchment",
+      "kind": "count",
+      "label": "Residential Catchment in neighbourhood",
+      "value": 975,
+      "unit": "residential units proxy",
+      "provenance": "estimated",
+      "source": "OpenStreetMap snapshot / heuristics",
+      "as_of": "2026-10"
+    },
+    {
+      "evidence_id": "ev_0043",
+      "location_id": "886189219dfffff",
+      "signal_id": "daytime_population",
+      "kind": "count",
+      "label": "Daytime Population in neighbourhood",
+      "value": 950,
+      "unit": "workplace entities",
+      "provenance": "estimated",
+      "source": "OpenStreetMap snapshot / heuristics",
+      "as_of": "2026-10"
+    },
+    {
+      "evidence_id": "ev_0044",
+      "location_id": "886189219dfffff",
+      "signal_id": "road_accessibility",
+      "kind": "metric",
+      "label": "Road Accessibility in neighbourhood",
+      "value": 8.2,
+      "unit": "km road network",
+      "provenance": "measured",
+      "source": "OpenStreetMap snapshot / heuristics",
+      "as_of": "2026-10"
+    },
+    {
+      "evidence_id": "ev_0045",
+      "location_id": "886189219dfffff",
+      "signal_id": "rent_efficiency",
+      "kind": "heuristic",
+      "label": "Rent Efficiency in neighbourhood",
+      "value": "Tier 4/5",
+      "unit": "rent tier",
+      "provenance": "heuristic",
+      "source": "Team-assigned rent tiers",
+      "as_of": "2026-10"
+    },
+    {
+      "evidence_id": "ev_0046",
+      "location_id": "8861892e9bfffff",
+      "signal_id": "competition_density",
+      "kind": "count",
+      "label": "Competition Density in neighbourhood",
+      "value": 25,
+      "unit": "competitor POIs",
+      "provenance": "measured",
+      "source": "OpenStreetMap snapshot / heuristics",
+      "as_of": "2026-10"
+    },
+    {
+      "evidence_id": "ev_0047",
+      "location_id": "8861892e9bfffff",
+      "signal_id": "gap_opportunity",
+      "kind": "metric",
+      "label": "Gap Opportunity in neighbourhood",
+      "value": 2.2,
+      "unit": "demand/supply ratio",
+      "provenance": "estimated",
+      "source": "OpenStreetMap snapshot / heuristics",
+      "as_of": "2026-10"
+    },
+    {
+      "evidence_id": "ev_0048",
+      "location_id": "8861892e9bfffff",
+      "signal_id": "footfall_anchors",
+      "kind": "count",
+      "label": "Footfall Anchors in neighbourhood",
+      "value": 24,
+      "unit": "major anchors",
+      "provenance": "estimated",
+      "source": "OpenStreetMap snapshot / heuristics",
+      "as_of": "2026-10"
+    },
+    {
+      "evidence_id": "ev_0049",
+      "location_id": "8861892e9bfffff",
+      "signal_id": "transit_access",
+      "kind": "count",
+      "label": "Transit Access in neighbourhood",
+      "value": 15,
+      "unit": "transit stops",
+      "provenance": "measured",
+      "source": "OpenStreetMap snapshot / heuristics",
+      "as_of": "2026-10"
+    },
+    {
+      "evidence_id": "ev_0050",
+      "location_id": "8861892e9bfffff",
+      "signal_id": "complementary_mix",
+      "kind": "count",
+      "label": "Complementary Mix in neighbourhood",
+      "value": 55,
+      "unit": "synergy businesses",
+      "provenance": "measured",
+      "source": "OpenStreetMap snapshot / heuristics",
+      "as_of": "2026-10"
+    },
+    {
+      "evidence_id": "ev_0051",
+      "location_id": "8861892e9bfffff",
+      "signal_id": "residential_catchment",
+      "kind": "count",
+      "label": "Residential Catchment in neighbourhood",
+      "value": 600,
+      "unit": "residential units proxy",
+      "provenance": "estimated",
+      "source": "OpenStreetMap snapshot / heuristics",
+      "as_of": "2026-10"
+    },
+    {
+      "evidence_id": "ev_0052",
+      "location_id": "8861892e9bfffff",
+      "signal_id": "daytime_population",
+      "kind": "count",
+      "label": "Daytime Population in neighbourhood",
+      "value": 960,
+      "unit": "workplace entities",
+      "provenance": "estimated",
+      "source": "OpenStreetMap snapshot / heuristics",
+      "as_of": "2026-10"
+    },
+    {
+      "evidence_id": "ev_0053",
+      "location_id": "8861892e9bfffff",
+      "signal_id": "road_accessibility",
+      "kind": "metric",
+      "label": "Road Accessibility in neighbourhood",
+      "value": 9.0,
+      "unit": "km road network",
+      "provenance": "measured",
+      "source": "OpenStreetMap snapshot / heuristics",
+      "as_of": "2026-10"
+    },
+    {
+      "evidence_id": "ev_0054",
+      "location_id": "8861892e9bfffff",
+      "signal_id": "rent_efficiency",
+      "kind": "heuristic",
+      "label": "Rent Efficiency in neighbourhood",
+      "value": "Tier 5/5",
+      "unit": "rent tier",
+      "provenance": "heuristic",
+      "source": "Team-assigned rent tiers",
+      "as_of": "2026-10"
+    },
+    {
+      "evidence_id": "ev_0055",
+      "location_id": "88618925ddfffff",
+      "signal_id": "competition_density",
+      "kind": "count",
+      "label": "Competition Density in neighbourhood",
+      "value": 9,
+      "unit": "competitor POIs",
+      "provenance": "measured",
+      "source": "OpenStreetMap snapshot / heuristics",
+      "as_of": "2026-10"
+    },
+    {
+      "evidence_id": "ev_0056",
+      "location_id": "88618925ddfffff",
+      "signal_id": "gap_opportunity",
+      "kind": "metric",
+      "label": "Gap Opportunity in neighbourhood",
+      "value": 4.8,
+      "unit": "demand/supply ratio",
+      "provenance": "estimated",
+      "source": "OpenStreetMap snapshot / heuristics",
+      "as_of": "2026-10"
+    },
+    {
+      "evidence_id": "ev_0057",
+      "location_id": "88618925ddfffff",
+      "signal_id": "footfall_anchors",
+      "kind": "count",
+      "label": "Footfall Anchors in neighbourhood",
+      "value": 16,
+      "unit": "major anchors",
+      "provenance": "estimated",
+      "source": "OpenStreetMap snapshot / heuristics",
+      "as_of": "2026-10"
+    },
+    {
+      "evidence_id": "ev_0058",
+      "location_id": "88618925ddfffff",
+      "signal_id": "transit_access",
+      "kind": "count",
+      "label": "Transit Access in neighbourhood",
+      "value": 12,
+      "unit": "transit stops",
+      "provenance": "measured",
+      "source": "OpenStreetMap snapshot / heuristics",
+      "as_of": "2026-10"
+    },
+    {
+      "evidence_id": "ev_0059",
+      "location_id": "88618925ddfffff",
+      "signal_id": "complementary_mix",
+      "kind": "count",
+      "label": "Complementary Mix in neighbourhood",
+      "value": 25,
+      "unit": "synergy businesses",
+      "provenance": "measured",
+      "source": "OpenStreetMap snapshot / heuristics",
+      "as_of": "2026-10"
+    },
+    {
+      "evidence_id": "ev_0060",
+      "location_id": "88618925ddfffff",
+      "signal_id": "residential_catchment",
+      "kind": "count",
+      "label": "Residential Catchment in neighbourhood",
+      "value": 1200,
+      "unit": "residential units proxy",
+      "provenance": "estimated",
+      "source": "OpenStreetMap snapshot / heuristics",
+      "as_of": "2026-10"
+    },
+    {
+      "evidence_id": "ev_0061",
+      "location_id": "88618925ddfffff",
+      "signal_id": "daytime_population",
+      "kind": "count",
+      "label": "Daytime Population in neighbourhood",
+      "value": 680,
+      "unit": "workplace entities",
+      "provenance": "estimated",
+      "source": "OpenStreetMap snapshot / heuristics",
+      "as_of": "2026-10"
+    },
+    {
+      "evidence_id": "ev_0062",
+      "location_id": "88618925ddfffff",
+      "signal_id": "road_accessibility",
+      "kind": "metric",
+      "label": "Road Accessibility in neighbourhood",
+      "value": 8.4,
+      "unit": "km road network",
+      "provenance": "measured",
+      "source": "OpenStreetMap snapshot / heuristics",
+      "as_of": "2026-10"
+    },
+    {
+      "evidence_id": "ev_0063",
+      "location_id": "88618925ddfffff",
+      "signal_id": "rent_efficiency",
+      "kind": "heuristic",
+      "label": "Rent Efficiency in neighbourhood",
+      "value": "Tier 3/5",
+      "unit": "rent tier",
+      "provenance": "heuristic",
+      "source": "Team-assigned rent tiers",
+      "as_of": "2026-10"
+    },
+    {
+      "evidence_id": "ev_0064",
+      "location_id": "8860145b07fffff",
+      "signal_id": "competition_density",
+      "kind": "count",
+      "label": "Competition Density in neighbourhood",
+      "value": 8,
+      "unit": "competitor POIs",
+      "provenance": "measured",
+      "source": "OpenStreetMap snapshot / heuristics",
+      "as_of": "2026-10"
+    },
+    {
+      "evidence_id": "ev_0065",
+      "location_id": "8860145b07fffff",
+      "signal_id": "gap_opportunity",
+      "kind": "metric",
+      "label": "Gap Opportunity in neighbourhood",
+      "value": 4.2,
+      "unit": "demand/supply ratio",
+      "provenance": "estimated",
+      "source": "OpenStreetMap snapshot / heuristics",
+      "as_of": "2026-10"
+    },
+    {
+      "evidence_id": "ev_0066",
+      "location_id": "8860145b07fffff",
+      "signal_id": "footfall_anchors",
+      "kind": "count",
+      "label": "Footfall Anchors in neighbourhood",
+      "value": 17,
+      "unit": "major anchors",
+      "provenance": "estimated",
+      "source": "OpenStreetMap snapshot / heuristics",
+      "as_of": "2026-10"
+    },
+    {
+      "evidence_id": "ev_0067",
+      "location_id": "8860145b07fffff",
+      "signal_id": "transit_access",
+      "kind": "count",
+      "label": "Transit Access in neighbourhood",
+      "value": 12,
+      "unit": "transit stops",
+      "provenance": "measured",
+      "source": "OpenStreetMap snapshot / heuristics",
+      "as_of": "2026-10"
+    },
+    {
+      "evidence_id": "ev_0068",
+      "location_id": "8860145b07fffff",
+      "signal_id": "complementary_mix",
+      "kind": "count",
+      "label": "Complementary Mix in neighbourhood",
+      "value": 28,
+      "unit": "synergy businesses",
+      "provenance": "measured",
+      "source": "OpenStreetMap snapshot / heuristics",
+      "as_of": "2026-10"
+    },
+    {
+      "evidence_id": "ev_0069",
+      "location_id": "8860145b07fffff",
+      "signal_id": "residential_catchment",
+      "kind": "count",
+      "label": "Residential Catchment in neighbourhood",
+      "value": 1320,
+      "unit": "residential units proxy",
+      "provenance": "estimated",
+      "source": "OpenStreetMap snapshot / heuristics",
+      "as_of": "2026-10"
+    },
+    {
+      "evidence_id": "ev_0070",
+      "location_id": "8860145b07fffff",
+      "signal_id": "daytime_population",
+      "kind": "count",
+      "label": "Daytime Population in neighbourhood",
+      "value": 620,
+      "unit": "workplace entities",
+      "provenance": "estimated",
+      "source": "OpenStreetMap snapshot / heuristics",
+      "as_of": "2026-10"
+    },
+    {
+      "evidence_id": "ev_0071",
+      "location_id": "8860145b07fffff",
+      "signal_id": "road_accessibility",
+      "kind": "metric",
+      "label": "Road Accessibility in neighbourhood",
+      "value": 7.8,
+      "unit": "km road network",
+      "provenance": "measured",
+      "source": "OpenStreetMap snapshot / heuristics",
+      "as_of": "2026-10"
+    },
+    {
+      "evidence_id": "ev_0072",
+      "location_id": "8860145b07fffff",
+      "signal_id": "rent_efficiency",
+      "kind": "heuristic",
+      "label": "Rent Efficiency in neighbourhood",
+      "value": "Tier 3/5",
+      "unit": "rent tier",
+      "provenance": "heuristic",
+      "source": "Team-assigned rent tiers",
+      "as_of": "2026-10"
+    },
+    {
+      "evidence_id": "ev_0073",
+      "location_id": "8861892541fffff",
+      "signal_id": "competition_density",
+      "kind": "count",
+      "label": "Competition Density in neighbourhood",
+      "value": 16,
+      "unit": "competitor POIs",
+      "provenance": "measured",
+      "source": "OpenStreetMap snapshot / heuristics",
+      "as_of": "2026-10"
+    },
+    {
+      "evidence_id": "ev_0074",
+      "location_id": "8861892541fffff",
+      "signal_id": "gap_opportunity",
+      "kind": "metric",
+      "label": "Gap Opportunity in neighbourhood",
+      "value": 3.0,
+      "unit": "demand/supply ratio",
+      "provenance": "estimated",
+      "source": "OpenStreetMap snapshot / heuristics",
+      "as_of": "2026-10"
+    },
+    {
+      "evidence_id": "ev_0075",
+      "location_id": "8861892541fffff",
+      "signal_id": "footfall_anchors",
+      "kind": "count",
+      "label": "Footfall Anchors in neighbourhood",
+      "value": 20,
+      "unit": "major anchors",
+      "provenance": "estimated",
+      "source": "OpenStreetMap snapshot / heuristics",
+      "as_of": "2026-10"
+    },
+    {
+      "evidence_id": "ev_0076",
+      "location_id": "8861892541fffff",
+      "signal_id": "transit_access",
+      "kind": "count",
+      "label": "Transit Access in neighbourhood",
+      "value": 9,
+      "unit": "transit stops",
+      "provenance": "measured",
+      "source": "OpenStreetMap snapshot / heuristics",
+      "as_of": "2026-10"
+    },
+    {
+      "evidence_id": "ev_0077",
+      "location_id": "8861892541fffff",
+      "signal_id": "complementary_mix",
+      "kind": "count",
+      "label": "Complementary Mix in neighbourhood",
+      "value": 32,
+      "unit": "synergy businesses",
+      "provenance": "measured",
+      "source": "OpenStreetMap snapshot / heuristics",
+      "as_of": "2026-10"
+    },
+    {
+      "evidence_id": "ev_0078",
+      "location_id": "8861892541fffff",
+      "signal_id": "residential_catchment",
+      "kind": "count",
+      "label": "Residential Catchment in neighbourhood",
+      "value": 750,
+      "unit": "residential units proxy",
+      "provenance": "estimated",
+      "source": "OpenStreetMap snapshot / heuristics",
+      "as_of": "2026-10"
+    },
+    {
+      "evidence_id": "ev_0079",
+      "location_id": "8861892541fffff",
+      "signal_id": "daytime_population",
+      "kind": "count",
+      "label": "Daytime Population in neighbourhood",
+      "value": 940,
+      "unit": "workplace entities",
+      "provenance": "estimated",
+      "source": "OpenStreetMap snapshot / heuristics",
+      "as_of": "2026-10"
+    },
+    {
+      "evidence_id": "ev_0080",
+      "location_id": "8861892541fffff",
+      "signal_id": "road_accessibility",
+      "kind": "metric",
+      "label": "Road Accessibility in neighbourhood",
+      "value": 7.2,
+      "unit": "km road network",
+      "provenance": "measured",
+      "source": "OpenStreetMap snapshot / heuristics",
+      "as_of": "2026-10"
+    },
+    {
+      "evidence_id": "ev_0081",
+      "location_id": "8861892541fffff",
+      "signal_id": "rent_efficiency",
+      "kind": "heuristic",
+      "label": "Rent Efficiency in neighbourhood",
+      "value": "Tier 4/5",
+      "unit": "rent tier",
+      "provenance": "heuristic",
+      "source": "Team-assigned rent tiers",
+      "as_of": "2026-10"
+    },
+    {
+      "evidence_id": "ev_0082",
+      "location_id": "8861892eadfffff",
+      "signal_id": "competition_density",
+      "kind": "count",
+      "label": "Competition Density in neighbourhood",
+      "value": 7,
+      "unit": "competitor POIs",
+      "provenance": "measured",
+      "source": "OpenStreetMap snapshot / heuristics",
+      "as_of": "2026-10"
+    },
+    {
+      "evidence_id": "ev_0083",
+      "location_id": "8861892eadfffff",
+      "signal_id": "gap_opportunity",
+      "kind": "metric",
+      "label": "Gap Opportunity in neighbourhood",
+      "value": 4.6,
+      "unit": "demand/supply ratio",
+      "provenance": "estimated",
+      "source": "OpenStreetMap snapshot / heuristics",
+      "as_of": "2026-10"
+    },
+    {
+      "evidence_id": "ev_0084",
+      "location_id": "8861892eadfffff",
+      "signal_id": "footfall_anchors",
+      "kind": "count",
+      "label": "Footfall Anchors in neighbourhood",
+      "value": 15,
+      "unit": "major anchors",
+      "provenance": "estimated",
+      "source": "OpenStreetMap snapshot / heuristics",
+      "as_of": "2026-10"
+    },
+    {
+      "evidence_id": "ev_0085",
+      "location_id": "8861892eadfffff",
+      "signal_id": "transit_access",
+      "kind": "count",
+      "label": "Transit Access in neighbourhood",
+      "value": 11,
+      "unit": "transit stops",
+      "provenance": "measured",
+      "source": "OpenStreetMap snapshot / heuristics",
+      "as_of": "2026-10"
+    },
+    {
+      "evidence_id": "ev_0086",
+      "location_id": "8861892eadfffff",
+      "signal_id": "complementary_mix",
+      "kind": "count",
+      "label": "Complementary Mix in neighbourhood",
+      "value": 22,
+      "unit": "synergy businesses",
+      "provenance": "measured",
+      "source": "OpenStreetMap snapshot / heuristics",
+      "as_of": "2026-10"
+    },
+    {
+      "evidence_id": "ev_0087",
+      "location_id": "8861892eadfffff",
+      "signal_id": "residential_catchment",
+      "kind": "count",
+      "label": "Residential Catchment in neighbourhood",
+      "value": 1170,
+      "unit": "residential units proxy",
+      "provenance": "estimated",
+      "source": "OpenStreetMap snapshot / heuristics",
+      "as_of": "2026-10"
+    },
+    {
+      "evidence_id": "ev_0088",
+      "location_id": "8861892eadfffff",
+      "signal_id": "daytime_population",
+      "kind": "count",
+      "label": "Daytime Population in neighbourhood",
+      "value": 600,
+      "unit": "workplace entities",
+      "provenance": "estimated",
+      "source": "OpenStreetMap snapshot / heuristics",
+      "as_of": "2026-10"
+    },
+    {
+      "evidence_id": "ev_0089",
+      "location_id": "8861892eadfffff",
+      "signal_id": "road_accessibility",
+      "kind": "metric",
+      "label": "Road Accessibility in neighbourhood",
+      "value": 8.2,
+      "unit": "km road network",
+      "provenance": "measured",
+      "source": "OpenStreetMap snapshot / heuristics",
+      "as_of": "2026-10"
+    }
+  ]
+}

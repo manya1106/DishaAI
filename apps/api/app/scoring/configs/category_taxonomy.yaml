@@ -1,0 +1,68 @@
+categories:
+  cafe:
+    name: "Café / Specialty Coffee"
+    competitors:
+      amenity: ["cafe", "coffee_shop", "tea"]
+    complements:
+      amenity: ["marketplace", "ice_cream", "fast_food", "bakery", "library", "cinema"]
+      shop: ["books", "stationery", "bakery", "pastry", "convenience"]
+    anchors:
+      amenity: ["college", "university", "hospital", "marketplace"]
+      shop: ["mall", "supermarket", "department_store"]
+      leisure: ["park"]
+    daytime:
+      amenity: ["bank", "post_office"]
+      office: ["company", "coworking", "it", "telecommunication", "government"]
+      building: ["commercial", "office"]
+    transit:
+      highway: ["bus_stop"]
+      railway: ["station", "subway_entrance"]
+      amenity: ["bus_station"]
+    residential:
+      building: ["apartments", "residential"]
+      landuse: ["residential"]
+
+  pharmacy:
+    name: "Pharmacy / Retail Chemist"
+    competitors:
+      amenity: ["pharmacy"]
+      shop: ["chemist", "medical_supply"]
+    complements:
+      amenity: ["clinic", "doctors", "hospital", "dentist", "veterinary"]
+    anchors:
+      amenity: ["hospital", "marketplace"]
+      shop: ["supermarket", "convenience"]
+    daytime:
+      amenity: ["bank"]
+      building: ["commercial", "office"]
+      office: ["company"]
+    transit:
+      highway: ["bus_stop"]
+      railway: ["station", "subway_entrance"]
+      amenity: ["bus_station"]
+    residential:
+      building: ["apartments", "residential"]
+      landuse: ["residential"]
+
+  gym:
+    name: "Fitness Centre / Gym"
+    competitors:
+      leisure: ["fitness_centre", "sports_centre"]
+      sport: ["fitness", "gymnastics"]
+    complements:
+      shop: ["nutrition_supplements", "sports", "health_food"]
+      leisure: ["swimming_pool", "pitch", "park"]
+    anchors:
+      amenity: ["college", "university"]
+      shop: ["mall"]
+      office: ["coworking", "company"]
+    daytime:
+      office: ["company", "it"]
+      building: ["commercial", "office"]
+    transit:
+      highway: ["bus_stop"]
+      railway: ["station", "subway_entrance"]
+      amenity: ["bus_station"]
+    residential:
+      building: ["apartments", "residential"]
+      landuse: ["residential"]

@@ -1,0 +1,13 @@
+city_id: "blr"
+name: "Bengaluru"
+country: "India"
+center:
+  lat: 12.9716
+  lng: 77.5946
+bbox:
+  min_lat: 12.8900
+  max_lat: 13.0400
+  min_lng: 77.5300
+  max_lng: 77.6800
+h3_resolution: 8
+min_neighbourhood_pois: 5
