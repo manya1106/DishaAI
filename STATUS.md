@@ -33,6 +33,7 @@
   - 24/24 backend tests passing (`pytest tests/ -v`).
   - Codebase linted and clean (`ruff check .`).
   - Next.js production build succeeding (`npm run build`).
+  - MapLibre GL v6 worker loading verified end-to-end in browser with zero console errors.
   - 21/21 adversarial evaluation cases passing with 0 leaked unsupported claims.
 - **Deployment Assets:**
   - `apps/api/Dockerfile` for containerized hosting.

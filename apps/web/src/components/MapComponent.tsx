@@ -1,8 +1,13 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import * as maplibregl from "maplibre-gl";
 import { LocationResult, GeoJSONFeatureCollection } from "../lib/types";
+
+// Explicit worker URL configuration for bundlers / Turbopack
+if (typeof window !== "undefined") {
+  maplibregl.config.WORKER_URL = "/maplibre-gl-worker.mjs";
+}
 
 type Map = maplibregl.Map;
 type Marker = maplibregl.Marker;
@@ -27,6 +32,7 @@ export default function MapComponent({
   const mapContainer = useRef<HTMLDivElement>(null);
   const mapRef = useRef<Map | null>(null);
   const markersRef = useRef<Marker[]>([]);
+  const [isMapLoaded, setIsMapLoaded] = useState(false);
 
   // Initialize Map
   useEffect(() => {
@@ -45,20 +51,25 @@ export default function MapComponent({
 
     map.on("load", () => {
       mapRef.current = map;
-      renderHeatmapLayer(map, heatmap);
+      setIsMapLoaded(true);
+    });
+
+    map.on("error", (e) => {
+      console.warn("MapLibre event:", e.error?.message || e);
     });
 
     return () => {
       map.remove();
       mapRef.current = null;
+      setIsMapLoaded(false);
     };
   }, []);
 
-  // Update Heatmap Layer when data changes
+  // Update Heatmap Layer when data changes or map finishes loading
   useEffect(() => {
-    if (!mapRef.current || !mapRef.current.isStyleLoaded()) return;
+    if (!mapRef.current || !isMapLoaded) return;
     renderHeatmapLayer(mapRef.current, heatmap);
-  }, [heatmap]);
+  }, [heatmap, isMapLoaded]);
 
   function renderHeatmapLayer(map: Map, geojson?: GeoJSONFeatureCollection) {
     if (!geojson) return;
@@ -117,7 +128,7 @@ export default function MapComponent({
 
   // Update Numbered Location Markers
   useEffect(() => {
-    if (!mapRef.current) return;
+    if (!mapRef.current || !isMapLoaded) return;
 
     // Clear previous markers
     markersRef.current.forEach((m) => m.remove());
@@ -148,7 +159,7 @@ export default function MapComponent({
 
       markersRef.current.push(marker);
     });
-  }, [locations, selectedLocationId]);
+  }, [locations, selectedLocationId, isMapLoaded]);
 
   // Fly to selected location
   useEffect(() => {

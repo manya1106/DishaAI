@@ -24,7 +24,7 @@
   - Claim verifier (Rules V1–V9) executing in pure code; 21/21 adversarial eval cases passed with **0 leaked claims** and **100% trap refusal rate**.
 - **Frontend (`apps/web`):**
   - Next.js 16 App Router application compiling in <400ms without errors.
-  - MapLibre GL map with Carto basemap and H3 hex choropleth layer.
+  - MapLibre GL map with Carto basemap and H3 hex choropleth layer (Worker loaded from `/maplibre-gl-worker.mjs`, verified end-to-end with zero console errors).
   - Numbered top 10 location markers synchronized with ranked card list.
   - Multi-tab right drawer with Location Report (9 signal bars, explicit provenance badges, raw OSM evidence table), Compare View (side-by-side signal deltas), and Ask AI (verified single-sentence blocks, claim chips, and evidence drawer).
   - `/trust` page displaying real evaluation statistics, V1–V9 pipeline rules, and data provenance guide.

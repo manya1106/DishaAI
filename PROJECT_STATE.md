@@ -31,8 +31,8 @@
 | **AI & Trust** | Deterministic Fallback Narrator | **Verified end-to-end** | `test_deterministic_mode_flow` passed | Verified blocks with claims and evidence IDs |
 | **AI & Trust** | Adversarial Trust Evaluation | **Verified end-to-end** | `python scripts/eval_trust.py` (21/21 cases passed) | **0 leaked claims**, 100% trap refusal |
 | **Frontend** | Landing Page (`/`) | **Tested** | `npm run build` compiled 6 static pages | Hero, 3 trust pillars, live eval metrics |
-| **Frontend** | Explore Map (`/explore`) | **Tested** | `npm run build` compiled cleanly | Selectors, MapLibre GL, ranked list, drawer |
-| **Frontend** | MapLibre H3 Choropleth + Numbered Markers | **Tested** | MapComponent with Carto Positron/Dark style | Interactive click synchronisation |
+| **Frontend** | Explore Map (`/explore`) | **Verified end-to-end** | Browser verified with live backend | Selectors, MapLibre GL, ranked list, drawer, verified chat |
+| **Frontend** | MapLibre H3 Choropleth + Numbered Markers | **Verified end-to-end** | Verified in browser (no console errors) | Carto basemap tiles, H3 hex fills, #1-#10 markers, click-to-fly |
 | **Frontend** | Location Report Drawer | **Tested** | LocationReport component with 9 signal bars | Provenance tags (`measured`, `estimated`, `heuristic`) |
 | **Frontend** | Compare View | **Tested** | CompareView component | Side-by-side deltas & winning leader pills |
 | **Frontend** | Verified Ask AI Chat Panel | **Tested** | ChatPanel component | Claim chips, evidence drawer, refusal banner |

@@ -69,3 +69,27 @@ This document serves as an immutable, verifiable ledger of project milestones, t
   - Web build: Next.js 16 compiled in 366ms.
   - Validate fixtures: 7/7 fixtures validated against schemas.
 - **Handoff Target:** Public deployment linking on Render and Vercel.
+
+---
+
+## Checkpoint 004: MapLibre GL v6 Web Worker Loading & Map Lifecycle in Turbopack
+- **Date & Time:** 2026-10-17 21:02 IST
+- **Commit Hash:** *(Pending commit)*
+- **Git Branch:** `main`
+- **Working Tree:** `apps/web/src/components/MapComponent.tsx`, `apps/web/package.json`, `apps/web/public/maplibre-gl-worker.mjs`, `PROJECT_STATE.md`, `STATUS.md`, `HANDOFF.md`
+- **Root Cause Identified:**
+  - In MapLibre GL v6, `defaultWorkerUrl()` uses relative path against `import.meta.url`. Under Next.js Turbopack, this resolved to `/_next/static/chunks/maplibre-gl-worker.mjs` which returned 404 Not Found.
+  - Because vector tiles and GeoJSON require the web worker to decode, the worker error caused the map to remain blank white.
+  - Additionally, markers and heatmap effects were firing before the map fired `"load"`, leaving `mapRef.current` null during initial render.
+- **Fix Implemented:**
+  - Worker file copied to `apps/web/public/maplibre-gl-worker.mjs` and configured via `maplibregl.config.WORKER_URL = "/maplibre-gl-worker.mjs"`.
+  - Added `postinstall` cross-platform script in `apps/web/package.json` to keep worker synchronized.
+  - Added `isMapLoaded` state in `MapComponent.tsx` to synchronize marker and heatmap rendering upon the `"load"` event.
+- **Commands Executed & Verified:**
+  - `cd apps/web && npm run build` (Static pages built cleanly in 1161ms).
+  - Browser verification on `localhost:3000/explore`: Confirmed Carto basemap tiles, H3 hexagons, and numbered markers (#1–#10) render with 0 console errors.
+  - `pytest apps/api/tests/ -v` (24/24 passed in 0.31s).
+  - `ruff check apps/api/` (All checks passed).
+  - `python scripts/eval_trust.py` (21/21 passed, 0 leaked claims).
+- **Handoff Target:** Public cloud deployment linking on Render and Vercel.
+
