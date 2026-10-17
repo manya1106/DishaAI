@@ -1,0 +1,41 @@
+{
+  "trace_id": "b2319f0a-77c8-4721-a189-53e77a164bdf",
+  "mode": "deterministic_fallback",
+  "verification": {
+    "status": "rejected_fallback",
+    "claims_total": 2,
+    "claims_verified": 0,
+    "claims_removed": 2,
+    "attempts": 2
+  },
+  "blocks": [
+    {
+      "text": "Deterministic explanation: Indiranagar ranks #1 with 78.4 overall score, driven by daytime commercial activity.",
+      "claims": [
+        {
+          "claim_id": "c_fallback_1",
+          "type": "score",
+          "location_ids": [
+            "88618925ddfffff"
+          ],
+          "signal_id": null,
+          "polarity": "neutral",
+          "evidence_ids": [
+            "ev_0055"
+          ],
+          "numbers": [
+            78.4
+          ],
+          "verified": true
+        }
+      ]
+    }
+  ],
+  "uncertainty": {
+    "insufficient_data": false,
+    "missing": [
+      "AI model output failed verification; deterministic narrator activated."
+    ]
+  },
+  "latency_ms": 310
+}

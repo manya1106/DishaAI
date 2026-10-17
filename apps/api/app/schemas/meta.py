@@ -1,5 +1,5 @@
-from typing import List, Dict
-from pydantic import Field
+
+
 from .common import BaseSchema, Centroid
 from .enums import ProvenanceClass
 
@@ -41,9 +41,9 @@ class DatasetMeta(BaseSchema):
 
 
 class MetaResponse(BaseSchema):
-    cities: List[CityMeta]
-    categories: List[CategoryMeta]
-    budget_tiers: List[BudgetTierMeta]
-    signals: List[SignalMeta]
-    default_weights: Dict[str, Dict[str, float]]
+    cities: list[CityMeta]
+    categories: list[CategoryMeta]
+    budget_tiers: list[BudgetTierMeta]
+    signals: list[SignalMeta]
+    default_weights: dict[str, dict[str, float]]
     dataset: DatasetMeta

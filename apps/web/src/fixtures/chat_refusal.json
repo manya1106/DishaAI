@@ -1,0 +1,45 @@
+{
+  "trace_id": "ec90a12e-1510-45c1-901b-c741005a9643",
+  "mode": "refused_insufficient_data",
+  "verification": {
+    "status": "verified",
+    "claims_total": 0,
+    "claims_verified": 0,
+    "claims_removed": 0,
+    "attempts": 1
+  },
+  "blocks": [
+    {
+      "text": "I cannot answer your question about exact monthly rent in rupees because Disha AI does not track or scrape unverified private lease rates.",
+      "claims": []
+    },
+    {
+      "text": "We only maintain a heuristic relative rent tier (Tier 5/5 for Indiranagar) to evaluate relative budget feasibility honestly.",
+      "claims": [
+        {
+          "claim_id": "c_ref_1",
+          "type": "fact",
+          "location_ids": [
+            "88618925ddfffff"
+          ],
+          "signal_id": "rent_efficiency",
+          "polarity": "neutral",
+          "evidence_ids": [
+            "ev_0063"
+          ],
+          "numbers": [
+            5.0
+          ],
+          "verified": true
+        }
+      ]
+    }
+  ],
+  "uncertainty": {
+    "insufficient_data": true,
+    "missing": [
+      "Exact rupee rent: not tracked in OpenStreetMap or heuristic snapshots"
+    ]
+  },
+  "latency_ms": 120
+}

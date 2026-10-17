@@ -1,0 +1,40 @@
+{
+  "trace_id": "8f12c8b0-a330-41be-9402-ddc9f91a0022",
+  "mode": "llm_partially_verified",
+  "verification": {
+    "status": "partially_verified",
+    "claims_total": 3,
+    "claims_verified": 2,
+    "claims_removed": 1,
+    "attempts": 1
+  },
+  "blocks": [
+    {
+      "text": "HSR Layout Sector 1 exhibits superior gap opportunity compared to Koramangala.",
+      "claims": [
+        {
+          "claim_id": "c1",
+          "type": "comparison",
+          "location_ids": [
+            "8861892421fffff",
+            "8860145b07fffff"
+          ],
+          "signal_id": "gap_opportunity",
+          "polarity": "strength",
+          "evidence_ids": [
+            "ev_0056"
+          ],
+          "numbers": [],
+          "verified": true
+        }
+      ]
+    }
+  ],
+  "uncertainty": {
+    "insufficient_data": false,
+    "missing": [
+      "1 unsupported claim removed (unverified rent figure)"
+    ]
+  },
+  "latency_ms": 1890
+}

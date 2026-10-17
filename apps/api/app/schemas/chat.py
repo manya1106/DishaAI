@@ -1,7 +1,8 @@
-from typing import List, Optional
+
 from pydantic import Field
+
 from .common import BaseSchema
-from .enums import ClaimType, ClaimPolarity, ChatMode, VerificationStatus
+from .enums import ChatMode, ClaimPolarity, ClaimType, VerificationStatus
 
 
 class HistoryTurn(BaseSchema):
@@ -11,25 +12,25 @@ class HistoryTurn(BaseSchema):
 
 class ChatRequest(BaseSchema):
     message: str = Field(..., max_length=500, description="User question")
-    selected_location_ids: List[str] = Field(default_factory=list, max_length=3)
-    history: List[HistoryTurn] = Field(default_factory=list, max_length=6)
+    selected_location_ids: list[str] = Field(default_factory=list, max_length=3)
+    history: list[HistoryTurn] = Field(default_factory=list, max_length=6)
     mode: str = Field("auto", description="Either 'auto' or 'deterministic'")
 
 
 class Claim(BaseSchema):
     claim_id: str
     type: ClaimType
-    location_ids: List[str] = Field(default_factory=list)
-    signal_id: Optional[str] = None
+    location_ids: list[str] = Field(default_factory=list)
+    signal_id: str | None = None
     polarity: ClaimPolarity = ClaimPolarity.NEUTRAL
-    evidence_ids: List[str] = Field(..., min_length=1)
-    numbers: List[float] = Field(default_factory=list)
+    evidence_ids: list[str] = Field(..., min_length=1)
+    numbers: list[float] = Field(default_factory=list)
     verified: bool = True
 
 
 class Block(BaseSchema):
     text: str = Field(..., description="Exactly one verified natural language sentence")
-    claims: List[Claim] = Field(default_factory=list)
+    claims: list[Claim] = Field(default_factory=list)
 
 
 class VerificationSummary(BaseSchema):
@@ -42,14 +43,14 @@ class VerificationSummary(BaseSchema):
 
 class UncertaintyInfo(BaseSchema):
     insufficient_data: bool = False
-    missing: List[str] = Field(default_factory=list)
+    missing: list[str] = Field(default_factory=list)
 
 
 class ChatResponse(BaseSchema):
     trace_id: str
     mode: ChatMode
     verification: VerificationSummary
-    blocks: List[Block]
+    blocks: list[Block]
     uncertainty: UncertaintyInfo
     latency_ms: int
 
@@ -59,19 +60,19 @@ class ChatResponse(BaseSchema):
 
 class LLMClaim(BaseSchema):
     type: ClaimType
-    location_ids: List[str] = Field(default_factory=list)
-    signal_id: Optional[str] = None
+    location_ids: list[str] = Field(default_factory=list)
+    signal_id: str | None = None
     polarity: ClaimPolarity = ClaimPolarity.NEUTRAL
-    evidence_ids: List[str] = Field(..., min_length=1)
-    numbers: List[float] = Field(default_factory=list)
+    evidence_ids: list[str] = Field(..., min_length=1)
+    numbers: list[float] = Field(default_factory=list)
 
 
 class LLMBlock(BaseSchema):
     text: str
-    claims: List[LLMClaim] = Field(default_factory=list)
+    claims: list[LLMClaim] = Field(default_factory=list)
 
 
 class LLMOutput(BaseSchema):
-    blocks: List[LLMBlock] = Field(default_factory=list)
+    blocks: list[LLMBlock] = Field(default_factory=list)
     insufficient_data: bool = False
-    missing_reason: Optional[str] = None
+    missing_reason: str | None = None

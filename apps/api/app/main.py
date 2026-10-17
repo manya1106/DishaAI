@@ -1,18 +1,19 @@
 import uuid
 from contextlib import asynccontextmanager
+
 from fastapi import FastAPI, Request
-from fastapi.middleware.cors import CORSMiddleware
 from fastapi.exceptions import RequestValidationError
+from fastapi.middleware.cors import CORSMiddleware
 
 from .config import settings
-from .logging import setup_logging, logger
 from .errors import (
     ApiException,
     api_exception_handler,
-    validation_exception_handler,
     general_exception_handler,
+    validation_exception_handler,
 )
-from .routers import health, meta, analyses, chat, trust
+from .logging import logger, setup_logging
+from .routers import analyses, chat, health, meta, trust
 
 
 @asynccontextmanager

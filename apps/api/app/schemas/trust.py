@@ -1,7 +1,7 @@
-from typing import List, Dict, Optional, Any
 from pydantic import Field
-from .common import BaseSchema
+
 from .chat import Block, VerificationSummary
+from .common import BaseSchema
 
 
 class TrustMetrics(BaseSchema):
@@ -32,9 +32,9 @@ class LiveStats(BaseSchema):
 
 
 class TrustStatsResponse(BaseSchema):
-    latest_eval: Optional[EvaluationRunSummary] = None
+    latest_eval: EvaluationRunSummary | None = None
     live_stats: LiveStats
-    verifier_rules_summary: List[Dict[str, str]]
+    verifier_rules_summary: list[dict[str, str]]
 
 
 class TraceDetailResponse(BaseSchema):
@@ -42,10 +42,10 @@ class TraceDetailResponse(BaseSchema):
     created_at: str
     analysis_id: str
     question: str
-    selected_location_ids: List[str]
+    selected_location_ids: list[str]
     mode: str
-    llm_model: Optional[str] = None
+    llm_model: str | None = None
     verification: VerificationSummary
-    violations: List[str] = Field(default_factory=list)
+    violations: list[str] = Field(default_factory=list)
     latency_ms: int
-    blocks: List[Block]
+    blocks: list[Block]

@@ -1,16 +1,18 @@
-import yaml
 from pathlib import Path
+
+import yaml
 from fastapi import APIRouter
+
 from ..config import settings
 from ..schemas import (
-    MetaResponse,
-    CityMeta,
-    CategoryMeta,
     BudgetTierMeta,
-    SignalMeta,
-    DatasetMeta,
+    CategoryMeta,
     Centroid,
+    CityMeta,
+    DatasetMeta,
+    MetaResponse,
     ProvenanceClass,
+    SignalMeta,
 )
 
 router = APIRouter(prefix="/api/v1", tags=["Metadata"])

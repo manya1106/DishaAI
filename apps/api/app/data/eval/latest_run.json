@@ -1,0 +1,15 @@
+{
+  "run_id": "eval_6243ea91",
+  "created_at": "2026-10-17T14:45:20.086452+00:00",
+  "llm_model": "deterministic_verifier_pipeline",
+  "metrics": {
+    "cases_total": 21,
+    "raw_violation_rate": 0.0,
+    "leaked_unsupported": 0,
+    "refusal_correct_rate": 1.0,
+    "answer_rate": 1.0,
+    "fallback_rate": 0.524,
+    "latency_p50_ms": 0,
+    "latency_p95_ms": 0
+  }
+}

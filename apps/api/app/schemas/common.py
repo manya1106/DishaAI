@@ -1,4 +1,4 @@
-from typing import Optional, List
+
 from pydantic import BaseModel, ConfigDict, Field
 
 
@@ -9,7 +9,7 @@ class BaseSchema(BaseModel):
 class ErrorDetail(BaseSchema):
     code: str = Field(..., description="Machine-readable error code")
     message: str = Field(..., description="Human-readable explanation of error")
-    request_id: Optional[str] = Field(None, description="Request trace ID if present")
+    request_id: str | None = Field(None, description="Request trace ID if present")
 
 
 class ErrorResponse(BaseSchema):
@@ -17,11 +17,11 @@ class ErrorResponse(BaseSchema):
 
 
 class HealthResponse(BaseSchema):
-    status: str = Field(..., example="ok")
-    version: str = Field(..., example="1.0.0")
-    data_mode: str = Field(..., example="snapshot")
-    db: str = Field(..., example="connected")
-    llm: str = Field(..., example="configured")
+    status: str = Field(..., json_schema_extra={"example": "ok"})
+    version: str = Field(..., json_schema_extra={"example": "1.0.0"})
+    data_mode: str = Field(..., json_schema_extra={"example": "snapshot"})
+    db: str = Field(..., json_schema_extra={"example": "connected"})
+    llm: str = Field(..., json_schema_extra={"example": "configured"})
 
 
 class Centroid(BaseSchema):
@@ -31,7 +31,7 @@ class Centroid(BaseSchema):
 
 class GeoJSONPolygonGeometry(BaseSchema):
     type: str = "Polygon"
-    coordinates: List[List[List[float]]]
+    coordinates: list[list[list[float]]]
 
 
 class GeoJSONFeature(BaseSchema):
@@ -42,4 +42,4 @@ class GeoJSONFeature(BaseSchema):
 
 class GeoJSONFeatureCollection(BaseSchema):
     type: str = "FeatureCollection"
-    features: List[GeoJSONFeature]
+    features: list[GeoJSONFeature]

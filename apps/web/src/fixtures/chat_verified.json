@@ -1,0 +1,72 @@
+{
+  "trace_id": "4a9b6c21-d102-4c28-94ef-11e298fbb901",
+  "mode": "llm_verified",
+  "verification": {
+    "status": "verified",
+    "claims_total": 3,
+    "claims_verified": 3,
+    "claims_removed": 0,
+    "attempts": 1
+  },
+  "blocks": [
+    {
+      "text": "Indiranagar leads the ranking with an overall score of 78.4.",
+      "claims": [
+        {
+          "claim_id": "c1",
+          "type": "score",
+          "location_ids": [
+            "88618925ddfffff"
+          ],
+          "signal_id": null,
+          "polarity": "strength",
+          "evidence_ids": [
+            "ev_0055"
+          ],
+          "numbers": [
+            78.4
+          ],
+          "verified": true
+        }
+      ]
+    },
+    {
+      "text": "The zone benefits from strong daytime population and high footfall anchor density.",
+      "claims": [
+        {
+          "claim_id": "c2",
+          "type": "fact",
+          "location_ids": [
+            "88618925ddfffff"
+          ],
+          "signal_id": "daytime_population",
+          "polarity": "strength",
+          "evidence_ids": [
+            "ev_0061"
+          ],
+          "numbers": [],
+          "verified": true
+        },
+        {
+          "claim_id": "c3",
+          "type": "fact",
+          "location_ids": [
+            "88618925ddfffff"
+          ],
+          "signal_id": "footfall_anchors",
+          "polarity": "strength",
+          "evidence_ids": [
+            "ev_0057"
+          ],
+          "numbers": [],
+          "verified": true
+        }
+      ]
+    }
+  ],
+  "uncertainty": {
+    "insufficient_data": false,
+    "missing": []
+  },
+  "latency_ms": 1450
+}
