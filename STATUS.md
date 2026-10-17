@@ -47,11 +47,12 @@
 - None.
 
 ### 4. What Remains Before Final Submission
-1. Push latest code to GitHub repository `manya1106/DishaAI`.
+1. Fix 6 Next.js ESLint errors in `apps/web` (`npm run lint`) to achieve clean frontend code quality.
 2. Connect repository to Vercel (Frontend) and Render (Backend) per `docs/DEPLOY.md`.
-3. Run `scripts/smoke_public.sh` against the live URLs.
+3. Run `scripts/smoke_public.sh` against the live public URLs.
+4. (Optional) Add in-memory rate limiting to `POST /api/v1/analyses/{id}/chat` and configure hosted `LLM_API_KEY`.
 
 ### 5. Next Three Highest-Priority Actions
-1. Push current complete codebase to `origin main`.
-2. Owner creates Render web service and Vercel project using instructions in `docs/DEPLOY.md`.
-3. Verify public URLs with automated smoke script.
+1. Fix the 6 frontend ESLint errors in `apps/web` (TASK-01 in `docs/IMPLEMENTATION_AUDIT.md`).
+2. Project owner links Render web service and Vercel project using instructions in `docs/DEPLOY.md` (TASK-02 & TASK-03).
+3. Verify public URLs with automated smoke script `scripts/smoke_public.sh` (TASK-04).
