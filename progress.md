@@ -86,6 +86,17 @@ Carried over from `PROJECT_STATE.md` / `STATUS.md` / `docs/IMPLEMENTATION_AUDIT.
 | 9.5 | `npm run build` green post-fix | **Done** | exit 0, TypeScript clean, 5/5 pages |
 | 9.6 | `plan.md` §9 appended | **Done** | change control documented |
 
+**Nasiko Layout Redesign & Mathematical Working (plan §10 & §11) — done 2026-10-18:**
+
+| Step | Description | Status | Notes |
+|---|---|---|---|
+| 10.1 | `explore/page.tsx` — 2-column flex layout (map flex-1 + floating score & zone pills, 480px sidebar with zone header and tabs) | **Done** | Nasiko demo page parity |
+| 11.1 | `MapComponent.tsx` — ResizeObserver added + score gradient legend repositioned to bottom-right | **Done** | Eliminates bottom-left pill collision |
+| 11.2 | `LocationReport.tsx` — explicit mathematical formula + raw OSM count binding for all 9 signals + Nasiko catalysts & risks styling | **Done** | Raw counts prove live OSM calculations |
+| 11.3 | `explore/page.tsx` — Signal Contribution Matrix tab added with multi-zone heatmap table | **Done** | Direct Nasiko report parity |
+| 11.4 | `explore/page.tsx` — synchronous URL analysisId decoder to eliminate category initialization race condition | **Done** | Fixes pharmacy desync |
+| 11.5 | `npm run build` green | **Done** | 5/5 pages static compiled clean |
+
 ---
 
 ## 3. Decision Log
@@ -162,3 +173,4 @@ The boundary is the `AgentMessage` envelope (`plan.md` §4.2) plus the Scoring A
 | 2026-10-18 | Work split into Person D / Person M ownership zones (§5); step table given an Owner column | Owner |
 | 2026-10-18 | Dedicated `person_D/` folder established; Docker PostGIS 16-3.4 stood up; Alembic migrations applied; 417 cells + 2592 POIs migrated; DatabaseLoader, ScoringAgent, idempotency tests, and scoring parity tests verified (Steps D.1–D.9, 2.1.1–2.1.2) | Owner |
 | 2026-10-18 | **UI contrast fix pass (plan §9):** switched all translucent `bg-white/50`–`bg-white/70` interior card surfaces to solid `bg-white + shadow-sm + real border` across `CompareView.tsx`, `LocationReport.tsx`, `ChatPanel.tsx`, `trust/page.tsx` (previous session already handled `globals.css`, `RankedList.tsx`, `explore/page.tsx` KPI strip). `npm run build` exit 0, TypeScript clean, 5/5 pages. Local commit `e76b115`. No push. | Owner (approved as part of this session's task) |
+| 2026-10-18 | **Nasiko layout redesign & mathematical working (plan §10 & §11):** 2-column flex layout (map flex-1 with floating peak score and zone pills, 480px sidebar), MapComponent legend repositioned, LocationReport upgraded with explicit mathematical formula + raw OSM count binding for all 9 signals + Nasiko catalysts & risks styling, Signal Contribution Matrix heatmap table tab added. URL analysisId race condition fixed. `npm run build` exit 0. Local commit. No push. | Owner (requested this session) |

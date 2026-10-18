@@ -289,3 +289,54 @@ The `/explore` result page reads flat and sleepy. Root cause: translucent `bg-wh
 - No logic change — styling only.
 - Build must stay green (no new TS/lint errors introduced).
 - Local commit after build confirmed; no push.
+
+---
+
+## 10. Layout redesign — Nasiko-style (2026-10-18)
+
+### 10.1 Problem
+
+`/explore` uses a 3-column equal-width grid (4/12 ranked-list | 4/12 map | 4/12 detail panel). This wastes map space, making the map feel like a small widget. Everything reads cramped and fixed.
+
+### 10.2 Target layout (owner-approved, mirrors Nasiko Buildathon demo page)
+
+- **Left**: Map takes `flex-1` (most of the screen width). Floating overlays: score card top-left, zone pills bottom-left, legend bottom-right.
+- **Right**: Fixed `w-[480px]` sidebar — selected zone header (name + rank + score), then Report/Compare/Chat tabs below.
+- Ranked-list left panel removed — replaced by floating zone pills on the map.
+- Control selector bar stays, KPI strip stays below it.
+- `DataHonestyBanner` stays at the bottom.
+
+### 10.3 Files changed
+
+| File | Change |
+|---|---|
+| `apps/web/src/app/explore/page.tsx` | Complete layout rewrite — 2-column flex (map flex-1 / sidebar 480px), floating overlays on map |
+| No other file | All existing child components untouched (MapComponent, LocationReport, CompareView, ChatPanel, DataHonestyBanner) |
+
+### 10.4 Rules (same as §9.4)
+
+- No logic, API, DB, or component-prop change.
+- Build must stay green.
+- Local commit after build confirmed; no push.
+
+---
+
+## 11. Showing the Mathematical Working & Data Transparency (2026-10-18)
+
+### 11.1 Problem
+
+The UI displayed abstract percentile numbers (e.g., `68.5/100`) without exposing the raw OpenStreetMap measurements (e.g., "4 pharmacy competitors nearby", "152 footfall anchors") that produced them. Without visible raw counts and the formula breakdown, the calculations appeared arbitrary or hardcoded. Additionally, the map legend on the bottom-left collided with the new zone selector pills, and the full multi-zone Signal Contribution Matrix from the Nasiko buildathon was missing.
+
+### 11.2 Target Changes
+
+1. **`MapComponent.tsx`**: Move the score legend from bottom-left to bottom-right (matching Nasiko's score gradient bar) to eliminate collision with zone pills. Add container resize observer so MapLibre dynamically resizes to full width.
+2. **`LocationReport.tsx`**:
+   - Remove duplicate zone header (zone name/score is already displayed in the sidebar header).
+   - Display the explicit formula: `Overall Score = Σ (Effective Weight × City Percentile)`.
+   - In each signal card, bind and display the raw OSM evidence count/metric (e.g., "4 direct competitors", "152 anchors") next to the city percentile and calculated points contribution.
+   - Adopt Nasiko's Growth Catalysts (check badge) and Potential Risks (alert badge) card styling.
+3. **`explore/page.tsx`**:
+   - Fix URL `analysisId` decoding on mount to eliminate the race condition where `selectedCategory` defaulted to `"cafe"`.
+   - Add a "Matrix" tab or drawer showing the full 10-zone × 9-signal colored heatmap table (mirroring Nasiko's Signal Contribution Matrix).
+4. Verify `npm run build` passes with zero errors.
+5. Local commit only; no push without approval.

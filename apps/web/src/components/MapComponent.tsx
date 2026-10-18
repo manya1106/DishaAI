@@ -21,7 +21,7 @@ interface Props {
 
 const DEFAULT_STYLE =
   process.env.NEXT_PUBLIC_MAP_STYLE_URL ||
-  "https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json";
+  "https://basemaps.cartocdn.com/gl/positron-gl-style/style.json";
 
 export default function MapComponent({
   locations,
@@ -147,10 +147,10 @@ export default function MapComponent({
         isSelected ? "disha-marker-active" : ""
       } ${
         loc.rank === 1
-          ? "w-9 h-9 text-sm bg-gradient-to-tr from-amber-500 to-yellow-300 text-slate-950 font-black border-2 border-amber-200"
+          ? "w-9 h-9 text-sm bg-[#15130F] text-[#F6F1E7] font-black border-2 border-[#2F6E4E]"
           : loc.rank <= 3
-          ? "w-8 h-8 text-xs bg-gradient-to-tr from-emerald-500 to-cyan-400 text-slate-950 font-extrabold border border-emerald-200"
-          : "w-7 h-7 text-xs bg-slate-900 text-emerald-400 border border-slate-700 font-bold"
+          ? "w-8 h-8 text-xs bg-[#2F6E4E] text-[#F6F1E7] font-extrabold border border-[#F6F1E7]"
+          : "w-7 h-7 text-xs bg-[#F6F1E7] text-[#15130F] border border-[#15130F]/30 font-bold"
       }`;
 
       el.innerHTML = `<span>${loc.rank}</span>`;
@@ -180,21 +180,31 @@ export default function MapComponent({
     }
   }, [selectedLocationId]);
 
+  // Handle container resize
+  useEffect(() => {
+    if (!mapRef.current || !mapContainer.current) return;
+    const resizeObserver = new ResizeObserver(() => {
+      mapRef.current?.resize();
+    });
+    resizeObserver.observe(mapContainer.current);
+    return () => {
+      resizeObserver.disconnect();
+    };
+  }, [isMapLoaded]);
+
   return (
-    <div className="relative w-full h-full min-h-[450px] rounded-2xl overflow-hidden border border-slate-800 shadow-2xl">
+    <div className="relative w-full h-full">
       <div ref={mapContainer} className="w-full h-full" />
 
-      {/* Map Legend Overlay */}
-      <div className="absolute bottom-4 left-4 z-10 glass-panel px-3.5 py-2.5 rounded-xl text-xs space-y-1.5 shadow-xl pointer-events-none">
-        <div className="text-[11px] font-semibold text-slate-300 uppercase tracking-wider">
-          Location Score Heatmap
+      {/* Map Legend Overlay — bottom-right matching Nasiko */}
+      <div className="absolute bottom-5 right-5 z-10 bg-white/90 backdrop-blur-md px-4 py-2.5 rounded-2xl text-xs space-y-1 shadow-sm border border-neutral-200 pointer-events-none">
+        <div className="text-[10px] font-semibold text-neutral-500 uppercase tracking-widest mb-1">
+          Score Gradient
         </div>
-        <div className="flex items-center gap-2">
-          <div className="h-2 w-32 rounded bg-gradient-to-r from-blue-500 via-cyan-400 via-emerald-400 to-amber-400" />
-          <span className="text-[10px] text-slate-400">40 → 90+</span>
-        </div>
-        <div className="text-[10px] text-slate-500">
-          Showing H3 Hexagons (Res 8) & Top 10 Zones
+        <div className="w-32 h-2 rounded-full mb-1" style={{ background: "linear-gradient(90deg, #3b82f6, #10b981, #f59e0b, #ef4444)" }} />
+        <div className="flex justify-between text-[10px] font-semibold text-neutral-400">
+          <span>Lower (40)</span>
+          <span>Higher (90+)</span>
         </div>
       </div>
     </div>
