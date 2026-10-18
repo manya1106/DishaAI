@@ -2,10 +2,10 @@
 
 **Repository:** `https://github.com/manya1106/DishaAI.git`  
 **Current Branch:** `main`  
-**Current HEAD Commit:** `6673c1f`  
+**Current HEAD Commit:** `0f06e7b` (tracking `main`)  
 **Latest Git Tag:** `contracts-v1` (at `563ad6c`)  
 **Working Tree Status:** Clean  
-**Inspection Date:** 2026-10-17  
+**Inspection Date:** 2026-10-18  
 
 ---
 
@@ -16,6 +16,11 @@
 | **Contracts** | Pydantic v2 schemas (`apps/api/app/schemas/`) | **Verified end-to-end** | `python scripts/validate_fixtures.py` passed all 7 fixtures | Single source of truth |
 | **Contracts** | OpenAPI specification (`contracts/openapi.json`) | **Verified end-to-end** | `python scripts/export_openapi.py` generated 43KB spec | Committed & tracked |
 | **Contracts** | TypeScript API types (`apps/web/src/types/api.ts`) | **Verified end-to-end** | `npm run gen:types` in `apps/web` | Generated, never hand-edited |
+| **Data Layer** | PostgreSQL + PostGIS Container | **Verified end-to-end** | Docker `postgis/postgis:16-3.4` healthy on port 5432 | Port 5432, PostGIS 3.4.3 extension |
+| **Data Layer** | Alembic PostGIS Migrations | **Verified end-to-end** | `alembic upgrade head` applied revision `001_initial_schema` | cities, h3_cells, pois, cell_signals, agent_runs |
+| **Data Layer** | Ingestion & Idempotency | **Verified end-to-end** | `pytest person_D/tests/test_db_idempotency.py` passed | 1 city, 417 H3 cells, 2592 POIs with spatial geom |
+| **Data Layer** | DB Scoring Parity | **Verified end-to-end** | `pytest person_D/tests/test_db_scoring_parity.py` passed | Bit-for-bit identical golden scores to JSON snapshot |
+| **Agent Swarm** | Autonomous Scoring Agent | **Verified end-to-end** | `pytest person_D/tests/test_scoring_agent.py` passed | Wraps engine & DB loader, returns evidence bundle |
 | **Backend** | System Healthcheck (`GET /health`) | **Verified end-to-end** | `pytest tests/api/test_integration.py` (`test_health_endpoint`) | Reports status, version, data_mode, db, llm |
 | **Backend** | Metadata Endpoint (`GET /api/v1/meta`) | **Verified end-to-end** | `pytest tests/api/test_integration.py` (`test_meta_endpoint`) | Cities, categories, budget tiers, signals, weights |
 | **Backend** | Snapshot Data (`417 H3 Res 8 cells`) | **Verified end-to-end** | Loaded at boot via `apps/api/app/data/loader.py` | Built from OSM grid for central Bengaluru |

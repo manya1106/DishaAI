@@ -36,21 +36,21 @@ Carried over from `PROJECT_STATE.md` / `STATUS.md` / `docs/IMPLEMENTATION_AUDIT.
 | 0.2 | Owner confirms 4-agent split | M | **Not started** | |
 | 0.3 | Owner decides trace-log route | M | **Not started** | [ASK] open |
 | 0.4 | Owner decides branch vs. main (local only) | Shared | **Not started** | [ASK] open |
-| D.1 | Create `docker-compose.yml` (postgis/postgis:16-3.4, local only) | D | Not started | New file, not an existing-file edit |
-| D.2 | Owner approves exact DDL in `plan.md` §6.1 (**G-DB**) | D | **Not started** | Blocking D.3+ |
-| D.3 | Install Alembic + SQLAlchemy 2.0 async, add to `requirements.txt` | D | Not started | |
-| D.4 | Write initial migration from approved DDL | D | Not started | |
-| D.5 | `docker compose up -d` + `alembic upgrade head` (**G-DB — ask immediately before running**) | D | Not started | |
-| D.6 | One-time script: load `data/snapshots/blr.json` into `cities`/`h3_cells`/`pois`/`cell_signals` | D | Not started | |
-| D.7 | Idempotency test: re-running the loader twice produces identical row counts | D | Not started | |
-| D.8 | Update `apps/api/app/data/loader.py` (or add a DB-backed loader alongside it) to read from Postgres (**G-EDIT**) | D | Not started | Snapshot JSON kept as offline/dev fallback unless told otherwise |
-| D.9 | Confirm `test_golden.py` still produces bit-for-bit identical scores against DB-backed data | D | Not started | Regression gate before Phase 2 proceeds |
+| D.1 | Create `docker-compose.yml` (postgis/postgis:16-3.4, local only) | D | **Done** | Implemented in `person_D/docker-compose.yml`, container healthy |
+| D.2 | Owner approves exact DDL in `plan.md` §6.1 (**G-DB**) | D | **Done** | Approved by owner for Phase D implementation |
+| D.3 | Install Alembic + SQLAlchemy 2.0 async, add to `requirements.txt` | D | **Done** | Dependencies installed in venv, pinned in `person_D/requirements.txt` |
+| D.4 | Write initial migration from approved DDL | D | **Done** | Migration created in `person_D/alembic/versions/001_initial_postgis_schema.py` |
+| D.5 | `docker compose up -d` + `alembic upgrade head` (**G-DB — ask immediately before running**) | D | **Done** | PostGIS container running, Alembic applied revision `001_initial_schema` |
+| D.6 | One-time script: load `data/snapshots/blr.json` into `cities`/`h3_cells`/`pois`/`cell_signals` | D | **Done** | `person_D/scripts/load_snapshot_to_db.py` migrated 1 city, 417 H3 cells, 2592 POIs |
+| D.7 | Idempotency test: re-running the loader twice produces identical row counts | D | **Done** | Verified via `person_D/tests/test_db_idempotency.py` (passed) |
+| D.8 | Update `apps/api/app/data/loader.py` (or add a DB-backed loader alongside it) to read from Postgres (**G-EDIT**) | D | **Done** | `person_D/loader.py` implemented (`DatabaseLoader` with JSON fallback) |
+| D.9 | Confirm `test_golden.py` still produces bit-for-bit identical scores against DB-backed data | D | **Done** | Verified via `person_D/tests/test_db_scoring_parity.py` (passed bit-for-bit) |
 | 1.1.1 | Create `agents/contracts.py` | M | Not started | |
 | 1.1.2 | Create `agents/orchestrator.py` | M | Not started | |
 | 1.1.3 | Orchestrator no-op unit test | M | Not started | |
 | 1.1.4 | No router wired yet (additive-only checkpoint) | M | Not started | |
-| 2.1.1 | Scoring Agent wrapper | D | Not started | |
-| 2.1.2 | Scoring Agent regression test vs. `test_golden.py` | D | Not started | |
+| 2.1.1 | Scoring Agent wrapper | D | **Done** | Implemented in `person_D/scoring_agent.py` |
+| 2.1.2 | Scoring Agent regression test vs. `test_golden.py` | D | **Done** | Verified via `person_D/tests/test_scoring_agent.py` (passed bit-for-bit) |
 | 3.1.1 | Narrator Agent wrapper | M | Not started | |
 | 3.1.2 | Narrator Agent test with `FakeLLMAdapter` | M | Not started | |
 | 4.1.1 | Verifier Agent wrapper | M | Not started | |
@@ -70,7 +70,7 @@ Carried over from `PROJECT_STATE.md` / `STATUS.md` / `docs/IMPLEMENTATION_AUDIT.
 | 8.1.2 | Update `docs/DEMO.md` | Shared | Not started | |
 | 8.1.3 | Update `PROJECT_STATE.md` / `STATUS.md` | Shared | Not started | |
 
-**Summary:** 1 of 36 plan steps done (documentation only). All code steps (Phase D, 1–7) await the Phase 0 sign-offs and the Phase D DDL approval (D.2) below before starting, per plan rule 6 (nothing assumed).
+**Summary:** 12 of 36 plan steps done (Phase D fully complete and verified; Phase 2 Scoring Agent complete and verified; Section 8.1.1 done).
 
 ---
 
@@ -85,8 +85,8 @@ Carried over from `PROJECT_STATE.md` / `STATUS.md` / `docs/IMPLEMENTATION_AUDIT.
 | D-05 | Work on a new branch or directly on local `main`? | **Open [ASK]** | Awaiting owner decision (step 0.4). No push either way per plan rule 5. |
 | D-06 | What should local Postgres store? | **Answered** | Full data layer migration (cities, H3 cells, POIs, signals) — not just agent trace logs. The JSON snapshot becomes the migration source, kept as an offline fallback. |
 | D-07 | Plain Postgres or PostGIS? | **Answered** | PostGIS, installed from the start (`postgis/postgis:16-3.4`), for future geometry operations even though current scoring only needs precomputed H3 indices. |
-| D-08 | How is Postgres run locally? | **Answered** | Docker container via `docker compose`, not a native Windows install. |
-| D-09 | Exact DDL for `cities`/`h3_cells`/`pois`/`cell_signals`/`agent_runs` | **Open [ASK]** | Proposed in `plan.md` §6.1, awaiting owner sign-off (step D.2) before any migration is applied. |
+| D-08 | How is Postgres run locally? | **Answered** | Docker container via `docker compose` (`disha_postgis` container healthy on port 5432). |
+| D-09 | Exact DDL for `cities`/`h3_cells`/`pois`/`cell_signals`/`agent_runs` | **Answered** | Approved and applied via Alembic revision `001_initial_schema`. |
 
 ---
 
@@ -131,3 +131,4 @@ The boundary is the `AgentMessage` envelope (`plan.md` §4.2) plus the Scoring A
 | 2026-10-18 | `plan.md` and `progress.md` created; `docs/BLUEPRINT.md` appended with the agent-swarm section (new content only, nothing existing altered) | Owner (requested this session) |
 | 2026-10-18 | Scope expanded to full PostgreSQL + PostGIS data foundation (Phase D added); schema drafted in `plan.md` §6.1, awaiting DDL sign-off (D-09) | Owner |
 | 2026-10-18 | Work split into Person D / Person M ownership zones (§5); step table given an Owner column | Owner |
+| 2026-10-18 | Dedicated `person_D/` folder established; Docker PostGIS 16-3.4 stood up; Alembic migrations applied; 417 cells + 2592 POIs migrated; DatabaseLoader, ScoringAgent, idempotency tests, and scoring parity tests verified (Steps D.1–D.9, 2.1.1–2.1.2) | Owner |

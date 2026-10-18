@@ -16,7 +16,12 @@
 
 ## 2. What Works & What Has Actually Been Verified
 
-### Real Verified State
+- **Data Layer (`person_D`):**
+  - PostGIS 16-3.4 container (`disha_postgis`) healthy on port 5432.
+  - Alembic migrations applied revision `001_initial_schema`.
+  - Ingestion loaded 1 City (`blr`), 417 H3 Res-8 cells, and 2,592 POIs with spatial coordinates.
+  - `DatabaseLoader` and `ScoringAgent` passing 3/3 dedicated pytest tests.
+  - Bit-for-bit mathematical scoring parity verified against snapshot.
 - **Backend (`apps/api`):** 
   - Complete FastAPI server running locally on Python 3.11 with 24 passing pytest tests.
   - 9-signal relative percentile scoring engine with tie-breaking and golden test reproducibility.

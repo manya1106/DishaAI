@@ -110,4 +110,30 @@ This document serves as an immutable, verifiable ledger of project milestones, t
   - Overall weighted completion: **93.0%**.
 - **Next Priority Action:** Fix 6 ESLint errors in `apps/web` (TASK-01) and link cloud deployment dashboards (TASK-02, TASK-03).
 
+---
+
+## Checkpoint 006: Local PostgreSQL + PostGIS Foundation & Scoring Agent (Phase D & Phase 2)
+- **Date & Time:** 2026-10-18 11:05 IST
+- **Commit Hash:** `7a130c7`
+- **Git Branch:** `main`
+- **Working Tree:** `person_D/**`, `progress.md`, `PROJECT_STATE.md`, `STATUS.md`, `HANDOFF.md`, `CHECKPOINTS.md`
+- **Objectives:**
+  - Stand up local PostgreSQL 16 + PostGIS 3.4 container (`disha_postgis` on port 5432).
+  - Setup SQLAlchemy 2.0 (asyncpg/psycopg) and Alembic migrations.
+  - Implement DDL for `cities`, `h3_cells`, `pois`, `cell_signals`, `agent_runs`.
+  - Ingest 417 Bengaluru H3 cells and 2,592 POIs into spatial tables idempotently.
+  - Implement `DatabaseLoader` in `person_D/loader.py` with snapshot fallback.
+  - Implement Autonomous `ScoringAgent` in `person_D/scoring_agent.py` for Phase 2.
+- **Commands Executed & Verified:**
+  - `cd person_D && docker compose up -d` (Container `disha_postgis` healthy).
+  - `alembic upgrade head` (Applied revision `001_initial_schema`).
+  - `python person_D/scripts/load_snapshot_to_db.py` (Migrated 1 city, 417 cells, 2592 POIs).
+  - `python person_D/scripts/verify_db.py` (Passed all PostGIS geometry and health checks).
+  - `PYTHONPATH=. pytest person_D/tests/ -v` (3/3 tests passed in 2.98s).
+  - `pytest apps/api/tests/ -v` (24/24 tests passed in 0.30s).
+  - `python scripts/eval_trust.py` (21/21 adversarial cases passed, 0 leaked claims).
+  - `ruff check person_D/ apps/api/` (All checks passed).
+  - `cd apps/web && npm run build` (Next.js compiled in 408ms).
+- **Handoff Target:** Person M (Multi-Agent framework: Orchestrator, Narrator, Verifier, and wiring).
+
 
