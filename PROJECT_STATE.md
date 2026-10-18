@@ -1,13 +1,12 @@
 # Disha AI — Authoritative Project State
 
-> ⚠️ **STALE as of 2026-10-18:** This file describes only Manya's standalone `person_D/` Phase D attempt. It predates the reconciliation (see `progress.md` §1/§3 D-13) and the agent swarm (Orchestrator/Narrator/Verifier/Scoring Agent, all now done, integrated into `apps/api/app/`, backed by real OSM data for all of Bengaluru). A full rewrite is Phase 8 (plan.md), not yet done. Until then, `progress.md` is the accurate source.
-
-**Repository:** `https://github.com/manya1106/DishaAI.git`  
-**Current Branch:** `main`  
-**Current HEAD Commit:** `0f06e7b` (tracking `main`)  
-**Latest Git Tag:** `contracts-v1` (at `563ad6c`)  
-**Working Tree Status:** Clean  
-**Inspection Date:** 2026-10-18  
+**Repository:** `https://github.com/manya1106/DishaAI.git`
+**Current Branch:** `main`
+**Current HEAD Commit:** `cc09b2e`
+**Latest Git Tag:** `contracts-v1` (at `563ad6c`)
+**Working Tree Status:** Clean (two pre-existing, unrelated artifacts dirty: `apps/web/package-lock.json`, `apps/web/public/maplibre-gl-worker.mjs`)
+**Inspection Date:** 2026-10-18
+**Primary track/problem statement:** Track 2 — Best Open-Source AI Project, O1 (Autonomous Agent Swarms) primary, O3 (Trustworthy and Verifiable AI) carried over as the swarm's internal accountability layer. See `docs/BLUEPRINT.md` §C and `plan.md`.
 
 ---
 
@@ -16,92 +15,70 @@
 | Component | Feature | Status | Verification Evidence / Command | Notes |
 |---|---|---|---|---|
 | **Contracts** | Pydantic v2 schemas (`apps/api/app/schemas/`) | **Verified end-to-end** | `python scripts/validate_fixtures.py` passed all 7 fixtures | Single source of truth |
-| **Contracts** | OpenAPI specification (`contracts/openapi.json`) | **Verified end-to-end** | `python scripts/export_openapi.py` generated 43KB spec | Committed & tracked |
+| **Contracts** | OpenAPI specification (`contracts/openapi.json`) | **Verified end-to-end** | `python scripts/export_openapi.py` | Includes the Phase 6 `agent-trace` endpoint (contract v1.1.0) |
 | **Contracts** | TypeScript API types (`apps/web/src/types/api.ts`) | **Verified end-to-end** | `npm run gen:types` in `apps/web` | Generated, never hand-edited |
-| **Data Layer** | PostgreSQL + PostGIS Container | **Verified end-to-end** | Docker `postgis/postgis:16-3.4` healthy on port 5432 | Port 5432, PostGIS 3.4.3 extension |
-| **Data Layer** | Alembic PostGIS Migrations | **Verified end-to-end** | `alembic upgrade head` applied revision `001_initial_schema` | cities, h3_cells, pois, cell_signals, agent_runs |
-| **Data Layer** | Ingestion & Idempotency | **Verified end-to-end** | `pytest person_D/tests/test_db_idempotency.py` passed | 1 city, 417 H3 cells, 2592 POIs with spatial geom |
-| **Data Layer** | DB Scoring Parity | **Verified end-to-end** | `pytest person_D/tests/test_db_scoring_parity.py` passed | Bit-for-bit identical golden scores to JSON snapshot |
-| **Agent Swarm** | Autonomous Scoring Agent | **Verified end-to-end** | `pytest person_D/tests/test_scoring_agent.py` passed | Wraps engine & DB loader, returns evidence bundle |
-| **Backend** | System Healthcheck (`GET /health`) | **Verified end-to-end** | `pytest tests/api/test_integration.py` (`test_health_endpoint`) | Reports status, version, data_mode, db, llm |
-| **Backend** | Metadata Endpoint (`GET /api/v1/meta`) | **Verified end-to-end** | `pytest tests/api/test_integration.py` (`test_meta_endpoint`) | Cities, categories, budget tiers, signals, weights |
-| **Backend** | Snapshot Data (`417 H3 Res 8 cells`) | **Verified end-to-end** | Loaded at boot via `apps/api/app/data/loader.py` | Built from OSM grid for central Bengaluru |
-| **Backend** | 9-Signal Scoring Pipeline | **Verified end-to-end** | 8 scoring unit tests passed in 0.16s | Pure functions, percentile ranks, tie-breaks |
-| **Backend** | Golden Ranking Reproducibility | **Verified end-to-end** | `test_golden.py` identical bit-for-bit runs | Cafe/Medium top 10 deterministic |
-| **Backend** | Missing Data Renormalisation | **Verified end-to-end** | `test_missing.py` passed | Renormalises available weights to 100% |
-| **Backend** | Analysis Endpoint (`POST /analyses`) | **Verified end-to-end** | `test_analyses_crud_flow` passed | Returns 10 ranked zones + GeoJSON heatmap |
-| **Backend** | Report Endpoint (`GET /analyses/{id}/locations/{id}`) | **Verified end-to-end** | `test_analyses_crud_flow` passed | Returns 9 signal bars + raw OSM evidence rows |
-| **Backend** | Compare Endpoint (`POST /analyses/{id}/compare`) | **Verified end-to-end** | `test_analyses_crud_flow` passed | Calculates per-signal deltas & winning badges |
-| **AI & Trust** | Evidence Bundle Builder (`ev_001` aliases) | **Verified end-to-end** | Grounded in `apps/api/app/ai/evidence.py` | Extracts numbers, locations, allowed sets |
-| **AI & Trust** | Claim Verifier Rules V1–V9 | **Verified end-to-end** | 9 verifier table tests passed in 0.05s | Code-level deterministic rules |
-| **AI & Trust** | Speculative Trap Refusal | **Verified end-to-end** | `test_trap_question_refusal` passed | Returns `refused_insufficient_data` on rupee rent |
-| **AI & Trust** | Deterministic Fallback Narrator | **Verified end-to-end** | `test_deterministic_mode_flow` passed | Verified blocks with claims and evidence IDs |
-| **AI & Trust** | Adversarial Trust Evaluation | **Verified end-to-end** | `python scripts/eval_trust.py` (21/21 cases passed) | **0 leaked claims**, 100% trap refusal |
-| **Frontend** | Landing Page (`/`) | **Tested** | `npm run build` compiled 6 static pages | Hero, 3 trust pillars, live eval metrics |
-| **Frontend** | Explore Map (`/explore`) | **Verified end-to-end** | Browser verified with live backend | Selectors, MapLibre GL, ranked list, drawer, verified chat |
-| **Frontend** | MapLibre H3 Choropleth + Numbered Markers | **Verified end-to-end** | Verified in browser (no console errors) | Carto basemap tiles, H3 hex fills, #1-#10 markers, click-to-fly |
-| **Frontend** | Location Report Drawer | **Tested** | LocationReport component with 9 signal bars | Provenance tags (`measured`, `estimated`, `heuristic`) |
-| **Frontend** | Compare View | **Tested** | CompareView component | Side-by-side deltas & winning leader pills |
-| **Frontend** | Verified Ask AI Chat Panel | **Tested** | ChatPanel component | Claim chips, evidence drawer, refusal banner |
-| **Frontend** | Trust Page (`/trust`) | **Tested** | `npm run build` compiled cleanly | Pipeline diagram, evaluation results, limitations |
+| **Agent Swarm** | Orchestrator | **Verified end-to-end** | `tests/agents/test_orchestrator.py` | `apps/api/app/agents/orchestrator.py` — dispatches, logs every hand-off to `TraceStore` |
+| **Agent Swarm** | Scoring Agent | **Verified end-to-end** | `tests/agents/test_scoring_agent.py` | `apps/api/app/agents/scoring_agent.py` — wraps `scoring/engine.py` + `data/loader.py` unchanged |
+| **Agent Swarm** | Narrator Agent | **Verified end-to-end** | `tests/agents/test_narrator_agent.py` | `apps/api/app/agents/narrator_agent.py` — wraps `ai/adapter.py` + `ai/fallback.py` unchanged |
+| **Agent Swarm** | Verifier Agent | **Verified end-to-end** | `tests/agents/test_verifier_agent.py` | `apps/api/app/agents/verifier_agent.py` — wraps `ai/evidence.py` + `ai/verifier.py` unchanged |
+| **Agent Swarm** | End-to-end trace sequencing | **Verified end-to-end** | `tests/agents/test_chat_trace_sequence.py` | `ai/chat.py`'s `ChatOrchestrator.handle_chat()` sequences Verifier→Narrator→Verifier (or short-circuits to a single Verifier hand-off on trap refusal) |
+| **Agent Swarm** | Agent-trace observability route | **Verified end-to-end** | `tests/agents/test_agent_trace_endpoint.py` | `GET /api/v1/trust/agent-trace/{trace_id}` |
+| **Agent Swarm** | Frontend trace panel | **Tested** | `npm run build` | `ChatPanel.tsx` "Agent Trace" toggle, lazy-fetches and renders the hand-off sequence |
+| **Data Layer** | PostgreSQL + PostGIS container | **Verified end-to-end** | `docker compose ps` healthy | `postgis/postgis:16-3.4`, port 5432, container `disha_ai_postgres` |
+| **Data Layer** | Alembic migration | **Verified end-to-end** | `alembic upgrade head` applied `426fd558779a` | `cities`, `h3_cells`, `pois`, `agent_runs` (hand-written, not autogenerated — see migration file docstring) |
+| **Data Layer** | Real OSM ingestion for all of Bengaluru | **Verified end-to-end** | `python scripts/ingest_osm_bengaluru.py`, re-run to confirm idempotency | 1,630 H3 res-8 cells (1,382 eligible), 36,411 real POIs with real `osm_id`s, sourced from a raw Overpass pull (`D:\Projects\Nasiko_Buildathon`) |
+| **Data Layer** | Postgres-backed loader | **Verified end-to-end** | 37/37 backend tests pass with `DATA_MODE=postgres` | `apps/api/app/data/db_loader.py`; `loader.py` falls back to the JSON snapshot automatically if Postgres is unreachable |
+| **Backend** | System Healthcheck (`GET /health`) | **Verified end-to-end** | `pytest tests/api/test_integration.py::test_health_endpoint` | Reports `status`, `version`, `data_mode` (now `postgres`), `db`, `llm` |
+| **Backend** | Metadata Endpoint (`GET /api/v1/meta`) | **Verified end-to-end** | `pytest tests/api/test_integration.py::test_meta_endpoint` | Cities, categories, budget tiers, signals, weights |
+| **Backend** | 9-Signal Scoring Pipeline | **Verified end-to-end** | Scoring unit tests pass | Pure functions, percentile ranks, tie-breaks — unchanged by the agent/data work above |
+| **Backend** | Golden Ranking Reproducibility | **Verified end-to-end** | `test_golden.py` | Reproducibility check, not hardcoded values — passes against both the snapshot and the live Postgres data |
+| **Backend** | Missing Data Renormalisation | **Verified end-to-end** | `test_missing.py` | Renormalises available weights to 100% |
+| **Backend** | Analysis / Report / Compare Endpoints | **Verified end-to-end** | `test_analyses_crud_flow` | Returns ranked zones + GeoJSON heatmap, 9 signal bars, per-signal deltas — now over real data |
+| **AI & Trust** | Evidence Bundle Builder | **Verified end-to-end** | Wrapped by the Verifier Agent | Extracts numbers, locations, allowed sets |
+| **AI & Trust** | Claim Verifier Rules V1–V9 | **Verified end-to-end** | Verifier table tests pass | Code-level deterministic rules, unchanged — now invoked via the Verifier Agent |
+| **AI & Trust** | Speculative Trap Refusal | **Verified end-to-end** | `test_trap_question_refusal` | Returns `refused_insufficient_data`; agent trace shows the Narrator Agent is never even dispatched |
+| **AI & Trust** | Deterministic Fallback Narrator | **Verified end-to-end** | `test_deterministic_mode_flow` | Verified blocks with claims and evidence IDs |
+| **AI & Trust** | Adversarial Trust Evaluation | **Verified end-to-end** | `python scripts/eval_trust.py` (21/21 cases) | **0 leaked claims**, 100% trap refusal — re-verified against real Postgres data |
+| **Frontend** | Landing Page (`/`) | **Tested** | `npm run build` | Hero, 3 trust pillars, live eval metrics |
+| **Frontend** | Explore Map (`/explore`) | **Verified end-to-end** | Manual verification against live backend | Now renders real Bengaluru-wide data, not a central-core snapshot |
+| **Frontend** | Location Report Drawer / Compare View / Chat Panel | **Tested** | `npm run build` | Unchanged visually; Chat Panel gained the Agent Trace toggle |
+| **Frontend** | Trust Page (`/trust`) | **Tested** | `npm run build` | Pipeline diagram, evaluation results, limitations |
+| **Frontend** | ESLint cleanliness | **Partially implemented** | `npm run lint`: 6 errors, 1110 warnings | Pre-existing (`MapComponent.tsx`, `explore/page.tsx`, `trust/page.tsx`), unchanged throughout all agent/data work — not yet fixed |
 | **Deployment** | Backend Dockerfile | **Implemented** | `apps/api/Dockerfile` present | Multi-stage slim Python 3.11 build |
 | **Deployment** | Public Smoke Script | **Implemented** | `scripts/smoke_public.sh` executable | Health, meta, analysis, CORS, secret scan |
-| **Deployment** | Render Web Service | **Unverified** | Awaiting manual project link on Render dashboard | Documented in `docs/DEPLOY.md` |
-| **Deployment** | Vercel Web Deployment | **Unverified** | Awaiting manual project link on Vercel dashboard | Documented in `docs/DEPLOY.md` |
+| **Deployment** | Render / Vercel | **Unverified** | Awaiting manual project link | Documented in `docs/DEPLOY.md` |
+| **Deployment** | Chat rate limiting | **Not implemented** | `RATE_LIMIT_CHAT_PER_MIN` configured, not enforced | `apps/api/app/routers/chat.py` has no throttling middleware |
+| **Deployment** | Live hosted LLM | **Not verified live** | `LLM_ENABLED=false` by default | Groq-compatible adapter exists; no `LLM_API_KEY` configured in this environment |
 
 ---
 
-## 2. Verified Test Execution Log (Most Recent Real Run)
+## 2. A second, independent Phase D attempt (reconciled)
 
-Run Command: `source apps/api/.venv/bin/activate && pytest apps/api/tests/ -v && ruff check apps/api/ && cd apps/web && npm run build`  
-Executed At: 2026-10-17 20:33:15 IST  
-Result: **100% PASSED**
+Manya Kaushik independently built a standalone Phase D/2 implementation under `person_D/` (own `db/`, `loader.py`, `scoring_agent.py`), migrating the pre-existing 417-cell JSON snapshot into its own Postgres container (`disha_postgis`). Pushed to `origin/main` as commit `17564a5`, concurrently with the work described above. Merged in rather than discarded (commit `cc09b2e`) — preserved in git history with authorship intact. `person_D/` is not imported anywhere by `apps/api`; the integrated implementation in the Feature Status Matrix above is the one actually running. Full detail: `progress.md` Decision Log D-13, `CHECKPOINTS.md` Checkpoint 007. `person_D/`'s final disposition (keep dormant for reference, or remove) is an open joint decision, not made unilaterally.
 
-### Pytest Breakdown (24/24 Passed in 0.32s)
+---
+
+## 3. Verified Test Execution Log (Most Recent Real Run)
+
+Run at commit `cc09b2e`, against live Postgres data (`DATA_MODE=postgres`):
+
 ```text
-apps/api/tests/ai/test_chat_flow.py::test_trap_question_refusal PASSED
-apps/api/tests/ai/test_chat_flow.py::test_deterministic_mode_flow PASSED
-apps/api/tests/ai/test_chat_flow.py::test_compare_intent_flow PASSED
-apps/api/tests/ai/test_verifier.py::test_v1_empty_output_fails PASSED
-apps/api/tests/ai/test_verifier.py::test_v2_unknown_evidence_id_fails PASSED
-apps/api/tests/ai/test_verifier.py::test_v3_invented_number_fails PASSED
-apps/api/tests/ai/test_verifier.py::test_v4_unknown_rank_fails PASSED
-apps/api/tests/ai/test_verifier.py::test_v5_contradictory_comparison_fails PASSED
-apps/api/tests/ai/test_verifier.py::test_v6_polarity_strength_on_weak_signal_fails PASSED
-apps/api/tests/ai/test_verifier.py::test_v7_forbidden_rupee_currency_fails PASSED
-apps/api/tests/ai/test_verifier.py::test_v8_uncited_numbers_fails PASSED
-apps/api/tests/ai/test_verifier.py::test_valid_response_passes PASSED
-apps/api/tests/api/test_integration.py::test_health_endpoint PASSED
-apps/api/tests/api/test_integration.py::test_meta_endpoint PASSED
-apps/api/tests/api/test_integration.py::test_analyses_crud_flow PASSED
-apps/api/tests/api/test_integration.py::test_trust_stats_endpoint PASSED
-apps/api/tests/scoring/test_golden.py::test_golden_ranking_reproducibility PASSED
-apps/api/tests/scoring/test_missing.py::test_missing_data_renormalisation PASSED
-apps/api/tests/scoring/test_normalise.py::test_percentile_normalisation_ordering PASSED
-apps/api/tests/scoring/test_normalise.py::test_percentile_normalisation_inversion PASSED
-apps/api/tests/scoring/test_normalise.py::test_percentile_ties_receive_average PASSED
-apps/api/tests/scoring/test_signals.py::test_competition_density PASSED
-apps/api/tests/scoring/test_signals.py::test_gap_opportunity PASSED
-apps/api/tests/scoring/test_rent_efficiency PASSED
+cd apps/api && python -m pytest tests/ -q        → 37 passed
+python scripts/eval_trust.py                     → 21/21, 0 leaked claims, 100% refusal
+python -m ruff check app/                        → All checks passed
+cd apps/web && npm run build                     → Compiled successfully
+cd apps/web && npm run lint                       → 6 errors, 1110 warnings (pre-existing, unchanged)
 ```
 
-### Ruff Linter Check
-- Output: `All checks passed!`
-
-### Next.js Production Build
-- Route (app):
-  - `○ /` (Static)
-  - `○ /_not-found` (Static)
-  - `○ /explore` (Static)
-  - `○ /trust` (Static)
-- Output: `✓ Compiled successfully in 366ms`
+Backend test breakdown: 37 tests across `tests/agents/` (12, new — Orchestrator, Scoring/Narrator/Verifier Agents, trace sequencing, agent-trace endpoint), `tests/ai/`, `tests/api/`, `tests/scoring/` (25, pre-existing, unchanged in substance).
 
 ---
 
-## 3. Known Limitations & Technical Constraints
+## 4. Known Limitations & Technical Constraints
 
-1. **Relative Scores, Not Outcome Guarantees**: Scores represent relative percentile standings across the 417 eligible H3 cells in Bengaluru for that specific business category and budget tier. They do not predict rupee revenues or business survival probabilities.
-2. **OpenStreetMap Coverage Density**: Coverage in certain outer ring areas is thinner than in CBD cores (e.g. Indiranagar, Koramangala). Low-coverage areas are honestly tagged with `medium` or `low` confidence.
-3. **Rent Representation**: Rent is strictly a team-assigned heuristic tier (1 to 5) with an explicit `heuristic` provenance badge. Disha AI explicitly refuses to scrape or fabricate private rupee lease agreements.
-4. **Hosted LLM Dependency**: If no `LLM_API_KEY` is provided, the system gracefully falls back to the built-in deterministic narrator (`ChatMode.DETERMINISTIC_FALLBACK` or `DETERMINISTIC_REQUESTED`), preserving 100% functionality.
-5. **Database Readiness**: Traces are buffered in-memory (last 200). Connecting PostgreSQL (Neon) is supported via `DATABASE_URL` but is optional and never blocks startup or analysis paths.
+1. **Relative Scores, Not Outcome Guarantees**: Scores represent relative percentile standings across the eligible H3 cells for that specific business category and budget tier. They do not predict rupee revenues or business survival probabilities.
+2. **Road accessibility is an approximation**: `road_accessibility`/`junction_count` are derived from weighted counts of trunk/primary/secondary road ways near a cell, not true line-length or intersection geometry. See `scripts/ingest_osm_bengaluru.py` module docstring.
+3. **Locality/rent-tier assignment is nearest-named-place matching**: cells more than 5km from any named OSM place default to the `DEFAULT_UNASSIGNED` rent tier. Rent itself remains a team-assigned heuristic tier (1–5), never a fabricated rupee figure.
+4. **"Neighbourhood" aggregation** is a cell plus its 1-ring of H3 neighbours, not a distance-decay model.
+5. **Hosted LLM Dependency**: If no `LLM_API_KEY` is provided, the system gracefully falls back to the deterministic narrator (`ChatMode.DETERMINISTIC_FALLBACK`/`DETERMINISTIC_REQUESTED`), preserving 100% functionality. Not yet tested against a live hosted model in this environment.
+6. **Agent trace is in-memory only**: `TraceStore` (last 200 traces) is not yet persisted to the `agent_runs` Postgres table, which exists but is unwired (deliberate — see `progress.md` D-10).
