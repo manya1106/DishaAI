@@ -15,7 +15,7 @@ from pydantic import Field
 
 from ..schemas.common import BaseSchema
 
-AgentRole = Literal["orchestrator", "scoring", "narrator", "verifier"]
+AgentRole = Literal["orchestrator", "scoring", "narrator", "verifier", "ai_review"]
 
 
 class AgentMessage(BaseSchema):

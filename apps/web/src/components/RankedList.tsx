@@ -100,6 +100,14 @@ export default function RankedList({
                   </span>
                   <span className={`text-[10px] ${isSelected ? "text-[#F6F1E7]/55" : "text-[#15130F]/40"}`}>/100</span>
                 </div>
+                {loc.ai_adjustment_multiplier !== undefined && loc.ai_adjustment_multiplier !== 1.0 && (
+                  <span
+                    title={loc.ai_adjustment_reason ?? undefined}
+                    className={`text-[10px] font-medium ${isSelected ? "text-[#F6F1E7]/70" : "text-[#A6693B]"}`}
+                  >
+                    math {loc.deterministic_score} → AI {loc.ai_adjustment_multiplier > 1 ? "↑" : "↓"}
+                  </span>
+                )}
 
                 <button
                   type="button"

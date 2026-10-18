@@ -74,6 +74,9 @@ class LocationResult(BaseSchema):
     strengths: list[str]
     limitations: list[str]
     why_vs_neighbours: list[str]
+    deterministic_score: float = Field(0.0, description="The pure 9-signal math score, before any AI Review adjustment")
+    ai_adjustment_multiplier: float = Field(1.0, description="Bounded factor (0.95-1.05) the AI Review step applied on top of the deterministic score; 1.0 means unchanged")
+    ai_adjustment_reason: str | None = Field(None, description="The AI Review step's one-line grounded reason for its adjustment, or null if none was applied")
 
 
 class WeightAdjustment(BaseSchema):

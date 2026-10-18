@@ -79,6 +79,60 @@ class LLMAdapter:
 
         return None
 
+    async def generate_json(
+        self, system_prompt: str, user_prompt: str, timeout_s: float | None = None, max_attempts: int = 2
+    ) -> dict | None:
+        """Generic JSON completion for callers that don't use the chat
+        LLMOutput schema (e.g. ai/score_review.py). Mirrors generate()'s
+        request/retry handling but returns the raw parsed dict instead of
+        validating into LLMOutput. `timeout_s` and `max_attempts` let a
+        latency-sensitive caller (score_review needs the whole analysis
+        request to stay well under ~10s) fail fast and fall back instead
+        of waiting out the full chat timeout and a retry.
+        """
+        if not settings.LLM_ENABLED or not self.api_key:
+            return None
+
+        headers = {
+            "Authorization": f"Bearer {self.api_key}",
+            "Content-Type": "application/json"
+        }
+
+        payload = {
+            "model": self.model,
+            "messages": [
+                {"role": "system", "content": system_prompt},
+                {"role": "user", "content": user_prompt}
+            ],
+            "temperature": 0.0,
+            "response_format": {"type": "json_object"}
+        }
+
+        url = f"{self.base_url}/chat/completions"
+        effective_timeout = timeout_s if timeout_s is not None else self.timeout
+
+        for attempt in range(max_attempts):
+            try:
+                async with httpx.AsyncClient(timeout=effective_timeout) as client:
+                    resp = await client.post(url, json=payload, headers=headers)
+                    if resp.status_code == 200:
+                        data = resp.json()
+                        content = data["choices"][0]["message"]["content"]
+                        return json.loads(content)
+                    elif resp.status_code in [429, 500, 502, 503] and attempt < max_attempts - 1:
+                        await asyncio.sleep(1.0)
+                    else:
+                        logger.warning(f"LLM API returned status {resp.status_code}: {resp.text[:200]}")
+                        return None
+            except (httpx.HTTPError, json.JSONDecodeError, KeyError, ValueError) as e:
+                logger.warning(f"LLM generate_json attempt {attempt + 1} failed: {e!s}")
+                if attempt < max_attempts - 1:
+                    await asyncio.sleep(0.5)
+                else:
+                    return None
+
+        return None
+
 
 class FakeLLMAdapter:
     """Mock adapter for deterministic testing of various LLM behavior scenarios."""

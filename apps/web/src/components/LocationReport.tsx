@@ -71,6 +71,23 @@ export default function LocationReport({ location, evidence }: Props) {
         )}
       </div>
 
+      {/* ── AI Review: an independent, bounded, additive read on top of the math ── */}
+      {location.ai_adjustment_multiplier !== undefined && location.ai_adjustment_multiplier !== 1.0 && (
+        <div className="p-4 rounded-2xl bg-white border border-[#A6693B]/30 shadow-sm space-y-2">
+          <div className="flex items-center justify-between">
+            <h3 className="text-xs font-semibold uppercase tracking-wider text-[#A6693B]">AI Review</h3>
+            <span className="text-[11px] font-mono text-[#A6693B] font-semibold bg-[#A6693B]/10 px-2 py-0.5 rounded-full">
+              {location.deterministic_score.toFixed(1)} &rarr; {location.overall_score.toFixed(1)} (&times;{location.ai_adjustment_multiplier.toFixed(2)})
+            </span>
+          </div>
+          <p className="text-[11px] leading-relaxed text-neutral-700">{location.ai_adjustment_reason}</p>
+          <p className="text-[10px] text-neutral-400 leading-relaxed">
+            An independent LLM pass over the same evidence above, bounded to &plusmn;5% and only applied when its
+            reasoning is grounded in a real signal value — it can never override the deterministic math score outright.
+          </p>
+        </div>
+      )}
+
       {/* ── Nine Signal Working with Raw Counts ────────────────────────── */}
       <div className="space-y-3">
         <div className="flex items-center justify-between">

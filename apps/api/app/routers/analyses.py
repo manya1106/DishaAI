@@ -7,6 +7,7 @@ from fastapi import APIRouter, HTTPException, status
 
 from ..agents.orchestrator import orchestrator
 from ..agents.scoring_agent import scoring_agent
+from ..ai.score_review import review_scores_sync
 from ..config import settings
 from ..data.loader import loader
 from ..schemas import (
@@ -83,6 +84,17 @@ def compute_analysis(inputs: AnalysisInputs) -> AnalysisResult:
     orchestrator.dispatch(
         trace_id, "scoring", "orchestrator",
         {"step": "ranked", "locations_returned": len(locations)},
+    )
+
+    orchestrator.dispatch(
+        trace_id, "orchestrator", "ai_review",
+        {"step": "review_scores", "locations_in": len(locations)},
+    )
+    locations = review_scores_sync(locations, inputs.category_id)
+    adjusted_count = sum(1 for loc in locations if loc.ai_adjustment_multiplier != 1.0)
+    orchestrator.dispatch(
+        trace_id, "ai_review", "orchestrator",
+        {"step": "reviewed", "locations_adjusted": adjusted_count},
     )
 
     evidence = build_evidence_for_locations(locations, cells, inputs.category_id)

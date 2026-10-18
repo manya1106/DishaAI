@@ -645,6 +645,23 @@ export interface components {
             limitations: string[];
             /** Why Vs Neighbours */
             why_vs_neighbours: string[];
+            /**
+             * Deterministic Score
+             * @description The pure 9-signal math score, before any AI Review adjustment
+             * @default 0
+             */
+            deterministic_score: number;
+            /**
+             * Ai Adjustment Multiplier
+             * @description Bounded factor (0.95-1.05) the AI Review step applied on top of the deterministic score; 1.0 means unchanged
+             * @default 1
+             */
+            ai_adjustment_multiplier: number;
+            /**
+             * Ai Adjustment Reason
+             * @description The AI Review step's one-line grounded reason for its adjustment, or null if none was applied
+             */
+            ai_adjustment_reason?: string | null;
         };
         /** MetaResponse */
         MetaResponse: {
