@@ -102,7 +102,17 @@ Used when one person needs a change in an area owned by the other (see §5.1 for
 
 ## 5. Work split — Person D / Person M
 
-**Revision 0.3 (2026-10-18):** Work is split between two people working the same plan in parallel. "Folder" here means ownership zones over the existing tree, not a physical copy of the repo — splitting the FastAPI app into separate physical folders would break the existing contracts in `contracts/openapi.json`. If a literal separate `person_D/` / `person_M/` directory pair is actually wanted instead, say so and this section gets redone.
+**Revision 0.3 (2026-10-18):** Work is split between two people working the same plan in parallel.
+
+**Revision 0.4 (2026-10-18):** Owner confirmed a literal separate `person_D/` / `person_M/` directory pair is wanted, not just ownership zones. Implemented as **git worktrees**, not two independent copies of the app (there is only one FastAPI app and one Next.js app to run for the demo):
+
+- `D:\Projects\Disha-AI\Disha_AI_2\DishaAI\` — original checkout, branch `main`, stays the integration point.
+- `D:\Projects\Disha-AI\Disha_AI_2\person_M\` — new worktree, branch `person-m`, branched from `main` at commit `f5dfccc` (already includes all of Person M's Phase 0/1/3/4/5/6/7 work, which stays on `main` rather than being replayed).
+- `D:\Projects\Disha-AI\Disha_AI_2\person_D\` — new worktree, branch `person-d`, branched from the same commit.
+
+Each worktree is a full checkout of the repo content on its own branch — not a partial/split tree. `node_modules/` is untracked and must be installed separately in each worktree (`cd apps/web && npm install`) before running the frontend there. `.env` files are also untracked/local to each worktree.
+
+**Merge plan:** both branches merge into `main` when ready (not pushed to `origin` until the owner says so, per rule 5). Routine merges, not a rebase — simplest to reason about with two people working concurrently.
 
 ### 5.1 Ownership
 
@@ -130,4 +140,5 @@ The boundary is the `AgentMessage` envelope (`plan.md` §4.2) plus the Scoring A
 |---|---|---|
 | 2026-10-18 | `plan.md` and `progress.md` created; `docs/BLUEPRINT.md` appended with the agent-swarm section (new content only, nothing existing altered) | Owner (requested this session) |
 | 2026-10-18 | Scope expanded to full PostgreSQL + PostGIS data foundation (Phase D added); schema drafted in `plan.md` §6.1, awaiting DDL sign-off (D-09) | Owner |
+| 2026-10-18 | Restructured from ownership-zone split to literal `person_M`/`person_D` git worktrees, branches `person-m`/`person-d` off `main` at `f5dfccc`; merge back into `main` when ready, no push | Owner |
 | 2026-10-18 | Work split into Person D / Person M ownership zones (§5); step table given an Owner column | Owner |
