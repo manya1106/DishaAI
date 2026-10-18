@@ -187,6 +187,10 @@ export const api = {
     budget_tier: string;
     top_n?: number;
     weight_overrides?: Record<string, number>;
+    target_customers?: string[];
+    category_answers?: Record<string, string>;
+    shop_size_sqft?: number;
+    opening_hours?: string;
   }): Promise<AnalysisResult> {
     if (IS_MOCK) {
       if (!mockAnalysis) {

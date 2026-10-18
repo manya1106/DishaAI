@@ -2,7 +2,7 @@
 
 import React from "react";
 import { LocationResult } from "../lib/types";
-import { Award, TrendingUp, CheckSquare, Square, ChevronRight } from "lucide-react";
+import { CheckSquare, Square } from "lucide-react";
 
 interface Props {
   locations: LocationResult[];
@@ -20,13 +20,15 @@ export default function RankedList({
   onToggleCompare,
 }: Props) {
   return (
-    <div className="flex flex-col h-full space-y-2.5 overflow-y-auto pr-1">
+    <div className="flex flex-col h-full space-y-2 overflow-y-auto pr-1">
       <div className="flex items-center justify-between px-1 pb-1">
-        <h2 className="text-sm font-bold text-slate-200 tracking-wide uppercase flex items-center gap-1.5">
-          <TrendingUp className="w-4 h-4 text-emerald-400" />
-          Ranked Zones ({locations.length})
+        <h2
+          className="text-sm font-semibold text-[#15130F] tracking-tight"
+          style={{ fontFamily: "var(--font-display)" }}
+        >
+          Ranked zones ({locations.length})
         </h2>
-        <span className="text-[11px] text-slate-400">Relative City Percentile</span>
+        <span className="text-[11px] text-[#15130F]/50">Relative city percentile</span>
       </div>
 
       {locations.map((loc) => {
@@ -39,8 +41,8 @@ export default function RankedList({
             onClick={() => onSelectLocation(loc.location_id)}
             className={`p-3.5 rounded-xl transition-all cursor-pointer border ${
               isSelected
-                ? "bg-slate-800/90 border-emerald-500/80 shadow-lg shadow-emerald-500/10 scale-[1.01]"
-                : "glass-panel hover:bg-slate-800/50 hover:border-slate-700 border-slate-800/60"
+                ? "bg-[#15130F] border-[#15130F] shadow-md"
+                : "bg-white border-[#15130F]/15 hover:border-[#15130F]/35 shadow-sm hover:shadow-md"
             }`}
           >
             <div className="flex items-start justify-between gap-3">
@@ -49,34 +51,40 @@ export default function RankedList({
                 <div
                   className={`w-7 h-7 rounded-lg flex items-center justify-center font-bold text-xs shrink-0 ${
                     loc.rank === 1
-                      ? "bg-gradient-to-tr from-amber-500 to-yellow-400 text-slate-950 shadow-md shadow-amber-500/30"
+                      ? "bg-[#2F6E4E] text-[#F6F1E7]"
                       : loc.rank <= 3
-                      ? "bg-gradient-to-tr from-emerald-500 to-cyan-400 text-slate-950 font-bold"
-                      : "bg-slate-800 text-slate-300 border border-slate-700"
+                      ? isSelected
+                        ? "bg-[#F6F1E7] text-[#15130F]"
+                        : "bg-[#2F6E4E]/15 text-[#2F6E4E]"
+                      : isSelected
+                      ? "bg-[#F6F1E7]/20 text-[#F6F1E7]"
+                      : "bg-[#15130F]/8 text-[#15130F]/60"
                   }`}
                 >
                   #{loc.rank}
                 </div>
 
                 <div>
-                  <h3 className="font-semibold text-sm text-slate-100 leading-snug">
+                  <h3 className={`font-semibold text-sm leading-snug ${isSelected ? "text-[#F6F1E7]" : "text-[#15130F]"}`}>
                     {loc.display_name}
                   </h3>
                   <div className="flex items-center gap-2 mt-1">
                     <span
-                      className={`text-[10px] font-medium px-1.5 py-0.2 rounded border ${
-                        loc.confidence === "high"
-                          ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20"
+                      className={`text-[10px] font-semibold px-1.5 py-0.5 rounded border ${
+                        isSelected
+                          ? "border-[#F6F1E7]/35 text-[#F6F1E7]/85"
+                          : loc.confidence === "high"
+                          ? "bg-[#2F6E4E]/10 text-[#2F6E4E] border-[#2F6E4E]/30"
                           : loc.confidence === "medium"
-                          ? "bg-cyan-500/10 text-cyan-400 border-cyan-500/20"
-                          : "bg-amber-500/10 text-amber-400 border-amber-500/20"
+                          ? "bg-[#A6693B]/10 text-[#A6693B] border-[#A6693B]/30"
+                          : "bg-[#8B3A2F]/10 text-[#8B3A2F] border-[#8B3A2F]/30"
                       }`}
                     >
                       {loc.confidence} conf.
                     </span>
 
                     {loc.strengths[0] && (
-                      <span className="text-[11px] text-slate-400 truncate max-w-[140px] sm:max-w-[170px]">
+                      <span className={`text-[11px] truncate max-w-[140px] sm:max-w-[170px] ${isSelected ? "text-[#F6F1E7]/65" : "text-[#15130F]/55"}`}>
                         {loc.strengths[0]}
                       </span>
                     )}
@@ -87,10 +95,10 @@ export default function RankedList({
               {/* Overall Score & Compare Toggle */}
               <div className="flex flex-col items-end gap-1.5 shrink-0">
                 <div className="flex items-baseline gap-1">
-                  <span className="text-base font-extrabold text-white">
+                  <span className={`text-lg font-semibold ${isSelected ? "text-[#F6F1E7]" : "text-[#15130F]"}`} style={{ fontFamily: "var(--font-display)" }}>
                     {loc.overall_score}
                   </span>
-                  <span className="text-[10px] text-slate-400">/100</span>
+                  <span className={`text-[10px] ${isSelected ? "text-[#F6F1E7]/55" : "text-[#15130F]/40"}`}>/100</span>
                 </div>
 
                 <button
@@ -101,19 +109,37 @@ export default function RankedList({
                   }}
                   className={`flex items-center gap-1 text-[11px] px-2 py-0.5 rounded transition-colors ${
                     isCompared
-                      ? "bg-indigo-500/20 text-indigo-300 border border-indigo-500/40"
-                      : "text-slate-400 hover:text-slate-200 hover:bg-slate-700/50"
+                      ? "bg-[#2F6E4E]/15 text-[#2F6E4E] border border-[#2F6E4E]/35"
+                      : isSelected
+                      ? "text-[#F6F1E7]/65 hover:text-[#F6F1E7]"
+                      : "text-[#15130F]/50 hover:text-[#15130F]"
                   }`}
                   title="Add to side-by-side comparison"
                 >
                   {isCompared ? (
-                    <CheckSquare className="w-3 h-3 text-indigo-400" />
+                    <CheckSquare className="w-3 h-3" />
                   ) : (
                     <Square className="w-3 h-3" />
                   )}
                   <span>Compare</span>
                 </button>
               </div>
+            </div>
+
+            {/* Score bar — the visual "██" the SiteScout wireframe shows next to each rank */}
+            <div className={`mt-2.5 h-1.5 rounded-full overflow-hidden ${isSelected ? "bg-[#F6F1E7]/20" : "bg-[#15130F]/8"}`}>
+              <div
+                className={`h-full rounded-full ${
+                  isSelected
+                    ? "bg-[#F6F1E7]"
+                    : loc.rank === 1
+                    ? "bg-[#2F6E4E]"
+                    : loc.rank <= 3
+                    ? "bg-[#2F6E4E]/70"
+                    : "bg-[#15130F]/40"
+                }`}
+                style={{ width: `${Math.max(4, loc.overall_score)}%` }}
+              />
             </div>
           </div>
         );

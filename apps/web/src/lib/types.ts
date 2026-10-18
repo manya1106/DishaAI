@@ -15,6 +15,8 @@ export type CategoryMeta = components["schemas"]["CategoryMeta"];
 export type BudgetTierMeta = components["schemas"]["BudgetTierMeta"];
 export type SignalMeta = components["schemas"]["SignalMeta"];
 export type DatasetMeta = components["schemas"]["DatasetMeta"];
+export type SelectOption = components["schemas"]["SelectOption"];
+export type CategoryQuestion = components["schemas"]["CategoryQuestion"];
 
 export type AnalysisRequest = components["schemas"]["AnalysisRequest"];
 export type AnalysisResult = components["schemas"]["AnalysisResult"];
@@ -24,6 +26,7 @@ export type EvidenceItem = components["schemas"]["EvidenceItem"];
 export type ReportResponse = components["schemas"]["ReportResponse"];
 export type CompareResult = components["schemas"]["CompareResult"];
 export type SignalDelta = components["schemas"]["SignalDelta"];
+export type WeightAdjustment = components["schemas"]["WeightAdjustment"];
 export type GeoJSONFeatureCollection = components["schemas"]["GeoJSONFeatureCollection"];
 
 export type ChatRequest = components["schemas"]["ChatRequest"];

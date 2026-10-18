@@ -2,64 +2,42 @@
 @import "maplibre-gl/dist/maplibre-gl.css";
 
 :root {
-  --background: #090d16;
-  --foreground: #f1f5f9;
-  --card-bg: rgba(15, 23, 42, 0.75);
-  --card-border: rgba(51, 65, 85, 0.5);
-  --accent-emerald: #10b981;
-  --accent-cyan: #06b6d4;
-  --accent-indigo: #6366f1;
-  --accent-amber: #f59e0b;
+  --background: #f6f1e7;
+  --foreground: #15130f;
+  --card-bg: rgba(255, 253, 248, 0.7);
+  --card-border: rgba(21, 19, 15, 0.12);
+  --accent-green: #2f6e4e;
+  --accent-clay: #a6693b;
+  --accent-slate: #3f5b6c;
+  --accent-rust: #8b3a2f;
 }
 
 body {
   background-color: var(--background);
   color: var(--foreground);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  font-family: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   overflow-x: hidden;
 }
 
-/* Glassmorphism utility classes */
+/* Solid, crisp card surfaces with real depth — not translucent glass.
+   Cream-on-cream at low opacity read as flat/lifeless; these need to
+   visibly separate from the page background. */
 .glass-panel {
-  background: rgba(15, 23, 42, 0.7);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: #fffdf9;
+  border: 1px solid rgba(21, 19, 15, 0.16);
+  box-shadow: 0 1px 2px rgba(21, 19, 15, 0.04), 0 8px 24px -12px rgba(21, 19, 15, 0.12);
 }
 
 .glass-panel-elevated {
-  background: rgba(30, 41, 59, 0.8);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+  background: #fffefb;
+  border: 1px solid rgba(21, 19, 15, 0.18);
+  box-shadow: 0 24px 48px -16px rgba(21, 19, 15, 0.28);
 }
 
 .glass-dropdown {
-  background: #0f172a;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
-}
-
-/* Glowing text & border accents */
-.text-gradient {
-  background: linear-gradient(135deg, #38bdf8 0%, #818cf8 50%, #c084fc 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.text-gradient-emerald {
-  background: linear-gradient(135deg, #34d399 0%, #06b6d4 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.border-glow-emerald {
-  box-shadow: 0 0 15px -3px rgba(16, 185, 129, 0.3);
-}
-
-.border-glow-indigo {
-  box-shadow: 0 0 15px -3px rgba(99, 102, 241, 0.3);
+  background: #fffefb;
+  border: 1px solid rgba(21, 19, 15, 0.18);
+  box-shadow: 0 20px 25px -5px rgba(21, 19, 15, 0.15);
 }
 
 /* Custom sleek scrollbar */
@@ -69,16 +47,16 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(15, 23, 42, 0.5);
+  background: rgba(21, 19, 15, 0.04);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(71, 85, 105, 0.6);
+  background: rgba(21, 19, 15, 0.22);
   border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(100, 116, 139, 0.8);
+  background: rgba(21, 19, 15, 0.35);
 }
 
 /* MapLibre marker overrides */
@@ -90,7 +68,7 @@ body {
   font-weight: 700;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 4px 12px rgba(21, 19, 15, 0.25);
 }
 
 .disha-map-marker:hover {
@@ -100,7 +78,25 @@ body {
 
 .disha-marker-active {
   transform: scale(1.25);
-  box-shadow: 0 0 20px rgba(52, 211, 153, 0.8);
-  border: 2px solid #ffffff;
+  box-shadow: 0 0 0 4px rgba(47, 110, 78, 0.25);
+  border: 2px solid #15130f;
   z-index: 60;
+}
+
+/* Small pulsing "live" indicator, used wherever a stat is proven live
+   (not a static/mocked figure) rather than claimed in copy. */
+.live-dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 9999px;
+  background: #2f6e4e;
+  box-shadow: 0 0 0 0 rgba(47, 110, 78, 0.6);
+  animation: live-pulse 2s infinite;
+}
+
+@keyframes live-pulse {
+  0% { box-shadow: 0 0 0 0 rgba(47, 110, 78, 0.5); }
+  70% { box-shadow: 0 0 0 6px rgba(47, 110, 78, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(47, 110, 78, 0); }
 }

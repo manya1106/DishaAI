@@ -12,6 +12,7 @@ import { api } from "../../lib/api";
 import {
   AnalysisResult,
   MetaResponse,
+  AgentHandoff,
 } from "../../lib/types";
 import {
   FileText,
@@ -22,6 +23,9 @@ import {
   CheckSquare,
   Square,
   Table as TableIcon,
+  Workflow,
+  ChevronDown,
+  ChevronUp,
 } from "lucide-react";
 
 function tryDecodeAnalysisId(id: string | null): { city_id?: string; category_id?: string; budget_tier?: string } | null {
@@ -74,6 +78,11 @@ function ExploreContent() {
   const [compareIds, setCompareIds] = useState<string[]>([]);
   const [activeTab, setActiveTab] = useState<"report" | "matrix" | "compare" | "chat">("report");
   const [deterministicMode, setDeterministicMode] = useState(false);
+  const [showHowComputed, setShowHowComputed] = useState(false);
+  // Keyed by trace_id so a stale previous computation's hand-offs are never
+  // shown for a newly-loaded analysis without a separate reset effect.
+  const [analysisTrace, setAnalysisTrace] = useState<{ traceId: string; handoffs: AgentHandoff[] } | null>(null);
+  const [traceLoading, setTraceLoading] = useState(false);
 
   // Fetch Metadata
   useEffect(() => {
@@ -155,6 +164,22 @@ function ExploreContent() {
     };
   }, [selectedCity, selectedCategory, selectedTier]);
 
+  async function toggleHowComputed() {
+    if (!analysis?.trace_id) return;
+    if (!showHowComputed && analysisTrace?.traceId !== analysis.trace_id) {
+      setTraceLoading(true);
+      try {
+        const data = await api.getAgentTrace(analysis.trace_id);
+        setAnalysisTrace({ traceId: analysis.trace_id, handoffs: data.handoffs });
+      } catch {
+        setAnalysisTrace({ traceId: analysis.trace_id, handoffs: [] });
+      } finally {
+        setTraceLoading(false);
+      }
+    }
+    setShowHowComputed((v) => !v);
+  }
+
   function handleSelectLocation(locationId: string) {
     setSelectedLocationId(locationId);
     if (activeTab === "matrix") {
@@ -185,11 +210,8 @@ function ExploreContent() {
   const highConfidenceCount = analysis?.locations.filter((l) => l.confidence === "high").length ?? 0;
   const isLivePostgres = analysis?.dataset.mode === "postgres";
 
-  // Matrix calculation data
-  const signalKeys = useMemo(() => {
-    if (!analysis?.weights) return [];
-    return Object.keys(analysis.weights);
-  }, [analysis?.weights]);
+  // Matrix calculation data (cheap to recompute each render; no memo needed)
+  const signalKeys = analysis?.weights ? Object.keys(analysis.weights) : [];
 
   const columnMax = useMemo(() => {
     if (!analysis || signalKeys.length === 0) return {};
@@ -238,6 +260,50 @@ function ExploreContent() {
                 {isLivePostgres ? "Real Postgres data, this request" : analysis.dataset.mode}
               </div>
             </div>
+          </div>
+
+          {/* How this was computed — real trace, real timing, not a claim */}
+          <div className="max-w-[1600px] mx-auto mt-2">
+            <button
+              type="button"
+              onClick={toggleHowComputed}
+              className="w-full flex items-center justify-between px-4 py-2 rounded-lg bg-white border border-[#15130F]/15 text-xs hover:border-[#15130F]/30 transition-colors"
+            >
+              <span className="flex items-center gap-2 text-[#15130F]/70 font-medium">
+                <Workflow className="w-3.5 h-3.5 text-[#3F5B6C]" />
+                How this was computed — {analysis.was_cached ? "served from cache" : `${analysis.compute_latency_ms}ms, live`}
+                {" · "}{analysis.eligible_cells_considered} of {analysis.cells_considered} real H3 cells eligible
+              </span>
+              {showHowComputed ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
+            </button>
+
+            {showHowComputed && (
+              <div className="mt-1.5 p-3.5 rounded-lg bg-white border border-[#15130F]/12 text-[11px] space-y-2">
+                <p className="text-[#15130F]/55">
+                  This specific request: trace <code className="font-mono text-[#2F6E4E]">{analysis.trace_id.slice(0, 12)}…</code>,
+                  {analysis.was_cached
+                    ? " a previous identical request was reused from cache rather than recomputed — same inputs, same answer, not re-run for no reason."
+                    : ` computed fresh in ${analysis.compute_latency_ms}ms against the live Postgres database.`}
+                </p>
+                {traceLoading ? (
+                  <span className="text-[#15130F]/45">Loading agent trace…</span>
+                ) : (analysisTrace?.traceId !== analysis.trace_id || analysisTrace.handoffs.length === 0) ? (
+                  <span className="text-[#15130F]/40">No agent trace recorded.</span>
+                ) : (
+                  <div className="flex flex-wrap items-center gap-1.5">
+                    {analysisTrace.handoffs.map((h, i) => (
+                      <React.Fragment key={i}>
+                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-[#15130F]/4 border border-[#15130F]/12 font-mono text-[#15130F]/70">
+                          {h.sender} → {h.recipient}
+                          {h.payload?.step ? <span className="text-[#15130F]/40">({String(h.payload.step)})</span> : null}
+                        </span>
+                        {i < analysisTrace.handoffs.length - 1 && <span className="text-[#15130F]/30">then</span>}
+                      </React.Fragment>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
           </div>
         </div>
       )}

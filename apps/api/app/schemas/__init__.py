@@ -9,6 +9,7 @@ from .analysis import (
     ReportResponse,
     SignalDelta,
     SignalResult,
+    WeightAdjustment,
 )
 from .chat import (
     Block,
@@ -112,4 +113,5 @@ __all__ = [
     "UncertaintyInfo",
     "VerificationStatus",
     "VerificationSummary",
+    "WeightAdjustment",
 ]

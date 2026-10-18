@@ -76,6 +76,13 @@ class LocationResult(BaseSchema):
     why_vs_neighbours: list[str]
 
 
+class WeightAdjustment(BaseSchema):
+    source: str = Field(..., description="Which input caused this, e.g. 'target_customer:students'")
+    label: str = Field(..., description="Human-readable label for the source")
+    signal_id: str
+    multiplier: float = Field(..., description="Factor applied to this signal's base weight before renormalization")
+
+
 class AnalysisResult(BaseSchema):
     analysis_id: str
     inputs: AnalysisInputs
@@ -89,6 +96,7 @@ class AnalysisResult(BaseSchema):
     cells_considered: int = Field(0, description="Total H3 cells loaded for this city")
     eligible_cells_considered: int = Field(0, description="H3 cells that passed the minimum-data eligibility filter and were actually ranked")
     was_cached: bool = Field(False, description="True if this exact request (same inputs) was already computed and served from cache rather than recomputed")
+    weight_adjustments: list[WeightAdjustment] = Field(default_factory=list, description="Per-answer breakdown of which wizard input nudged which signal weight, by how much")
 
 
 class ReportResponse(BaseSchema):

@@ -20,7 +20,9 @@ from ..schemas import (
     GeoJSONFeatureCollection,
     GeoJSONPolygonGeometry,
     ReportResponse,
+    WeightAdjustment,
 )
+from ..scoring.engine import scoring_engine
 from ..scoring.explain import build_comparison_deltas, build_evidence_for_locations
 
 router = APIRouter(prefix="/api/v1/analyses", tags=["Analyses"])
@@ -84,6 +86,12 @@ def compute_analysis(inputs: AnalysisInputs) -> AnalysisResult:
     )
 
     evidence = build_evidence_for_locations(locations, cells, inputs.category_id)
+    weight_adjustments = [
+        WeightAdjustment(**entry)
+        for entry in scoring_engine.compute_answer_multiplier_breakdown(
+            inputs.category_id, inputs.target_customers, inputs.category_answers
+        )
+    ]
     compute_latency_ms = int((time.time() - start_time) * 1000)
 
     # Build heatmap features
@@ -122,6 +130,7 @@ def compute_analysis(inputs: AnalysisInputs) -> AnalysisResult:
         cells_considered=snapshot.get("cell_count", len(cells)),
         eligible_cells_considered=snapshot.get("eligible_cell_count", len(cells)),
         was_cached=False,
+        weight_adjustments=weight_adjustments,
     )
 
     # Limit cache to 100 entries

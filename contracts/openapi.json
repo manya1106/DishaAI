@@ -688,6 +688,14 @@
             "title": "Was Cached",
             "description": "True if this exact request (same inputs) was already computed and served from cache rather than recomputed",
             "default": false
+          },
+          "weight_adjustments": {
+            "items": {
+              "$ref": "#/components/schemas/WeightAdjustment"
+            },
+            "type": "array",
+            "title": "Weight Adjustments",
+            "description": "Per-answer breakdown of which wizard input nudged which signal weight, by how much"
           }
         },
         "additionalProperties": false,
@@ -2028,6 +2036,38 @@
           "claims_removed"
         ],
         "title": "VerificationSummary"
+      },
+      "WeightAdjustment": {
+        "properties": {
+          "source": {
+            "type": "string",
+            "title": "Source",
+            "description": "Which input caused this, e.g. 'target_customer:students'"
+          },
+          "label": {
+            "type": "string",
+            "title": "Label",
+            "description": "Human-readable label for the source"
+          },
+          "signal_id": {
+            "type": "string",
+            "title": "Signal Id"
+          },
+          "multiplier": {
+            "type": "number",
+            "title": "Multiplier",
+            "description": "Factor applied to this signal's base weight before renormalization"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "source",
+          "label",
+          "signal_id",
+          "multiplier"
+        ],
+        "title": "WeightAdjustment"
       }
     }
   }

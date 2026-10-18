@@ -3,98 +3,97 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Compass, ShieldCheck, Activity, Sparkles } from "lucide-react";
+import { Compass } from "lucide-react";
 import { api } from "../lib/api";
+import { HealthResponse } from "../lib/types";
 
 export default function Navbar() {
   const pathname = usePathname();
-  const [serverOnline, setServerOnline] = useState<boolean | null>(null);
+  const [health, setHealth] = useState<HealthResponse | null>(null);
+  const [healthFailed, setHealthFailed] = useState(false);
 
   useEffect(() => {
     let isMounted = true;
     api
       .getHealth()
       .then((h) => {
-        if (isMounted) setServerOnline(h.status === "ok");
+        if (isMounted) setHealth(h);
       })
       .catch(() => {
-        if (isMounted) setServerOnline(false);
+        if (isMounted) setHealthFailed(true);
       });
     return () => {
       isMounted = false;
     };
   }, []);
 
+  const isLive = health?.status === "ok";
+  const dbLive = health?.db === "configured" || health?.db === "connected";
+
   return (
-    <header className="sticky top-0 z-50 glass-panel border-b border-slate-800/80 px-4 sm:px-8 py-3">
-      <div className="max-w-7xl mx-auto flex items-center justify-between">
+    <header className="sticky top-0 z-50 bg-[#F6F1E7]/90 backdrop-blur-sm border-b border-[#15130F]/10 px-4 sm:px-8 py-3">
+      <div className="max-w-7xl mx-auto flex items-center justify-between gap-3">
         {/* Brand */}
         <Link href="/" className="flex items-center gap-2.5 group">
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-emerald-500 via-cyan-500 to-indigo-500 flex items-center justify-center p-0.5 shadow-lg shadow-emerald-500/20 group-hover:shadow-emerald-500/40 transition-all">
-            <div className="w-full h-full bg-slate-950 rounded-[10px] flex items-center justify-center">
-              <Compass className="w-5 h-5 text-emerald-400 group-hover:rotate-45 transition-transform duration-300" />
-            </div>
+          <div className="w-8 h-8 rounded-full bg-[#15130F] flex items-center justify-center">
+            <Compass className="w-4 h-4 text-[#F6F1E7] group-hover:rotate-45 transition-transform duration-300" />
           </div>
           <div>
-            <div className="flex items-center gap-1.5">
-              <span className="font-extrabold text-lg tracking-tight text-white">
-                Disha<span className="text-emerald-400">.ai</span>
-              </span>
-              <span className="text-[10px] uppercase font-semibold px-1.5 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-                O3 Trust
-              </span>
-            </div>
-            <p className="text-[11px] text-slate-400 hidden sm:block">
-              Verifiable Location Intelligence
-            </p>
+            <span
+              className="font-medium text-base tracking-tight text-[#15130F]"
+              style={{ fontFamily: "var(--font-display)" }}
+            >
+              Disha AI
+            </span>
           </div>
         </Link>
 
         {/* Navigation */}
-        <nav className="flex items-center gap-1 sm:gap-2">
+        <nav className="hidden sm:flex items-center gap-1">
+          <Link
+            href="/new-analysis"
+            className={`px-3.5 py-1.5 rounded-full text-sm font-medium transition-colors ${
+              pathname.startsWith("/new-analysis")
+                ? "bg-[#15130F] text-[#F6F1E7]"
+                : "text-[#15130F]/65 hover:text-[#15130F] hover:bg-[#15130F]/5"
+            }`}
+          >
+            New analysis
+          </Link>
           <Link
             href="/explore"
-            className={`px-3.5 py-1.5 rounded-lg text-sm font-medium transition-all ${
+            className={`px-3.5 py-1.5 rounded-full text-sm font-medium transition-colors ${
               pathname.startsWith("/explore")
-                ? "bg-emerald-500/15 text-emerald-400 border border-emerald-500/30"
-                : "text-slate-300 hover:text-white hover:bg-slate-800/60"
+                ? "bg-[#15130F] text-[#F6F1E7]"
+                : "text-[#15130F]/65 hover:text-[#15130F] hover:bg-[#15130F]/5"
             }`}
           >
             Explore Map
           </Link>
-
           <Link
             href="/trust"
-            className={`px-3.5 py-1.5 rounded-lg text-sm font-medium flex items-center gap-1.5 transition-all ${
+            className={`px-3.5 py-1.5 rounded-full text-sm font-medium transition-colors ${
               pathname.startsWith("/trust")
-                ? "bg-indigo-500/15 text-indigo-400 border border-indigo-500/30"
-                : "text-slate-300 hover:text-white hover:bg-slate-800/60"
+                ? "bg-[#15130F] text-[#F6F1E7]"
+                : "text-[#15130F]/65 hover:text-[#15130F] hover:bg-[#15130F]/5"
             }`}
           >
-            <ShieldCheck className="w-4 h-4 text-indigo-400" />
-            <span>Trust & Eval</span>
+            Trust &amp; Eval
           </Link>
         </nav>
 
-        {/* Status & Links */}
+        {/* Live system status — a real health-check result, not copy */}
         <div className="flex items-center gap-3">
-          {/* Health Pill */}
-          <div className="hidden md:flex items-center gap-2 px-2.5 py-1 rounded-full bg-slate-900 border border-slate-800 text-xs">
+          <div className="hidden md:flex items-center gap-2 px-2.5 py-1 rounded-full border border-[#15130F]/12 text-xs">
             <span
-              className={`w-2 h-2 rounded-full ${
-                serverOnline === null
-                  ? "bg-amber-400 animate-pulse"
-                  : serverOnline
-                  ? "bg-emerald-400 shadow-sm shadow-emerald-400"
-                  : "bg-rose-500"
-              }`}
+              className={healthFailed ? "inline-block w-[7px] h-[7px] rounded-full bg-[#8B3A2F]" : isLive ? "live-dot" : "inline-block w-[7px] h-[7px] rounded-full bg-[#A6693B] animate-pulse"}
             />
-            <span className="text-slate-400">
-              {serverOnline === null
-                ? "Checking API..."
-                : serverOnline
-                ? "API Connected"
-                : "API Offline"}
+            <span className="text-[#15130F]/55">
+              {healthFailed
+                ? "API offline"
+                : !health
+                ? "Checking API…"
+                : `Live · ${health.data_mode === "postgres" ? "Postgres" : health.data_mode}${dbLive ? "" : " (fallback)"}`}
             </span>
           </div>
 
@@ -102,7 +101,7 @@ export default function Navbar() {
             href="https://github.com/manya1106/DishaAI"
             target="_blank"
             rel="noreferrer"
-            className="p-2 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-white border border-slate-800 transition-colors"
+            className="p-2 rounded-full hover:bg-[#15130F]/5 text-[#15130F]/60 hover:text-[#15130F] transition-colors"
             title="GitHub Repository"
           >
             <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">

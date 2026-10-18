@@ -332,6 +332,11 @@ export interface components {
              * @default false
              */
             was_cached: boolean;
+            /**
+             * Weight Adjustments
+             * @description Per-answer breakdown of which wizard input nudged which signal weight, by how much
+             */
+            weight_adjustments?: components["schemas"]["WeightAdjustment"][];
         };
         /** Block */
         Block: {
@@ -829,6 +834,26 @@ export interface components {
              * @default 1
              */
             attempts: number;
+        };
+        /** WeightAdjustment */
+        WeightAdjustment: {
+            /**
+             * Source
+             * @description Which input caused this, e.g. 'target_customer:students'
+             */
+            source: string;
+            /**
+             * Label
+             * @description Human-readable label for the source
+             */
+            label: string;
+            /** Signal Id */
+            signal_id: string;
+            /**
+             * Multiplier
+             * @description Factor applied to this signal's base weight before renormalization
+             */
+            multiplier: number;
         };
     };
     responses: never;

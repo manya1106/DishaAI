@@ -99,6 +99,43 @@ class ScoringEngine:
 
         return multipliers
 
+    def compute_answer_multiplier_breakdown(
+        self,
+        category_id: str,
+        target_customers: list[str] | None = None,
+        category_answers: dict[str, str] | None = None,
+    ) -> list[dict[str, Any]]:
+        """Per-input breakdown of which answer nudged which signal, by how
+        much — for showing the user genuine per-field weightage, not just
+        the combined result. Same source data as compute_answer_multipliers,
+        kept separate so the combined path (used for actual scoring) stays
+        simple and this one can be skipped when not needed for display.
+        """
+        entries: list[dict[str, Any]] = []
+
+        tc_config = self._answer_modifiers_config.get("target_customers", {})
+        for tc in target_customers or []:
+            for signal_id, factor in tc_config.get(tc, {}).items():
+                entries.append({
+                    "source": f"target_customer:{tc}",
+                    "label": tc.replace("_", " "),
+                    "signal_id": signal_id,
+                    "multiplier": factor,
+                })
+
+        cat_config = self._answer_modifiers_config.get("category_answers", {}).get(category_id, {})
+        for question_id, answer in (category_answers or {}).items():
+            answer_key = str(answer).lower()
+            for signal_id, factor in cat_config.get(question_id, {}).get(answer_key, {}).items():
+                entries.append({
+                    "source": f"category_answer:{question_id}",
+                    "label": f"{question_id.replace('_', ' ')} = {answer}",
+                    "signal_id": signal_id,
+                    "multiplier": factor,
+                })
+
+        return entries
+
     def get_category_weights(
         self,
         category_id: str,
