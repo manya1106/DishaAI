@@ -50,6 +50,8 @@ from .meta import (
     SignalMeta,
 )
 from .trust import (
+    AgentHandoff,
+    AgentTraceResponse,
     EvaluationRunSummary,
     LiveStats,
     TraceDetailResponse,
@@ -58,6 +60,8 @@ from .trust import (
 )
 
 __all__ = [
+    "AgentHandoff",
+    "AgentTraceResponse",
     "AnalysisInputs",
     "AnalysisRequest",
     "AnalysisResult",

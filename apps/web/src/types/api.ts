@@ -157,10 +157,57 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/trust/agent-trace/{trace_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get Agent Trace
+         * @description Returns the agent-to-agent hand-off sequence for one chat request.
+         *
+         *     Distinct from /traces/{trace_id} above, which returns the final
+         *     chat response trace (question/blocks/verification). This endpoint
+         *     returns the Orchestrator -> Narrator/Verifier dispatch sequence
+         *     itself, for the agent-swarm observability panel (plan.md Phase 6).
+         */
+        get: operations["get_agent_trace_api_v1_trust_agent_trace__trace_id__get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
+        /** AgentHandoff */
+        AgentHandoff: {
+            /** Step */
+            step: number;
+            /** Sender */
+            sender: string;
+            /** Recipient */
+            recipient: string;
+            /** Payload */
+            payload?: {
+                [key: string]: unknown;
+            };
+            /** Timestamp */
+            timestamp: string;
+        };
+        /** AgentTraceResponse */
+        AgentTraceResponse: {
+            /** Trace Id */
+            trace_id: string;
+            /** Handoffs */
+            handoffs: components["schemas"]["AgentHandoff"][];
+        };
         /** AnalysisInputs */
         AnalysisInputs: {
             /** City Id */
@@ -665,10 +712,6 @@ export interface components {
             msg: string;
             /** Error Type */
             type: string;
-            /** Input */
-            input?: unknown;
-            /** Context */
-            ctx?: Record<string, never>;
         };
         /**
          * VerificationStatus
@@ -943,6 +986,37 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["TraceDetailResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_agent_trace_api_v1_trust_agent_trace__trace_id__get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                trace_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AgentTraceResponse"];
                 };
             };
             /** @description Validation Error */

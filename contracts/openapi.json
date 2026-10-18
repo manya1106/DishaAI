@@ -348,10 +348,109 @@
           }
         }
       }
+    },
+    "/api/v1/trust/agent-trace/{trace_id}": {
+      "get": {
+        "tags": [
+          "Trust"
+        ],
+        "summary": "Get Agent Trace",
+        "description": "Returns the agent-to-agent hand-off sequence for one chat request.\n\nDistinct from /traces/{trace_id} above, which returns the final\nchat response trace (question/blocks/verification). This endpoint\nreturns the Orchestrator -> Narrator/Verifier dispatch sequence\nitself, for the agent-swarm observability panel (plan.md Phase 6).",
+        "operationId": "get_agent_trace_api_v1_trust_agent_trace__trace_id__get",
+        "parameters": [
+          {
+            "name": "trace_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Trace Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgentTraceResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
     "schemas": {
+      "AgentHandoff": {
+        "properties": {
+          "step": {
+            "type": "integer",
+            "title": "Step"
+          },
+          "sender": {
+            "type": "string",
+            "title": "Sender"
+          },
+          "recipient": {
+            "type": "string",
+            "title": "Recipient"
+          },
+          "payload": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Payload"
+          },
+          "timestamp": {
+            "type": "string",
+            "title": "Timestamp"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "step",
+          "sender",
+          "recipient",
+          "timestamp"
+        ],
+        "title": "AgentHandoff"
+      },
+      "AgentTraceResponse": {
+        "properties": {
+          "trace_id": {
+            "type": "string",
+            "title": "Trace Id"
+          },
+          "handoffs": {
+            "items": {
+              "$ref": "#/components/schemas/AgentHandoff"
+            },
+            "type": "array",
+            "title": "Handoffs"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "trace_id",
+          "handoffs"
+        ],
+        "title": "AgentTraceResponse"
+      },
       "AnalysisInputs": {
         "properties": {
           "city_id": {
@@ -1687,13 +1786,6 @@
           "type": {
             "type": "string",
             "title": "Error Type"
-          },
-          "input": {
-            "title": "Input"
-          },
-          "ctx": {
-            "type": "object",
-            "title": "Context"
           }
         },
         "type": "object",

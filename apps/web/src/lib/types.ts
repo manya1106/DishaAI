@@ -37,3 +37,5 @@ export type TrustStatsResponse = components["schemas"]["TrustStatsResponse"];
 export type LiveStats = components["schemas"]["LiveStats"];
 export type EvaluationRunSummary = components["schemas"]["EvaluationRunSummary"];
 export type TraceDetailResponse = components["schemas"]["TraceDetailResponse"];
+export type AgentHandoff = components["schemas"]["AgentHandoff"];
+export type AgentTraceResponse = components["schemas"]["AgentTraceResponse"];

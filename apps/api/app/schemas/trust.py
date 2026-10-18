@@ -49,3 +49,16 @@ class TraceDetailResponse(BaseSchema):
     violations: list[str] = Field(default_factory=list)
     latency_ms: int
     blocks: list[Block]
+
+
+class AgentHandoff(BaseSchema):
+    step: int
+    sender: str
+    recipient: str
+    payload: dict = Field(default_factory=dict)
+    timestamp: str
+
+
+class AgentTraceResponse(BaseSchema):
+    trace_id: str
+    handoffs: list[AgentHandoff]

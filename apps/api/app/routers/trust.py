@@ -3,9 +3,12 @@ from pathlib import Path
 
 from fastapi import APIRouter, HTTPException, status
 
+from ..agents.orchestrator import orchestrator
 from ..ai.chat import chat_orchestrator
 from ..logging import logger
 from ..schemas import (
+    AgentHandoff,
+    AgentTraceResponse,
     EvaluationRunSummary,
     LiveStats,
     TraceDetailResponse,
@@ -61,3 +64,33 @@ async def get_trace_detail(trace_id: str):
             detail=f"Trace {trace_id} not found in buffer"
         )
     return TraceDetailResponse.model_validate(trace)
+
+
+@router.get("/agent-trace/{trace_id}", response_model=AgentTraceResponse)
+async def get_agent_trace(trace_id: str):
+    """Returns the agent-to-agent hand-off sequence for one chat request.
+
+    Distinct from /traces/{trace_id} above, which returns the final
+    chat response trace (question/blocks/verification). This endpoint
+    returns the Orchestrator -> Narrator/Verifier dispatch sequence
+    itself, for the agent-swarm observability panel (plan.md Phase 6).
+    """
+    handoffs = orchestrator.get_trace(trace_id)
+    if not handoffs:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"No agent trace found for {trace_id}"
+        )
+    return AgentTraceResponse(
+        trace_id=trace_id,
+        handoffs=[
+            AgentHandoff(
+                step=m.step,
+                sender=m.sender,
+                recipient=m.recipient,
+                payload=m.payload,
+                timestamp=m.timestamp.isoformat(),
+            )
+            for m in handoffs
+        ]
+    )

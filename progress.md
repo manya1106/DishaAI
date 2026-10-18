@@ -59,18 +59,18 @@ Carried over from `PROJECT_STATE.md` / `STATUS.md` / `docs/IMPLEMENTATION_AUDIT.
 | 5.1.2 | Orchestrator sequencing logic | M | **Done** | `ai/chat.py` refactored (owner-approved G-EDIT) to call `narrator_agent`/`verifier_agent` and log each hand-off via `orchestrator.dispatch()`; `llm_adapter`/`deterministic_narrator`/`verifier`/`build_evidence_bundle` no longer called directly from `ai/chat.py` |
 | 5.1.3 | Integration test: full trace, expected hand-off order | M | **Done** | `tests/agents/test_chat_trace_sequence.py` — asserts exact recipient sequence for both the deterministic path and the trap-refusal short-circuit |
 | 5.1.4 | Contract regression check (byte-identical response) | M | **Done** | All 24 pre-existing tests (incl. `test_chat_flow.py`, which asserts on `ChatResponse` fields) pass unchanged |
-| 6.1.1 | Decide trace exposure route (**[ASK]**) | M | Not started | Same as 0.3 |
-| 6.1.2 | Implement trace route | M | Not started | |
-| 6.1.3 | Frontend trace panel (**G-EDIT**) | M | Not started | |
-| 7.1.1 | Full backend pytest re-run (24/24 + new) | Shared | Not started | |
-| 7.1.2 | Adversarial eval re-run (21/21) | Shared | Not started | |
-| 7.1.3 | ruff re-check | Shared | Not started | |
-| 7.1.4 | Frontend build re-check | Shared | Not started | |
+| 6.1.1 | Decide trace exposure route (**[ASK]**) | M | **Done** | Chose `GET /api/v1/trust/agent-trace/{trace_id}` (new, distinct from the existing `/trust/traces/{trace_id}` which returns the chat-response trace, not the agent hand-off trace) — owner said "go ahead" rather than specifying, so this was my call; flag if it should be elsewhere |
+| 6.1.2 | Implement trace route | M | **Done** | `schemas/trust.py` (`AgentHandoff`, `AgentTraceResponse`) + `routers/trust.py`; `contracts/openapi.json` and `apps/web/src/types/api.ts` regenerated |
+| 6.1.3 | Frontend trace panel (**G-EDIT**) | M | **Done** | `ChatPanel.tsx`: "Agent Trace" toggle per assistant message, lazy-fetches `GET .../agent-trace/{trace_id}`, shows the `recipient → recipient → ...` sequence inline |
+| 7.1.1 | Full backend pytest re-run (24/24 + new) | Shared | **Done** | 36/36 passing (24 original + 12 new across Phases 1/3/4/5/6) |
+| 7.1.2 | Adversarial eval re-run (21/21) | Shared | **Done** | 21/21, 0 leaked claims, 100% refusal — re-ran via `python scripts/eval_trust.py` |
+| 7.1.3 | ruff re-check | Shared | **Done** | Clean on every new/touched file; 3 pre-existing import-order nits in untouched test files left as-is (not this session's scope) |
+| 7.1.4 | Frontend build re-check | Shared | **Done** | `npm run build` succeeds; `npm run lint` still shows exactly 6 errors/1110 warnings, unchanged from the pre-existing baseline in `docs/IMPLEMENTATION_AUDIT.md` — zero new issues introduced |
 | 8.1.1 | Append agent-swarm section to `docs/BLUEPRINT.md` | Shared | **Done** | Appended 2026-10-18, existing content untouched |
 | 8.1.2 | Update `docs/DEMO.md` | Shared | Not started | |
 | 8.1.3 | Update `PROJECT_STATE.md` / `STATUS.md` | Shared | Not started | |
 
-**Summary:** 14 of 36 plan steps done (2026-10-18, Person M): Phase 0 informally approved by owner ("let's start"), Phase 1 (Orchestrator skeleton), Phase 3 (Narrator Agent), Phase 4 (Verifier Agent), and the substance of Phase 5 (end-to-end wiring + trace sequencing) are complete — 34/34 backend tests passing (24 original + 10 new), ruff clean on all new/touched files, zero regressions. Phase D (data foundation, owned by Person D) has not started; Phase 2 (Scoring Agent) is blocked on it. Phase 6 (observability route + frontend panel) and Phase 7/8 (full regression pass + docs) remain.
+**Summary:** 22 of 36 plan steps done (2026-10-18, Person M): Phases 0, 1, 3, 4, 5, 6, and 7 are complete on the Person M side — Orchestrator, Narrator Agent, Verifier Agent, end-to-end trace sequencing, and the agent-trace observability route + frontend panel are all built, tested, and lint-clean. 36/36 backend tests passing (24 original + 12 new), 21/21 adversarial eval still passing, `npm run build` green, zero new frontend lint issues. Phase D (data foundation, owned by Person D) has not started; Phase 2 (Scoring Agent) is blocked on it. Phase 8 (demo script + `PROJECT_STATE.md`/`STATUS.md` updates) remains, and should probably wait until Person D's half lands so the docs describe the whole system at once.
 
 ---
 
@@ -81,7 +81,7 @@ Carried over from `PROJECT_STATE.md` / `STATUS.md` / `docs/IMPLEMENTATION_AUDIT.
 | D-01 | Which track/problem-statement is primary? | **Answered** | Track 2, O1 (Autonomous Agent Swarms), with the existing O3 trust/verification work carried over as the swarm's internal accountability layer. |
 | D-02 | Agent runtime: in-process (same FastAPI process) or separate services? | **Answered** | In-process, per owner's effort/risk preference discussed before this plan — no Nasiko or separate deployment. |
 | D-03 | Exact `AgentMessage` schema | **Open [ASK]** | Proposed in `plan.md` §4.2, awaiting owner sign-off (step 0.1). |
-| D-04 | Exact trace-log exposure route/shape | **Open [ASK]** | Awaiting owner decision (step 0.3 / 6.1.1). |
+| D-04 | Exact trace-log exposure route/shape | **Answered (by Person M, owner said "go ahead")** | `GET /api/v1/trust/agent-trace/{trace_id}` → `{trace_id, handoffs: [{step, sender, recipient, payload, timestamp}]}`. Kept separate from the pre-existing `/trust/traces/{trace_id}` (chat-response trace) rather than merging them. |
 | D-05 | Work on a new branch or directly on local `main`? | **Open [ASK]** | Awaiting owner decision (step 0.4). No push either way per plan rule 5. |
 | D-06 | What should local Postgres store? | **Answered** | Full data layer migration (cities, H3 cells, POIs, signals) — not just agent trace logs. The JSON snapshot becomes the migration source, kept as an offline fallback. |
 | D-07 | Plain Postgres or PostGIS? | **Answered** | PostGIS, installed from the start (`postgis/postgis:16-3.4`), for future geometry operations even though current scoring only needs precomputed H3 indices. |

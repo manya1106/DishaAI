@@ -10,3 +10,7 @@
 - Added `/api/v1/analyses/{id}/chat` (POST verified AI chat with single-sentence blocks, claims, evidence IDs, polarity).
 - Added `/api/v1/trust/stats` (GET live & evaluation trust metrics).
 - Added `/api/v1/trust/traces/{trace_id}` (GET trace inspection detail).
+
+## [1.1.0] - 2026-10-18
+### Agent Swarm Observability (plan.md Phase 6)
+- Added `/api/v1/trust/agent-trace/{trace_id}` (GET the Orchestrator → Narrator/Verifier agent hand-off sequence for one chat request, distinct from `/trust/traces/{trace_id}` above).

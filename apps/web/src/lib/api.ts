@@ -6,6 +6,7 @@ import {
   ChatResponse,
   TrustStatsResponse,
   HealthResponse,
+  AgentTraceResponse,
 } from "./types";
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
@@ -275,5 +276,19 @@ export const api = {
 
   async getTrustStats(): Promise<TrustStatsResponse> {
     return fetchJson<TrustStatsResponse>(`${API_BASE}/api/v1/trust/stats`);
+  },
+
+  async getAgentTrace(traceId: string): Promise<AgentTraceResponse> {
+    if (IS_MOCK) {
+      return {
+        trace_id: traceId,
+        handoffs: [
+          { step: 0, sender: "orchestrator", recipient: "verifier", payload: { step: "build_bundle" }, timestamp: new Date().toISOString() },
+          { step: 1, sender: "orchestrator", recipient: "narrator", payload: { step: "draft_deterministic" }, timestamp: new Date().toISOString() },
+          { step: 2, sender: "orchestrator", recipient: "verifier", payload: { step: "check" }, timestamp: new Date().toISOString() },
+        ],
+      };
+    }
+    return fetchJson<AgentTraceResponse>(`${API_BASE}/api/v1/trust/agent-trace/${traceId}`);
   },
 };

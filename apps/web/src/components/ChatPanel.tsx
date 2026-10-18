@@ -7,6 +7,7 @@ import {
   Claim,
   EvidenceItem,
   LocationResult,
+  AgentHandoff,
 } from "../lib/types";
 import { api } from "../lib/api";
 import {
@@ -22,6 +23,9 @@ import {
   ToggleLeft,
   ToggleRight,
   Database,
+  Workflow,
+  ChevronDown,
+  ChevronUp,
 } from "lucide-react";
 
 interface Props {
@@ -56,6 +60,9 @@ export default function ChatPanel({
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [activeEvidenceItem, setActiveEvidenceItem] = useState<EvidenceItem | null>(null);
+  const [agentTraces, setAgentTraces] = useState<Record<string, AgentHandoff[]>>({});
+  const [openTraceId, setOpenTraceId] = useState<string | null>(null);
+  const [traceLoading, setTraceLoading] = useState(false);
 
   const selectedIds = selectedLocations.map((l) => l.location_id);
 
@@ -97,6 +104,25 @@ export default function ChatPanel({
     } finally {
       setLoading(false);
     }
+  }
+
+  async function toggleAgentTrace(traceId: string) {
+    if (openTraceId === traceId) {
+      setOpenTraceId(null);
+      return;
+    }
+    if (!agentTraces[traceId]) {
+      setTraceLoading(true);
+      try {
+        const data = await api.getAgentTrace(traceId);
+        setAgentTraces((prev) => ({ ...prev, [traceId]: data.handoffs }));
+      } catch {
+        setAgentTraces((prev) => ({ ...prev, [traceId]: [] }));
+      } finally {
+        setTraceLoading(false);
+      }
+    }
+    setOpenTraceId(traceId);
   }
 
   function handleClaimClick(claim: Claim) {
@@ -220,7 +246,7 @@ export default function ChatPanel({
 
               <div className="space-y-2 max-w-[88%]">
                 {/* Verification Badge */}
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 flex-wrap">
                   <span
                     className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold border ${
                       isRefused
@@ -247,7 +273,49 @@ export default function ChatPanel({
                   </span>
 
                   <span className="text-[10px] text-slate-500">{resp.latency_ms}ms</span>
+
+                  <button
+                    type="button"
+                    onClick={() => toggleAgentTrace(resp.trace_id)}
+                    className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold border bg-slate-900/80 hover:bg-slate-800 border-slate-700 text-slate-300 transition-colors"
+                    title="Show which agents handled this request, in order"
+                  >
+                    <Workflow className="w-3 h-3 text-cyan-400" />
+                    Agent Trace
+                    {openTraceId === resp.trace_id ? (
+                      <ChevronUp className="w-3 h-3" />
+                    ) : (
+                      <ChevronDown className="w-3 h-3" />
+                    )}
+                  </button>
                 </div>
+
+                {/* Agent Hand-off Sequence (Phase 6 observability surface) */}
+                {openTraceId === resp.trace_id && (
+                  <div className="p-2.5 rounded-xl glass-panel border-slate-800 text-[11px] space-y-1.5">
+                    {traceLoading && !agentTraces[resp.trace_id] ? (
+                      <span className="text-slate-400">Loading agent trace...</span>
+                    ) : (agentTraces[resp.trace_id] || []).length === 0 ? (
+                      <span className="text-slate-500">No agent trace recorded for this request.</span>
+                    ) : (
+                      <div className="flex flex-wrap items-center gap-1.5">
+                        {(agentTraces[resp.trace_id] || []).map((h, i) => (
+                          <React.Fragment key={i}>
+                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-slate-900 border border-slate-700 font-mono text-slate-300">
+                              {h.recipient}
+                              {h.payload?.step ? (
+                                <span className="text-slate-500">({String(h.payload.step)})</span>
+                              ) : null}
+                            </span>
+                            {i < (agentTraces[resp.trace_id] || []).length - 1 && (
+                              <span className="text-slate-600">→</span>
+                            )}
+                          </React.Fragment>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                )}
 
                 {/* Blocks with Claim Chips */}
                 <div className="p-3.5 rounded-2xl rounded-tl-sm glass-panel border-slate-800 space-y-2.5 shadow-md">
