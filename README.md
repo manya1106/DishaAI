@@ -17,7 +17,7 @@
 
 <p align="center">
   <b>Hackathon submission</b> — Track 2, Best Open-Source AI Project<br />
-  Problem statement O3 — Trustworthy and Verifiable AI<br />
+  Problem statement O1 — Autonomous Agent Swarms<br />
   Repository: <a href="https://github.com/manya1106/DishaAI">github.com/manya1106/DishaAI</a>
   Demo Link: <a href="https://youtu.be/nt5ueG33gN0">https://youtu.be/nt5ueG33gN0</a>
 </p>
