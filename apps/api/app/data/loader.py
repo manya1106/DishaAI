@@ -2,6 +2,8 @@ import json
 from pathlib import Path
 from typing import Any
 
+from sqlalchemy.exc import SQLAlchemyError
+
 from ..config import settings
 from ..logging import logger
 
@@ -18,6 +20,15 @@ class SnapshotLoader:
 
         if cache_key in self._snapshots:
             return self._snapshots[cache_key]
+
+        if mode == "postgres":
+            try:
+                from .db_loader import postgres_loader
+                data = postgres_loader.get_snapshot(city_id)
+                self._snapshots[cache_key] = data
+                return data
+            except (RuntimeError, ImportError, FileNotFoundError, SQLAlchemyError) as e:
+                logger.warning(f"Postgres data mode failed ({e!s}); falling back to JSON snapshot")
 
         filename = f"{city_id}.json"
         if mode == "synthetic":
