@@ -94,11 +94,12 @@ export default function ChatPanel({
       };
 
       setMessages((prev) => [...prev, assistantMsg]);
-    } catch (err: any) {
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : String(err);
       const errMsg: ChatMessage = {
         id: String(Date.now()),
         sender: "assistant",
-        text: `Error calling verification service: ${err.message}`,
+        text: `Error calling verification service: ${message}`,
       };
       setMessages((prev) => [...prev, errMsg]);
     } finally {

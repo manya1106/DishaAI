@@ -63,17 +63,19 @@ function ExploreContent() {
 
   // Fetch Analysis
   useEffect(() => {
-    setLoading(true);
-    setError(null);
+    let active = true;
 
-    api
-      .createAnalysis({
-        city_id: selectedCity,
-        category_id: selectedCategory,
-        budget_tier: selectedTier,
-        top_n: 10,
-      })
-      .then((res) => {
+    (async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        const res = await api.createAnalysis({
+          city_id: selectedCity,
+          category_id: selectedCategory,
+          budget_tier: selectedTier,
+          top_n: 10,
+        });
+        if (!active) return;
         setAnalysis(res);
         if (res.locations.length > 0) {
           setSelectedLocationId(res.locations[0].location_id);
@@ -82,13 +84,16 @@ function ExploreContent() {
             setCompareIds([res.locations[0].location_id, res.locations[1].location_id]);
           }
         }
-      })
-      .catch((err) => {
-        setError(err.message || "Failed to load analysis results");
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+      } catch (err: unknown) {
+        if (active) setError(err instanceof Error ? err.message : "Failed to load analysis results");
+      } finally {
+        if (active) setLoading(false);
+      }
+    })();
+
+    return () => {
+      active = false;
+    };
   }, [selectedCity, selectedCategory, selectedTier]);
 
   function handleAnalyzeSubmit(e: React.FormEvent) {

@@ -25,25 +25,26 @@ export default function CompareView({
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (compareIds.length < 2) {
-      setCompareData(null);
-      return;
-    }
+    if (compareIds.length < 2) return;
 
-    setLoading(true);
-    setError(null);
+    let active = true;
 
-    api
-      .compareLocations(analysisId, compareIds)
-      .then((data) => {
-        setCompareData(data);
-      })
-      .catch((err) => {
-        setError(err.message || "Failed to compare locations");
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+    (async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        const data = await api.compareLocations(analysisId, compareIds);
+        if (active) setCompareData(data);
+      } catch (err: unknown) {
+        if (active) setError(err instanceof Error ? err.message : "Failed to compare locations");
+      } finally {
+        if (active) setLoading(false);
+      }
+    })();
+
+    return () => {
+      active = false;
+    };
   }, [analysisId, compareIds]);
 
   if (compareIds.length < 2) {

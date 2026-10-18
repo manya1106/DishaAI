@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import * as maplibregl from "maplibre-gl";
 import { LocationResult, GeoJSONFeatureCollection } from "../lib/types";
 
@@ -65,66 +65,71 @@ export default function MapComponent({
     };
   }, []);
 
+  const renderHeatmapLayer = useCallback(
+    (map: Map, geojson?: GeoJSONFeatureCollection) => {
+      if (!geojson) return;
+
+      const geojsonData = geojson as unknown as Parameters<maplibregl.GeoJSONSource["setData"]>[0];
+
+      // Check if source exists, update or add
+      const source = map.getSource("h3-hex-source") as maplibregl.GeoJSONSource | undefined;
+      if (source) {
+        source.setData(geojsonData);
+      } else {
+        map.addSource("h3-hex-source", {
+          type: "geojson",
+          data: geojsonData,
+        });
+
+        map.addLayer({
+          id: "h3-hex-fill",
+          type: "fill",
+          source: "h3-hex-source",
+          paint: {
+            "fill-color": [
+              "interpolate",
+              ["linear"],
+              ["get", "overall_score"],
+              40,
+              "#3b82f6", // blue
+              60,
+              "#06b6d4", // cyan
+              70,
+              "#10b981", // emerald
+              85,
+              "#f59e0b", // amber gold
+            ],
+            "fill-opacity": 0.45,
+          },
+        });
+
+        map.addLayer({
+          id: "h3-hex-borders",
+          type: "line",
+          source: "h3-hex-source",
+          paint: {
+            "line-color": "#ffffff",
+            "line-width": 1,
+            "line-opacity": 0.35,
+          },
+        });
+
+        // Click on polygon to select
+        map.on("click", "h3-hex-fill", (e) => {
+          if (e.features && e.features[0]?.properties?.location_id) {
+            onSelectLocation(e.features[0].properties.location_id);
+          }
+        });
+      }
+    },
+    [onSelectLocation]
+  );
+
   // Update Heatmap Layer when data changes or map finishes loading
   useEffect(() => {
     if (!mapRef.current || !isMapLoaded) return;
     renderHeatmapLayer(mapRef.current, heatmap);
-  }, [heatmap, isMapLoaded]);
-
-  function renderHeatmapLayer(map: Map, geojson?: GeoJSONFeatureCollection) {
-    if (!geojson) return;
-
-    // Check if source exists, update or add
-    const source = map.getSource("h3-hex-source") as maplibregl.GeoJSONSource | undefined;
-    if (source) {
-      source.setData(geojson as any);
-    } else {
-      map.addSource("h3-hex-source", {
-        type: "geojson",
-        data: geojson as any,
-      });
-
-      map.addLayer({
-        id: "h3-hex-fill",
-        type: "fill",
-        source: "h3-hex-source",
-        paint: {
-          "fill-color": [
-            "interpolate",
-            ["linear"],
-            ["get", "overall_score"],
-            40,
-            "#3b82f6", // blue
-            60,
-            "#06b6d4", // cyan
-            70,
-            "#10b981", // emerald
-            85,
-            "#f59e0b", // amber gold
-          ],
-          "fill-opacity": 0.45,
-        },
-      });
-
-      map.addLayer({
-        id: "h3-hex-borders",
-        type: "line",
-        source: "h3-hex-source",
-        paint: {
-          "line-color": "#ffffff",
-          "line-width": 1,
-          "line-opacity": 0.35,
-        },
-      });
-
-      // Click on polygon to select
-      map.on("click", "h3-hex-fill", (e) => {
-        if (e.features && e.features[0]?.properties?.location_id) {
-          onSelectLocation(e.features[0].properties.location_id);
-        }
-      });
-    }
-  }
+  }, [heatmap, isMapLoaded, renderHeatmapLayer]);
 
   // Update Numbered Location Markers
   useEffect(() => {
