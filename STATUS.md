@@ -1,8 +1,19 @@
 # Disha AI — Build Status
 
-**Last Updated:** Phase E (Full Stack Complete & Ready for Public Deployment)
+> ⚠️ **STALE as of 2026-10-18:** This file describes only Manya's standalone `person_D/` Phase D attempt. It predates the reconciliation (see `progress.md` §1/§3 D-13) and the agent swarm (Orchestrator/Narrator/Verifier/Scoring Agent, all now done). A full rewrite is Phase 8 (plan.md), not yet done. Until then, `progress.md` is the accurate source.
+
+**Last Updated:** Phase D & Phase 2 Complete (PostGIS Data Foundation & Autonomous Scoring Agent)
 
 ### 1. What Currently Works
+- **PostgreSQL + PostGIS Data Layer (`person_D`):**
+  - Docker container `disha_postgis` running PostGIS 16-3.4 healthy on port 5432.
+  - Alembic migrations applied revision `001_initial_schema` (`cities`, `h3_cells`, `pois`, `cell_signals`, `agent_runs`).
+  - Ingestion script loaded 1 City (`blr`), 417 H3 Res-8 cells with GeoJSON polygon geometries, and 2,592 POIs with spatial coordinates.
+  - `DatabaseLoader` with automatic fallback to JSON snapshot when DB is unavailable.
+  - Bit-for-bit mathematical scoring parity verified against original snapshot.
+- **Autonomous Scoring Agent (`person_D/scoring_agent.py`):**
+  - Phase 2 agent wrapper executing deterministic scoring and building grounded evidence bundles.
+  - Reproduces golden test rankings bit-for-bit.
 - **FastAPI Backend (`apps/api`):**
   - `/health` endpoint returning system, data mode, db, and llm status.
   - `/api/v1/meta` serving city boundaries, category taxonomies, default weights, and attribution.
@@ -30,8 +41,9 @@
     - Data honesty footer banner with OSM attribution and simulated fixture tags.
   - Trust page (`/trust`) with evaluation results table, verification pipeline diagram, and limitations.
 - **Testing & Quality:**
-  - 24/24 backend tests passing (`pytest tests/ -v`).
-  - Codebase linted and clean (`ruff check .`).
+  - 3/3 `person_D` tests passing (`pytest person_D/tests/ -v`).
+  - 24/24 backend tests passing (`pytest apps/api/tests/ -v`).
+  - Codebase linted and clean (`ruff check person_D/ apps/api/`).
   - Next.js production build succeeding (`npm run build`).
   - MapLibre GL v6 worker loading verified end-to-end in browser with zero console errors.
   - 21/21 adversarial evaluation cases passing with 0 leaked unsupported claims.

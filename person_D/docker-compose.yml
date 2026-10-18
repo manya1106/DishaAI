@@ -1,0 +1,22 @@
+services:
+  db:
+    image: postgis/postgis:16-3.4
+    container_name: disha_postgis
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-disha}
+      POSTGRES_USER: ${POSTGRES_USER:-disha_user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-disha_password}
+    volumes:
+      - disha_postgis_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER:-disha_user} -d $${POSTGRES_DB:-disha}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  disha_postgis_data:
+    name: disha_postgis_data

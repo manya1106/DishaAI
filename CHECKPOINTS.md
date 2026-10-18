@@ -110,4 +110,46 @@ This document serves as an immutable, verifiable ledger of project milestones, t
   - Overall weighted completion: **93.0%**.
 - **Next Priority Action:** Fix 6 ESLint errors in `apps/web` (TASK-01) and link cloud deployment dashboards (TASK-02, TASK-03).
 
+---
+
+## Checkpoint 006: Local PostgreSQL + PostGIS Foundation & Scoring Agent (Phase D & Phase 2)
+- **Date & Time:** 2026-10-18 11:05 IST
+- **Commit Hash:** `7a130c7`
+- **Git Branch:** `main`
+- **Working Tree:** `person_D/**`, `progress.md`, `PROJECT_STATE.md`, `STATUS.md`, `HANDOFF.md`, `CHECKPOINTS.md`
+- **Objectives:**
+  - Stand up local PostgreSQL 16 + PostGIS 3.4 container (`disha_postgis` on port 5432).
+  - Setup SQLAlchemy 2.0 (asyncpg/psycopg) and Alembic migrations.
+  - Implement DDL for `cities`, `h3_cells`, `pois`, `cell_signals`, `agent_runs`.
+  - Ingest 417 Bengaluru H3 cells and 2,592 POIs into spatial tables idempotently.
+  - Implement `DatabaseLoader` in `person_D/loader.py` with snapshot fallback.
+  - Implement Autonomous `ScoringAgent` in `person_D/scoring_agent.py` for Phase 2.
+- **Commands Executed & Verified:**
+  - `cd person_D && docker compose up -d` (Container `disha_postgis` healthy).
+  - `alembic upgrade head` (Applied revision `001_initial_schema`).
+  - `python person_D/scripts/load_snapshot_to_db.py` (Migrated 1 city, 417 cells, 2592 POIs).
+  - `python person_D/scripts/verify_db.py` (Passed all PostGIS geometry and health checks).
+  - `PYTHONPATH=. pytest person_D/tests/ -v` (3/3 tests passed in 2.98s).
+  - `pytest apps/api/tests/ -v` (24/24 tests passed in 0.30s).
+  - `python scripts/eval_trust.py` (21/21 adversarial cases passed, 0 leaked claims).
+  - `ruff check person_D/ apps/api/` (All checks passed).
+  - `cd apps/web && npm run build` (Next.js compiled in 408ms).
+- **Handoff Target:** Person M (Multi-Agent framework: Orchestrator, Narrator, Verifier, and wiring).
+
+---
+
+## Checkpoint 007: Reconciliation of independent parallel work (branch divergence)
+
+- **Date & Time:** 2026-10-18
+- **Commit Hash:** this merge commit
+- **Git Branch:** `main`
+- **Context:** Checkpoint 006 above (`person_D/`, Manya Kaushik) was pushed to `origin/main` independently of, and concurrently with, a separately-integrated Phase D/2 implementation and a full Phase 0/1/3/4/5/6/7 agent-swarm build (Orchestrator, Narrator Agent, Verifier Agent, Scoring Agent) done in this working tree. `main` and `origin/main` had diverged (7 local commits vs. 1 remote commit).
+- **What each side had:**
+  - `origin/main` (`person_D/`, Checkpoint 006): migrates the existing 417-cell JSON snapshot into Postgres; standalone, not imported by `apps/api`.
+  - This tree: real OSM data for all of Bengaluru (1,630 H3 cells, 1,382 eligible, 36,411 POIs) ingested into `apps/api/app/db/`, actually wired into the running app via `DATA_MODE=postgres`; plus the full agent swarm with an observability route/panel.
+- **Resolution:** Merged `origin/main` in (commit `17564a5` preserved in history, Manya's authorship intact — not discarded). Kept the integrated, real-data implementation as the active one. `person_D/` remains in the tree, dormant, not imported anywhere; its removal is left as a joint decision, not made unilaterally here. Full details in `progress.md` Decision Log entry D-13.
+- **Verified after merge:** 37/37 backend tests, 21/21 adversarial eval (0 leaked claims), ruff clean, `npm run build` green.
+- **Known issue carried over, not yet fixed in `person_D/`:** `person_D/loader.py`'s `asyncio.run()` call would raise inside FastAPI's already-running event loop and get silently swallowed by a broad `except Exception  # noqa: BLE001` — the same bug this session's `apps/api/app/data/db_loader.py` hit and fixed via a thread-pool bridge. Worth fixing in `person_D/` too if it stays in use.
+- **Next Priority Action:** Phase 8 — rewrite `PROJECT_STATE.md`, `STATUS.md`, `HANDOFF.md`, `docs/DEMO.md` to describe the reconciled, finished system (currently flagged stale at the top of each rather than rewritten, to keep this checkpoint's scope to reconciliation only). Decide `person_D/`'s fate with Manya.
+
 
