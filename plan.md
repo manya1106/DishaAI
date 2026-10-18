@@ -256,3 +256,36 @@ CREATE INDEX idx_agent_runs_trace ON agent_runs (trace_id, step);
 ## 8. Change control
 
 Any change to this plan is made only with the owner's approval and recorded in the change log at the end of `progress.md`.
+
+---
+
+## 9. UI contrast / "drowsy" fix pass (2026-10-18)
+
+### 9.1 Why
+
+The `/explore` result page reads flat and sleepy. Root cause: translucent `bg-white/50`–`bg-white/70` + near-invisible `/8`–`/12` opacity borders on interior cards. Against the `#F6F1E7` cream background these near-white panels have < 2:1 contrast — they vanish. The reference bar is the Nasiko Buildathon's result page: `bg-white rounded-2xl shadow-sm border border-neutral-100` — pure white, real 1px border, visible shadow.
+
+### 9.2 Previous session (already applied — do not re-apply)
+
+| File | Change |
+|---|---|
+| `globals.css` | `.glass-panel` / `.glass-panel-elevated` / `.glass-dropdown` switched from translucent to solid `#fffdf9`/`#fffefb` with real borders and shadows |
+| `RankedList.tsx` | Cards changed to `bg-white border-[#15130F]/15 shadow-sm`; score-bar (██) added below each ranked zone |
+| `explore/page.tsx` KPI strip | Switched to `bg-white rounded-xl border border-[#15130F]/15 shadow-sm grid … divide-x` — solid stat tile row |
+
+### 9.3 This session — components still using translucent surfaces
+
+| Component | Drowsy elements | Fix |
+|---|---|---|
+| `CompareView.tsx` | Score cards `bg-white/50 border-[#15130F]/10`; signal-delta rows same; score row bg `bg-[#15130F]/4` | → `bg-white border-[#15130F]/12 shadow-sm` on cards; `bg-[#15130F]/5` row bg |
+| `LocationReport.tsx` | Signal-bar cards `bg-white/50 border-[#15130F]/10`; strengths card `bg-white/50 border-[#2F6E4E]/20`; limitations card `bg-white/50 border-[#A6693B]/20`; evidence table container `bg-white/50 border-[#15130F]/10` | → `bg-white` on all, keep coloured borders |
+| `ChatPanel.tsx` | Prompt pills `bg-white/50`; agent-trace badge `bg-white/60`; agent-trace chip `bg-white/70`; claim chip `bg-white/70` | → `bg-white` throughout |
+| `trust/page.tsx` | Live-health bar `bg-white/50`; all four provenance cards `bg-white/50`; limitations section `bg-white/50`; first KPI card uses `glass-panel` (already solid via CSS) | → `bg-white` on all `bg-white/50` surfaces |
+
+### 9.4 Rules for this pass (same as §2)
+
+- No letter changed that isn't listed above.
+- No database change.
+- No logic change — styling only.
+- Build must stay green (no new TS/lint errors introduced).
+- Local commit after build confirmed; no push.
