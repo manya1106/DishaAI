@@ -4,6 +4,9 @@ from collections import deque
 from datetime import UTC, datetime
 from typing import Any
 
+from ..agents.narrator_agent import narrator_agent
+from ..agents.orchestrator import orchestrator
+from ..agents.verifier_agent import verifier_agent
 from ..config import settings
 from ..schemas.analysis import AnalysisResult
 from ..schemas.chat import (
@@ -14,11 +17,7 @@ from ..schemas.chat import (
     VerificationSummary,
 )
 from ..schemas.enums import ChatMode, VerificationStatus
-from .adapter import llm_adapter
-from .evidence import build_evidence_bundle
-from .fallback import deterministic_narrator
 from .prompts import SYSTEM_PROMPT, build_chat_prompt
-from .verifier import verifier
 
 # Ring buffer storing last 200 chat traces
 _TRACE_BUFFER: deque = deque(maxlen=200)
@@ -66,8 +65,9 @@ class ChatOrchestrator:
         trace_id = str(uuid.uuid4())
         msg = request.message.strip()
 
-        # Build evidence bundle
-        bundle = build_evidence_bundle(analysis, request.selected_location_ids)
+        # Build evidence bundle (Verifier Agent owns grounding construction)
+        bundle = verifier_agent.build_bundle(analysis, request.selected_location_ids)
+        orchestrator.dispatch(trace_id, "orchestrator", "verifier", {"step": "build_bundle"})
 
         # Trap questions check: asking for exact rupee rent, financial predictions, or nonexistent entities
         msg_lower = msg.lower()
@@ -139,8 +139,10 @@ class ChatOrchestrator:
 
         # If deterministic requested or LLM disabled -> use deterministic narrator
         if request.mode == "deterministic" or not settings.LLM_ENABLED:
-            raw_output = deterministic_narrator.narrate(msg, bundle)
-            verified_blocks, violations, ver_status = verifier.verify(raw_output, bundle)
+            raw_output = narrator_agent.draft_deterministic(msg, bundle)
+            orchestrator.dispatch(trace_id, "orchestrator", "narrator", {"step": "draft_deterministic"})
+            verified_blocks, violations, ver_status = verifier_agent.check(raw_output, bundle)
+            orchestrator.dispatch(trace_id, "orchestrator", "verifier", {"step": "check"})
             latency_ms = int((time.time() - start_time) * 1000)
 
             mode = ChatMode.DETERMINISTIC_REQUESTED if request.mode == "deterministic" else ChatMode.DETERMINISTIC_FALLBACK
@@ -166,13 +168,16 @@ class ChatOrchestrator:
 
         # Try LLM generation
         prompt = build_chat_prompt(msg, bundle)
-        llm_output = await llm_adapter.generate(SYSTEM_PROMPT, prompt)
+        llm_output = await narrator_agent.draft_llm(SYSTEM_PROMPT, prompt)
+        orchestrator.dispatch(trace_id, "orchestrator", "narrator", {"step": "draft_llm"})
 
         attempts = 1
         if llm_output is None:
             # Fallback to deterministic
-            raw_output = deterministic_narrator.narrate(msg, bundle)
-            verified_blocks, violations, _ = verifier.verify(raw_output, bundle)
+            raw_output = narrator_agent.draft_deterministic(msg, bundle)
+            orchestrator.dispatch(trace_id, "orchestrator", "narrator", {"step": "draft_deterministic_fallback"})
+            verified_blocks, violations, _ = verifier_agent.check(raw_output, bundle)
+            orchestrator.dispatch(trace_id, "orchestrator", "verifier", {"step": "check"})
             latency_ms = int((time.time() - start_time) * 1000)
             response = ChatResponse(
                 trace_id=trace_id,
@@ -195,15 +200,18 @@ class ChatOrchestrator:
             return response
 
         # Verify initial LLM output
-        verified_blocks, violations, ver_status = verifier.verify(llm_output, bundle)
+        verified_blocks, violations, ver_status = verifier_agent.check(llm_output, bundle)
+        orchestrator.dispatch(trace_id, "orchestrator", "verifier", {"step": "check"})
 
         # Single repair retry if violations existed and not completely empty
         if violations and ver_status != VerificationStatus.VERIFIED:
             attempts += 1
             repair_prompt = f"{prompt}\n\nPREVIOUS OUTPUT HAD VERIFICATION VIOLATIONS:\n" + "\n".join(f"- {v}" for v in violations) + "\n\nPlease repair and return valid blocks strictly complying with the rules."
-            repaired_output = await llm_adapter.generate(SYSTEM_PROMPT, repair_prompt)
+            repaired_output = await narrator_agent.draft_llm(SYSTEM_PROMPT, repair_prompt)
+            orchestrator.dispatch(trace_id, "orchestrator", "narrator", {"step": "draft_llm_repair"})
             if repaired_output:
-                rep_blocks, rep_violations, rep_status = verifier.verify(repaired_output, bundle)
+                rep_blocks, rep_violations, rep_status = verifier_agent.check(repaired_output, bundle)
+                orchestrator.dispatch(trace_id, "orchestrator", "verifier", {"step": "check_repair"})
                 if rep_status in [VerificationStatus.VERIFIED, VerificationStatus.PARTIALLY_VERIFIED]:
                     verified_blocks = rep_blocks
                     violations = rep_violations
@@ -211,8 +219,10 @@ class ChatOrchestrator:
 
         # If verification failed completely, switch to deterministic fallback
         if ver_status == VerificationStatus.REJECTED_FALLBACK or not verified_blocks:
-            raw_output = deterministic_narrator.narrate(msg, bundle)
-            verified_blocks, _, _ = verifier.verify(raw_output, bundle)
+            raw_output = narrator_agent.draft_deterministic(msg, bundle)
+            orchestrator.dispatch(trace_id, "orchestrator", "narrator", {"step": "draft_deterministic_fallback"})
+            verified_blocks, _, _ = verifier_agent.check(raw_output, bundle)
+            orchestrator.dispatch(trace_id, "orchestrator", "verifier", {"step": "check"})
             latency_ms = int((time.time() - start_time) * 1000)
             response = ChatResponse(
                 trace_id=trace_id,

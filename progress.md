@@ -45,20 +45,20 @@ Carried over from `PROJECT_STATE.md` / `STATUS.md` / `docs/IMPLEMENTATION_AUDIT.
 | D.7 | Idempotency test: re-running the loader twice produces identical row counts | D | Not started | |
 | D.8 | Update `apps/api/app/data/loader.py` (or add a DB-backed loader alongside it) to read from Postgres (**G-EDIT**) | D | Not started | Snapshot JSON kept as offline/dev fallback unless told otherwise |
 | D.9 | Confirm `test_golden.py` still produces bit-for-bit identical scores against DB-backed data | D | Not started | Regression gate before Phase 2 proceeds |
-| 1.1.1 | Create `agents/contracts.py` | M | Not started | |
-| 1.1.2 | Create `agents/orchestrator.py` | M | Not started | |
-| 1.1.3 | Orchestrator no-op unit test | M | Not started | |
-| 1.1.4 | No router wired yet (additive-only checkpoint) | M | Not started | |
+| 1.1.1 | Create `agents/contracts.py` | M | **Done** | `AgentMessage` envelope + `TraceStore`, ruff clean |
+| 1.1.2 | Create `agents/orchestrator.py` | M | **Done** | `Orchestrator.dispatch()` + `get_trace()` |
+| 1.1.3 | Orchestrator no-op unit test | M | **Done** | `tests/agents/test_orchestrator.py`, 4 tests |
+| 1.1.4 | No router wired yet (additive-only checkpoint) | M | **Done** | Confirmed — Phase 1 touched no existing file |
 | 2.1.1 | Scoring Agent wrapper | D | Not started | |
 | 2.1.2 | Scoring Agent regression test vs. `test_golden.py` | D | Not started | |
-| 3.1.1 | Narrator Agent wrapper | M | Not started | |
-| 3.1.2 | Narrator Agent test with `FakeLLMAdapter` | M | Not started | |
-| 4.1.1 | Verifier Agent wrapper | M | Not started | |
-| 4.1.2 | Verifier Agent regression test vs. `test_verifier.py` | M | Not started | |
-| 5.1.1 | Wire `routers/chat.py` to Orchestrator (**G-EDIT**) | M | Not started | |
-| 5.1.2 | Orchestrator sequencing logic | M | Not started | |
-| 5.1.3 | Integration test: full trace, expected hand-off order | M | Not started | |
-| 5.1.4 | Contract regression check (byte-identical response) | M | Not started | |
+| 3.1.1 | Narrator Agent wrapper | M | **Done** | `agents/narrator_agent.py` wraps `ai/adapter.py` + `ai/fallback.py` unchanged |
+| 3.1.2 | Narrator Agent test with `FakeLLMAdapter` | M | **Done** | `tests/agents/test_narrator_agent.py` — parity + LLM-disabled-returns-None |
+| 4.1.1 | Verifier Agent wrapper | M | **Done** | `agents/verifier_agent.py` wraps `ai/evidence.py` + `ai/verifier.py` unchanged |
+| 4.1.2 | Verifier Agent regression test vs. `test_verifier.py` | M | **Done** | `tests/agents/test_verifier_agent.py` — parity with direct calls |
+| 5.1.1 | Wire `routers/chat.py` to Orchestrator (**G-EDIT**) | M | **Not needed** | `routers/chat.py` already just calls `chat_orchestrator.handle_chat()`; the real wiring happened inside `ai/chat.py` instead (see 5.1.2). Router file untouched. |
+| 5.1.2 | Orchestrator sequencing logic | M | **Done** | `ai/chat.py` refactored (owner-approved G-EDIT) to call `narrator_agent`/`verifier_agent` and log each hand-off via `orchestrator.dispatch()`; `llm_adapter`/`deterministic_narrator`/`verifier`/`build_evidence_bundle` no longer called directly from `ai/chat.py` |
+| 5.1.3 | Integration test: full trace, expected hand-off order | M | **Done** | `tests/agents/test_chat_trace_sequence.py` — asserts exact recipient sequence for both the deterministic path and the trap-refusal short-circuit |
+| 5.1.4 | Contract regression check (byte-identical response) | M | **Done** | All 24 pre-existing tests (incl. `test_chat_flow.py`, which asserts on `ChatResponse` fields) pass unchanged |
 | 6.1.1 | Decide trace exposure route (**[ASK]**) | M | Not started | Same as 0.3 |
 | 6.1.2 | Implement trace route | M | Not started | |
 | 6.1.3 | Frontend trace panel (**G-EDIT**) | M | Not started | |
@@ -70,7 +70,7 @@ Carried over from `PROJECT_STATE.md` / `STATUS.md` / `docs/IMPLEMENTATION_AUDIT.
 | 8.1.2 | Update `docs/DEMO.md` | Shared | Not started | |
 | 8.1.3 | Update `PROJECT_STATE.md` / `STATUS.md` | Shared | Not started | |
 
-**Summary:** 1 of 36 plan steps done (documentation only). All code steps (Phase D, 1–7) await the Phase 0 sign-offs and the Phase D DDL approval (D.2) below before starting, per plan rule 6 (nothing assumed).
+**Summary:** 14 of 36 plan steps done (2026-10-18, Person M): Phase 0 informally approved by owner ("let's start"), Phase 1 (Orchestrator skeleton), Phase 3 (Narrator Agent), Phase 4 (Verifier Agent), and the substance of Phase 5 (end-to-end wiring + trace sequencing) are complete — 34/34 backend tests passing (24 original + 10 new), ruff clean on all new/touched files, zero regressions. Phase D (data foundation, owned by Person D) has not started; Phase 2 (Scoring Agent) is blocked on it. Phase 6 (observability route + frontend panel) and Phase 7/8 (full regression pass + docs) remain.
 
 ---
 
