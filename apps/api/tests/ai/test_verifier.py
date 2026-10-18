@@ -228,3 +228,28 @@ def test_valid_response_passes(mock_bundle):
     assert status == VerificationStatus.VERIFIED
     assert len(violations) == 0
     assert len(blocks) == 1
+
+
+def test_adapter_coerces_polarity_word_in_type_field():
+    from app.ai.adapter import _coerce_claim_fields
+
+    raw = {
+        "blocks": [
+            {
+                "text": "Zone X performs strongly on footfall.",
+                "claims": [
+                    {
+                        "type": "strength",
+                        "location_ids": ["loc_x"],
+                        "signal_id": "footfall_anchors",
+                        "evidence_ids": ["ev_001"],
+                        "numbers": [82.0],
+                    }
+                ],
+            }
+        ]
+    }
+    fixed = _coerce_claim_fields(raw)
+    claim = fixed["blocks"][0]["claims"][0]
+    assert claim["type"] == "fact"
+    assert claim["polarity"] == "strength"

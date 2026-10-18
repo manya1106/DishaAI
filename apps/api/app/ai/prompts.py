@@ -23,7 +23,13 @@ def build_chat_prompt(user_message: str, bundle: EvidenceBundle) -> str:
 {user_message}
 </USER_QUESTION>
 
-Respond ONLY in valid JSON matching the LLMOutput schema:
+Respond ONLY in valid JSON matching the LLMOutput schema. Two fields are easy to confuse —
+read this carefully:
+- "type" is WHAT KIND of claim this is. It must be EXACTLY one of: score, rank, comparison, fact, reasoning.
+  It is NEVER "strength" or "weakness" — those words never go in "type".
+- "polarity" is WHETHER this is good or bad news for the location. It must be EXACTLY one of:
+  strength, weakness, neutral.
+
 {{
   "blocks": [
     {{
@@ -43,4 +49,26 @@ Respond ONLY in valid JSON matching the LLMOutput schema:
   "insufficient_data": false,
   "missing_reason": null
 }}
+
+Worked example — a sentence saying a location is strong on footfall:
+{{
+  "blocks": [
+    {{
+      "text": "Zone X performs strongly on footfall anchors with a score of 82.0.",
+      "claims": [
+        {{
+          "type": "fact",
+          "location_ids": ["loc_x"],
+          "signal_id": "footfall_anchors",
+          "polarity": "strength",
+          "evidence_ids": ["ev_001"],
+          "numbers": [82.0]
+        }}
+      ]
+    }}
+  ],
+  "insufficient_data": false,
+  "missing_reason": null
+}}
+Note "type" is "fact" (not "strength") — "strength" only ever appears in "polarity".
 """

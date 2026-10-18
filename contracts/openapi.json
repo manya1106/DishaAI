@@ -482,6 +482,42 @@
               }
             ],
             "title": "Weight Overrides"
+          },
+          "target_customers": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Target Customers"
+          },
+          "category_answers": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "type": "object",
+            "title": "Category Answers"
+          },
+          "shop_size_sqft": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Shop Size Sqft"
+          },
+          "opening_hours": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Opening Hours"
           }
         },
         "additionalProperties": false,
@@ -533,7 +569,50 @@
               }
             ],
             "title": "Weight Overrides",
-            "description": "Optional weight overrides"
+            "description": "Optional manual weight overrides"
+          },
+          "target_customers": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Target Customers",
+            "description": "Wizard answer: who the shop mainly serves (students, young_professionals, families, seniors, tourists). Nudges specific signal weights."
+          },
+          "category_answers": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "type": "object",
+            "title": "Category Answers",
+            "description": "Wizard answers to category-specific questions (e.g. cafe.format, pharmacy.is_24x7). Nudges specific signal weights."
+          },
+          "shop_size_sqft": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "maximum": 20000.0,
+                "minimum": 50.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Shop Size Sqft",
+            "description": "Shown for context only; not yet factored into scoring."
+          },
+          "opening_hours": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 50
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Opening Hours",
+            "description": "Shown for context only; not yet factored into scoring."
           }
         },
         "additionalProperties": false,
@@ -579,6 +658,36 @@
             },
             "type": "array",
             "title": "Evidence"
+          },
+          "trace_id": {
+            "type": "string",
+            "title": "Trace Id",
+            "description": "Orchestrator trace ID for this computation; fetch via GET /api/v1/trust/agent-trace/{trace_id} to see the real agent hand-off",
+            "default": ""
+          },
+          "compute_latency_ms": {
+            "type": "integer",
+            "title": "Compute Latency Ms",
+            "description": "Actual wall-clock time this specific computation took, measured server-side",
+            "default": 0
+          },
+          "cells_considered": {
+            "type": "integer",
+            "title": "Cells Considered",
+            "description": "Total H3 cells loaded for this city",
+            "default": 0
+          },
+          "eligible_cells_considered": {
+            "type": "integer",
+            "title": "Eligible Cells Considered",
+            "description": "H3 cells that passed the minimum-data eligibility filter and were actually ranked",
+            "default": 0
+          },
+          "was_cached": {
+            "type": "boolean",
+            "title": "Was Cached",
+            "description": "True if this exact request (same inputs) was already computed and served from cache rather than recomputed",
+            "default": false
           }
         },
         "additionalProperties": false,
@@ -663,6 +772,42 @@
           "name"
         ],
         "title": "CategoryMeta"
+      },
+      "CategoryQuestion": {
+        "properties": {
+          "question_id": {
+            "type": "string",
+            "title": "Question Id"
+          },
+          "label": {
+            "type": "string",
+            "title": "Label"
+          },
+          "type": {
+            "type": "string",
+            "title": "Type"
+          },
+          "options": {
+            "items": {
+              "$ref": "#/components/schemas/SelectOption"
+            },
+            "type": "array",
+            "title": "Options"
+          },
+          "affects_scoring": {
+            "type": "boolean",
+            "title": "Affects Scoring",
+            "default": true
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "question_id",
+          "label",
+          "type"
+        ],
+        "title": "CategoryQuestion"
       },
       "Centroid": {
         "properties": {
@@ -1386,6 +1531,33 @@
           },
           "dataset": {
             "$ref": "#/components/schemas/DatasetMeta"
+          },
+          "category_tier_descriptions": {
+            "additionalProperties": {
+              "additionalProperties": {
+                "type": "string"
+              },
+              "type": "object"
+            },
+            "type": "object",
+            "title": "Category Tier Descriptions"
+          },
+          "target_customer_options": {
+            "items": {
+              "$ref": "#/components/schemas/SelectOption"
+            },
+            "type": "array",
+            "title": "Target Customer Options"
+          },
+          "category_questions": {
+            "additionalProperties": {
+              "items": {
+                "$ref": "#/components/schemas/CategoryQuestion"
+              },
+              "type": "array"
+            },
+            "type": "object",
+            "title": "Category Questions"
           }
         },
         "additionalProperties": false,
@@ -1440,6 +1612,25 @@
           "dataset"
         ],
         "title": "ReportResponse"
+      },
+      "SelectOption": {
+        "properties": {
+          "value": {
+            "type": "string",
+            "title": "Value"
+          },
+          "label": {
+            "type": "string",
+            "title": "Label"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "value",
+          "label"
+        ],
+        "title": "SelectOption"
       },
       "SignalDelta": {
         "properties": {

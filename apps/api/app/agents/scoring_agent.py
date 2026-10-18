@@ -19,10 +19,20 @@ class ScoringAgent:
         budget_tier: str,
         weight_overrides: dict[str, float] | None = None,
         top_n: int = 10,
+        target_customers: list[str] | None = None,
+        category_answers: dict[str, str] | None = None,
     ) -> tuple[list[LocationResult], dict[str, float]]:
         snapshot = loader.get_snapshot(city_id)
         cells = snapshot.get("cells", {})
-        return scoring_engine.score_cells(cells, category_id, budget_tier, weight_overrides, top_n)
+        return scoring_engine.score_cells(
+            cells,
+            category_id,
+            budget_tier,
+            weight_overrides,
+            top_n,
+            target_customers=target_customers,
+            category_answers=category_answers,
+        )
 
 
 scoring_agent = ScoringAgent()

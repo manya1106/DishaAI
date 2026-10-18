@@ -44,9 +44,11 @@ from .enums import (
 from .meta import (
     BudgetTierMeta,
     CategoryMeta,
+    CategoryQuestion,
     CityMeta,
     DatasetMeta,
     MetaResponse,
+    SelectOption,
     SignalMeta,
 )
 from .trust import (
@@ -69,6 +71,7 @@ __all__ = [
     "Block",
     "BudgetTierMeta",
     "CategoryMeta",
+    "CategoryQuestion",
     "Centroid",
     "ChatMode",
     "ChatRequest",
@@ -98,6 +101,7 @@ __all__ = [
     "MetaResponse",
     "ProvenanceClass",
     "ReportResponse",
+    "SelectOption",
     "SignalDelta",
     "SignalMeta",
     "SignalResult",

@@ -222,6 +222,16 @@ export interface components {
             weight_overrides?: {
                 [key: string]: number;
             } | null;
+            /** Target Customers */
+            target_customers?: string[];
+            /** Category Answers */
+            category_answers?: {
+                [key: string]: string;
+            };
+            /** Shop Size Sqft */
+            shop_size_sqft?: number | null;
+            /** Opening Hours */
+            opening_hours?: string | null;
         };
         /** AnalysisRequest */
         AnalysisRequest: {
@@ -249,11 +259,33 @@ export interface components {
             top_n: number;
             /**
              * Weight Overrides
-             * @description Optional weight overrides
+             * @description Optional manual weight overrides
              */
             weight_overrides?: {
                 [key: string]: number;
             } | null;
+            /**
+             * Target Customers
+             * @description Wizard answer: who the shop mainly serves (students, young_professionals, families, seniors, tourists). Nudges specific signal weights.
+             */
+            target_customers?: string[];
+            /**
+             * Category Answers
+             * @description Wizard answers to category-specific questions (e.g. cafe.format, pharmacy.is_24x7). Nudges specific signal weights.
+             */
+            category_answers?: {
+                [key: string]: string;
+            };
+            /**
+             * Shop Size Sqft
+             * @description Shown for context only; not yet factored into scoring.
+             */
+            shop_size_sqft?: number | null;
+            /**
+             * Opening Hours
+             * @description Shown for context only; not yet factored into scoring.
+             */
+            opening_hours?: string | null;
         };
         /** AnalysisResult */
         AnalysisResult: {
@@ -270,6 +302,36 @@ export interface components {
             heatmap: components["schemas"]["GeoJSONFeatureCollection"];
             /** Evidence */
             evidence: components["schemas"]["EvidenceItem"][];
+            /**
+             * Trace Id
+             * @description Orchestrator trace ID for this computation; fetch via GET /api/v1/trust/agent-trace/{trace_id} to see the real agent hand-off
+             * @default
+             */
+            trace_id: string;
+            /**
+             * Compute Latency Ms
+             * @description Actual wall-clock time this specific computation took, measured server-side
+             * @default 0
+             */
+            compute_latency_ms: number;
+            /**
+             * Cells Considered
+             * @description Total H3 cells loaded for this city
+             * @default 0
+             */
+            cells_considered: number;
+            /**
+             * Eligible Cells Considered
+             * @description H3 cells that passed the minimum-data eligibility filter and were actually ranked
+             * @default 0
+             */
+            eligible_cells_considered: number;
+            /**
+             * Was Cached
+             * @description True if this exact request (same inputs) was already computed and served from cache rather than recomputed
+             * @default false
+             */
+            was_cached: boolean;
         };
         /** Block */
         Block: {
@@ -298,6 +360,22 @@ export interface components {
             category_id: string;
             /** Name */
             name: string;
+        };
+        /** CategoryQuestion */
+        CategoryQuestion: {
+            /** Question Id */
+            question_id: string;
+            /** Label */
+            label: string;
+            /** Type */
+            type: string;
+            /** Options */
+            options?: components["schemas"]["SelectOption"][];
+            /**
+             * Affects Scoring
+             * @default true
+             */
+            affects_scoring: boolean;
         };
         /** Centroid */
         Centroid: {
@@ -580,6 +658,18 @@ export interface components {
                 };
             };
             dataset: components["schemas"]["DatasetMeta"];
+            /** Category Tier Descriptions */
+            category_tier_descriptions?: {
+                [key: string]: {
+                    [key: string]: string;
+                };
+            };
+            /** Target Customer Options */
+            target_customer_options?: components["schemas"]["SelectOption"][];
+            /** Category Questions */
+            category_questions?: {
+                [key: string]: components["schemas"]["CategoryQuestion"][];
+            };
         };
         /**
          * ProvenanceClass
@@ -594,6 +684,13 @@ export interface components {
             /** Evidence */
             evidence: components["schemas"]["EvidenceItem"][];
             dataset: components["schemas"]["DatasetMeta"];
+        };
+        /** SelectOption */
+        SelectOption: {
+            /** Value */
+            value: string;
+            /** Label */
+            label: string;
         };
         /** SignalDelta */
         SignalDelta: {

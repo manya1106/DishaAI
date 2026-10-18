@@ -12,7 +12,17 @@ class AnalysisRequest(BaseSchema):
     category_id: str = Field(..., description="Business category: cafe, pharmacy, or gym")
     budget_tier: str = Field(..., description="Budget tier: low, medium, or high")
     top_n: int = Field(10, ge=1, le=50, description="Number of top ranked zones to return")
-    weight_overrides: dict[str, float] | None = Field(None, description="Optional weight overrides")
+    weight_overrides: dict[str, float] | None = Field(None, description="Optional manual weight overrides")
+    target_customers: list[str] = Field(
+        default_factory=list,
+        description="Wizard answer: who the shop mainly serves (students, young_professionals, families, seniors, tourists). Nudges specific signal weights.",
+    )
+    category_answers: dict[str, str] = Field(
+        default_factory=dict,
+        description="Wizard answers to category-specific questions (e.g. cafe.format, pharmacy.is_24x7). Nudges specific signal weights.",
+    )
+    shop_size_sqft: int | None = Field(None, ge=50, le=20000, description="Shown for context only; not yet factored into scoring.")
+    opening_hours: str | None = Field(None, max_length=50, description="Shown for context only; not yet factored into scoring.")
 
 
 class AnalysisInputs(BaseSchema):
@@ -21,6 +31,10 @@ class AnalysisInputs(BaseSchema):
     budget_tier: str
     top_n: int
     weight_overrides: dict[str, float] | None = None
+    target_customers: list[str] = Field(default_factory=list)
+    category_answers: dict[str, str] = Field(default_factory=dict)
+    shop_size_sqft: int | None = None
+    opening_hours: str | None = None
 
 
 class SignalResult(BaseSchema):
@@ -70,6 +84,11 @@ class AnalysisResult(BaseSchema):
     locations: list[LocationResult]
     heatmap: GeoJSONFeatureCollection
     evidence: list[EvidenceItem]
+    trace_id: str = Field("", description="Orchestrator trace ID for this computation; fetch via GET /api/v1/trust/agent-trace/{trace_id} to see the real agent hand-off")
+    compute_latency_ms: int = Field(0, description="Actual wall-clock time this specific computation took, measured server-side")
+    cells_considered: int = Field(0, description="Total H3 cells loaded for this city")
+    eligible_cells_considered: int = Field(0, description="H3 cells that passed the minimum-data eligibility filter and were actually ranked")
+    was_cached: bool = Field(False, description="True if this exact request (same inputs) was already computed and served from cache rather than recomputed")
 
 
 class ReportResponse(BaseSchema):

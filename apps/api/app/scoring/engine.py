@@ -68,14 +68,57 @@ class ScoringEngine:
     def __init__(self):
         self._weights_config = load_config("weights.yaml")
         self._budget_config = load_config("budget_tiers.yaml")
+        self._answer_modifiers_config = load_config("answer_modifiers.yaml")
 
-    def get_category_weights(self, category_id: str, overrides: dict[str, float] | None = None) -> dict[str, float]:
+    def compute_answer_multipliers(
+        self,
+        category_id: str,
+        target_customers: list[str] | None = None,
+        category_answers: dict[str, str] | None = None,
+    ) -> dict[str, float]:
+        """Combine wizard-answer multipliers into one per-signal factor.
+
+        Mirrors SiteScout's "answer_modifiers" concept (plan.md-adjacent):
+        each selected answer nudges specific signal weights, applied
+        multiplicatively, never as a hard override.
+        """
+        multipliers: dict[str, float] = {}
+
+        def apply(mods: dict[str, float]) -> None:
+            for signal_id, factor in mods.items():
+                multipliers[signal_id] = multipliers.get(signal_id, 1.0) * factor
+
+        tc_config = self._answer_modifiers_config.get("target_customers", {})
+        for tc in target_customers or []:
+            apply(tc_config.get(tc, {}))
+
+        cat_config = self._answer_modifiers_config.get("category_answers", {}).get(category_id, {})
+        for question_id, answer in (category_answers or {}).items():
+            answer_key = str(answer).lower()
+            apply(cat_config.get(question_id, {}).get(answer_key, {}))
+
+        return multipliers
+
+    def get_category_weights(
+        self,
+        category_id: str,
+        overrides: dict[str, float] | None = None,
+        multipliers: dict[str, float] | None = None,
+    ) -> dict[str, float]:
         categories = self._weights_config.get("categories", {})
         base = dict(categories.get(category_id, categories.get("cafe", {})))
+
+        if multipliers:
+            for k, factor in multipliers.items():
+                if k in base:
+                    base[k] = base[k] * factor
+
         if overrides:
             for k, v in overrides.items():
                 if k in base and v >= 0:
                     base[k] = v
+
+        if multipliers or overrides:
             # Renormalize to sum to 1.0
             total = sum(base.values())
             if total > 0:
@@ -93,8 +136,11 @@ class ScoringEngine:
         budget_tier: str,
         weight_overrides: dict[str, float] | None = None,
         top_n: int = 10,
+        target_customers: list[str] | None = None,
+        category_answers: dict[str, str] | None = None,
     ) -> tuple[list[LocationResult], dict[str, float]]:
-        weights = self.get_category_weights(category_id, weight_overrides)
+        answer_multipliers = self.compute_answer_multipliers(category_id, target_customers, category_answers)
+        weights = self.get_category_weights(category_id, weight_overrides, answer_multipliers)
         budget_ceiling = self.get_budget_ceiling(budget_tier)
 
         eligible_cells = [c for c in cells.values() if not c.get("ineligible", False)]

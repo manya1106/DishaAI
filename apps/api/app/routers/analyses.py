@@ -1,8 +1,12 @@
 import base64
 import json
+import time
+import uuid
 
 from fastapi import APIRouter, HTTPException, status
 
+from ..agents.orchestrator import orchestrator
+from ..agents.scoring_agent import scoring_agent
 from ..config import settings
 from ..data.loader import loader
 from ..schemas import (
@@ -17,7 +21,6 @@ from ..schemas import (
     GeoJSONPolygonGeometry,
     ReportResponse,
 )
-from ..scoring.engine import scoring_engine
 from ..scoring.explain import build_comparison_deltas, build_evidence_for_locations
 
 router = APIRouter(prefix="/api/v1/analyses", tags=["Analyses"])
@@ -47,20 +50,41 @@ def decode_analysis_id(analysis_id: str) -> AnalysisInputs:
 def compute_analysis(inputs: AnalysisInputs) -> AnalysisResult:
     cache_key = encode_analysis_id(inputs)
     if cache_key in _ANALYSIS_CACHE:
-        return _ANALYSIS_CACHE[cache_key]
+        cached = _ANALYSIS_CACHE[cache_key]
+        # Still log a hand-off so the trace honestly reflects what happened
+        # on *this* request: a cache hit, not a silent re-run of the swarm.
+        trace_id = str(uuid.uuid4())
+        orchestrator.dispatch(trace_id, "orchestrator", "scoring", {"step": "cache_hit", "analysis_id": cache_key})
+        return cached.model_copy(update={"trace_id": trace_id, "compute_latency_ms": 0, "was_cached": True})
+
+    trace_id = str(uuid.uuid4())
+    start_time = time.time()
 
     snapshot = loader.get_snapshot(inputs.city_id)
     cells = snapshot.get("cells", {})
 
-    locations, weights = scoring_engine.score_cells(
-        cells=cells,
+    orchestrator.dispatch(
+        trace_id, "orchestrator", "scoring",
+        {"step": "score_cells", "category_id": inputs.category_id, "budget_tier": inputs.budget_tier, "cell_count": len(cells)},
+    )
+
+    locations, weights = scoring_agent.score(
+        city_id=inputs.city_id,
         category_id=inputs.category_id,
         budget_tier=inputs.budget_tier,
         weight_overrides=inputs.weight_overrides,
-        top_n=inputs.top_n
+        top_n=inputs.top_n,
+        target_customers=inputs.target_customers,
+        category_answers=inputs.category_answers,
+    )
+
+    orchestrator.dispatch(
+        trace_id, "scoring", "orchestrator",
+        {"step": "ranked", "locations_returned": len(locations)},
     )
 
     evidence = build_evidence_for_locations(locations, cells, inputs.category_id)
+    compute_latency_ms = int((time.time() - start_time) * 1000)
 
     # Build heatmap features
     features = []
@@ -92,7 +116,12 @@ def compute_analysis(inputs: AnalysisInputs) -> AnalysisResult:
         weights=weights,
         locations=locations,
         heatmap=GeoJSONFeatureCollection(features=features),
-        evidence=evidence
+        evidence=evidence,
+        trace_id=trace_id,
+        compute_latency_ms=compute_latency_ms,
+        cells_considered=snapshot.get("cell_count", len(cells)),
+        eligible_cells_considered=snapshot.get("eligible_cell_count", len(cells)),
+        was_cached=False,
     )
 
     # Limit cache to 100 entries
@@ -109,7 +138,11 @@ async def create_analysis(request: AnalysisRequest):
         category_id=request.category_id,
         budget_tier=request.budget_tier,
         top_n=request.top_n,
-        weight_overrides=request.weight_overrides
+        weight_overrides=request.weight_overrides,
+        target_customers=request.target_customers,
+        category_answers=request.category_answers,
+        shop_size_sqft=request.shop_size_sqft,
+        opening_hours=request.opening_hours,
     )
     return compute_analysis(inputs)
 

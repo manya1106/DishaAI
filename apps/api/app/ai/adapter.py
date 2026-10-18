@@ -7,6 +7,26 @@ from ..config import settings
 from ..logging import logger
 from ..schemas.chat import LLMOutput
 
+_POLARITY_WORDS = {"strength", "weakness", "neutral"}
+
+
+def _coerce_claim_fields(parsed: dict) -> dict:
+    """Fix a specific, predictable small-model mistake: some open-weight
+    models (observed: qwen2.5:7b-instruct) put the polarity word into
+    "type" instead of "polarity", despite an explicit worked example in
+    the prompt. Rather than depend on perfect instruction-following from
+    a 7B model, detect and correct this one known failure shape before
+    strict schema validation — the verifier downstream still checks the
+    actual content, this only repairs which JSON key a value landed in.
+    """
+    for block in parsed.get("blocks", []):
+        for claim in block.get("claims", []):
+            claim_type = claim.get("type")
+            if claim_type in _POLARITY_WORDS:
+                claim["polarity"] = claim_type
+                claim["type"] = "fact"
+    return parsed
+
 
 class LLMAdapter:
     def __init__(self):
@@ -43,7 +63,7 @@ class LLMAdapter:
                     if resp.status_code == 200:
                         data = resp.json()
                         content = data["choices"][0]["message"]["content"]
-                        parsed = json.loads(content)
+                        parsed = _coerce_claim_fields(json.loads(content))
                         return LLMOutput.model_validate(parsed)
                     elif resp.status_code in [429, 500, 502, 503] and attempt == 0:
                         await asyncio.sleep(1.0)

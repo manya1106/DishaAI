@@ -1,0 +1,52 @@
+# Weight multipliers applied from wizard answers, before percentile scoring.
+# Mirrors the "answer_modifiers" concept from the SiteScout architecture doc
+# (e.g. "students" multiplies the college/footfall weight for cafes), adapted
+# onto Disha AI's own 9-signal taxonomy. Applied multiplicatively to the base
+# category weight, then renormalised to sum to 1.0 — never a hard override.
+
+target_customers:
+  students:
+    footfall_anchors: 1.3
+    residential_catchment: 0.9
+  young_professionals:
+    daytime_population: 1.25
+    transit_access: 1.15
+  families:
+    residential_catchment: 1.3
+    daytime_population: 0.9
+  seniors:
+    residential_catchment: 1.2
+    road_accessibility: 1.15
+    transit_access: 0.9
+  tourists:
+    footfall_anchors: 1.2
+    transit_access: 1.2
+    residential_catchment: 0.85
+
+category_answers:
+  cafe:
+    format:
+      coworking:
+        daytime_population: 1.2
+      takeaway_kiosk:
+        transit_access: 1.2
+        residential_catchment: 0.9
+      sit_down:
+        residential_catchment: 1.1
+  pharmacy:
+    is_24x7:
+      "true":
+        transit_access: 1.15
+        road_accessibility: 1.1
+    nearby_clinics_ok:
+      "true":
+        complementary_mix: 1.2
+  gym:
+    format:
+      boutique_studio:
+        daytime_population: 1.2
+      full_service:
+        residential_catchment: 1.15
+    parking_needed:
+      "true":
+        road_accessibility: 1.2

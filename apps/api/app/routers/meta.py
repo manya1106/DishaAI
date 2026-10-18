@@ -7,11 +7,13 @@ from ..config import settings
 from ..schemas import (
     BudgetTierMeta,
     CategoryMeta,
+    CategoryQuestion,
     Centroid,
     CityMeta,
     DatasetMeta,
     MetaResponse,
     ProvenanceClass,
+    SelectOption,
     SignalMeta,
 )
 
@@ -132,11 +134,88 @@ async def get_meta():
         contains_simulated=(settings.DATA_MODE == "synthetic")
     )
 
+    # Short, category-specific tier descriptions for the wizard's tier step
+    # (plan.md / the SiteScout architecture doc §7.1, adapted to cafe/pharmacy/gym).
+    category_tier_descriptions = {
+        "cafe": {
+            "low": "Chai-and-snacks or regular coffee counter, low ticket size.",
+            "medium": "Branded-style cafe with seating and a broader menu.",
+            "high": "Specialty coffee, designer interiors, higher average ticket.",
+        },
+        "pharmacy": {
+            "low": "Neighbourhood standard pharmacy, OTC-led.",
+            "medium": "Pharmacy plus OTC and personal care range.",
+            "high": "Wellness/health-store style with delivery and chronic-care focus.",
+        },
+        "gym": {
+            "low": "Basic neighbourhood gym, equipment-first.",
+            "medium": "Mid-range fitness centre with classes and trainers.",
+            "high": "Boutique studio or full-service club, premium interiors.",
+        },
+    }
+
+    target_customer_options = [
+        SelectOption(value="students", label="Students"),
+        SelectOption(value="young_professionals", label="Young professionals"),
+        SelectOption(value="families", label="Families"),
+        SelectOption(value="seniors", label="Seniors"),
+        SelectOption(value="tourists", label="Tourists / visitors"),
+    ]
+
+    category_questions = {
+        "cafe": [
+            CategoryQuestion(
+                question_id="format",
+                label="Format",
+                type="single_select",
+                options=[
+                    SelectOption(value="takeaway_kiosk", label="Takeaway kiosk"),
+                    SelectOption(value="sit_down", label="Sit-down cafe"),
+                    SelectOption(value="coworking", label="Co-working style"),
+                ],
+            ),
+        ],
+        "pharmacy": [
+            CategoryQuestion(
+                question_id="is_24x7",
+                label="Planning to run 24x7?",
+                type="boolean",
+                options=[SelectOption(value="true", label="Yes"), SelectOption(value="false", label="No")],
+            ),
+            CategoryQuestion(
+                question_id="nearby_clinics_ok",
+                label="Comfortable being next to clinics/diagnostic labs?",
+                type="boolean",
+                options=[SelectOption(value="true", label="Yes"), SelectOption(value="false", label="No")],
+            ),
+        ],
+        "gym": [
+            CategoryQuestion(
+                question_id="format",
+                label="Format",
+                type="single_select",
+                options=[
+                    SelectOption(value="boutique_studio", label="Boutique studio"),
+                    SelectOption(value="full_service", label="Full-service gym"),
+                ],
+            ),
+            CategoryQuestion(
+                question_id="parking_needed",
+                label="Do members need dedicated parking?",
+                type="boolean",
+                options=[SelectOption(value="true", label="Yes"), SelectOption(value="false", label="No")],
+            ),
+        ],
+    }
+
     return MetaResponse(
         cities=cities,
         categories=categories,
         budget_tiers=budget_tiers,
         signals=signals,
         default_weights=default_weights,
-        dataset=dataset
+        dataset=dataset,
+        category_tier_descriptions=category_tier_descriptions,
+        target_customer_options=target_customer_options,
+        category_questions=category_questions,
     )
