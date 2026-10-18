@@ -340,3 +340,21 @@ The UI displayed abstract percentile numbers (e.g., `68.5/100`) without exposing
    - Add a "Matrix" tab or drawer showing the full 10-zone × 9-signal colored heatmap table (mirroring Nasiko's Signal Contribution Matrix).
 4. Verify `npm run build` passes with zero errors.
 5. Local commit only; no push without approval.
+
+---
+
+## 12. Removal of Redundant Control Bar from /explore (2026-10-18)
+
+### 12.1 Problem
+
+The top selector bar (`City / Category / Budget / Analyze` and `AI mode` toggle) took up valuable vertical space on the `/explore` dashboard. Since users already configure their parameters through the wizard (`/new-analysis`) and navigate to `/explore?analysisId=...`, having this form on the results dashboard cluttered the view and made it look like a static filter tool rather than an institutional-grade intelligence platform.
+
+### 12.2 Target Changes
+
+1. **`explore/page.tsx`**:
+   - Remove the `<form>` row containing City, Category, Budget dropdowns and the Analyze button.
+   - Remove the "AI mode: LLM + Verifier" toggle button from this row.
+   - Preserve the KPI strip (Best score, Candidate zones, High-confidence zones, Live Postgres proof) directly below the Navbar, giving immediate vertical space to the map and sidebar.
+   - Retain `deterministicMode` state (defaulting to `false`, LLM + Verifier) for `ChatPanel`.
+2. Confirm `npm run build` passes cleanly.
+3. Local commit; no push without approval.

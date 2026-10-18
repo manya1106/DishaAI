@@ -1,7 +1,7 @@
 "use client";
 
 import React, { Suspense, useEffect, useRef, useState, useMemo } from "react";
-import { useSearchParams, useRouter } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import Navbar from "../../components/Navbar";
 import MapComponent from "../../components/MapComponent";
 import LocationReport from "../../components/LocationReport";
@@ -14,11 +14,9 @@ import {
   MetaResponse,
 } from "../../lib/types";
 import {
-  Compass,
   FileText,
   ArrowRightLeft,
   MessageSquare,
-  Sparkles,
   Loader2,
   AlertCircle,
   CheckSquare,
@@ -48,7 +46,6 @@ function heatColor(t: number): string {
 }
 
 function ExploreContent() {
-  const router = useRouter();
   const searchParams = useSearchParams();
 
   const analysisIdParam = searchParams.get("analysisId");
@@ -158,13 +155,6 @@ function ExploreContent() {
     };
   }, [selectedCity, selectedCategory, selectedTier]);
 
-  function handleAnalyzeSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    router.push(
-      `/explore?city=${selectedCity}&category=${selectedCategory}&tier=${selectedTier}`
-    );
-  }
-
   function handleSelectLocation(locationId: string) {
     setSelectedLocationId(locationId);
     if (activeTab === "matrix") {
@@ -217,124 +207,43 @@ function ExploreContent() {
     <div className="min-h-screen flex flex-col bg-[#F6F1E7] text-[#15130F]" style={{ fontFamily: "var(--font-geist-sans)" }}>
       <Navbar />
 
-      {/* ── Control & KPI Bar ───────────────────────────────────────────── */}
-      <div className="bg-[#F6F1E7] border-b border-[#15130F]/10">
-        <div className="px-4 sm:px-8 py-3">
-          <div className="max-w-[1600px] mx-auto flex flex-wrap items-center justify-between gap-4">
-            <form onSubmit={handleAnalyzeSubmit} className="flex flex-wrap items-center gap-3">
-              {/* City */}
-              <div className="flex items-center gap-1.5 text-xs">
-                <span className="text-[#15130F]/50 font-medium">City:</span>
-                <select
-                  value={selectedCity}
-                  onChange={(e) => setSelectedCity(e.target.value)}
-                  className="bg-white border border-[#15130F]/20 rounded-lg px-2.5 py-1.5 text-[#15130F] font-medium focus:outline-none focus:border-[#15130F]"
-                >
-                  <option value="blr">Bengaluru (Bangalore)</option>
-                </select>
+      {/* ── KPI Strip ─────────────────────────────────────────────────── */}
+      {analysis && (
+        <div className="bg-[#F6F1E7] border-b border-[#15130F]/10 px-4 sm:px-8 py-3">
+          <div className="max-w-[1600px] mx-auto bg-white rounded-xl border border-[#15130F]/15 shadow-sm grid grid-cols-2 sm:grid-cols-4 divide-x divide-y sm:divide-y-0 divide-[#15130F]/12">
+            <div className="px-5 py-3">
+              <div className="text-2xl font-semibold text-[#15130F]" style={{ fontFamily: "var(--font-display)" }}>
+                {bestScore ?? "—"}
               </div>
-              {/* Category */}
-              <div className="flex items-center gap-1.5 text-xs">
-                <span className="text-[#15130F]/50 font-medium">Category:</span>
-                <select
-                  value={selectedCategory}
-                  onChange={(e) => setSelectedCategory(e.target.value)}
-                  className="bg-white border border-[#15130F]/20 rounded-lg px-2.5 py-1.5 text-[#15130F] font-medium focus:outline-none focus:border-[#15130F]"
-                >
-                  <option value="cafe">Café / Specialty Coffee</option>
-                  <option value="pharmacy">Pharmacy / Chemist</option>
-                  <option value="gym">Fitness Centre / Gym</option>
-                </select>
+              <div className="text-[11px] text-[#15130F]/55 mt-0.5 font-medium">Best score</div>
+            </div>
+            <div className="px-5 py-3">
+              <div className="text-2xl font-semibold text-[#15130F]" style={{ fontFamily: "var(--font-display)" }}>
+                {zonesRanked}
               </div>
-              {/* Budget */}
-              <div className="flex items-center gap-1.5 text-xs">
-                <span className="text-[#15130F]/50 font-medium">Budget:</span>
-                <select
-                  value={selectedTier}
-                  onChange={(e) => setSelectedTier(e.target.value)}
-                  className="bg-white border border-[#15130F]/20 rounded-lg px-2.5 py-1.5 text-[#15130F] font-medium focus:outline-none focus:border-[#15130F]"
-                >
-                  <option value="low">Budget (Tiers 1-2)</option>
-                  <option value="medium">Standard (Tiers 1-3)</option>
-                  <option value="high">Flagship (Tiers 1-5)</option>
-                </select>
+              <div className="text-[11px] text-[#15130F]/55 mt-0.5 font-medium">Candidate zones</div>
+            </div>
+            <div className="px-5 py-3">
+              <div className="text-2xl font-semibold text-[#15130F]" style={{ fontFamily: "var(--font-display)" }}>
+                {highConfidenceCount}
               </div>
-              <button
-                type="submit"
-                disabled={loading}
-                className="px-4 py-1.5 rounded-lg bg-[#15130F] hover:bg-[#2A2720] text-[#F6F1E7] font-medium text-xs flex items-center gap-1.5 transition-all disabled:opacity-50"
-              >
-                {loading ? (
-                  <>
-                    <Loader2 className="w-3.5 h-3.5 animate-spin" />
-                    <span>Scoring…</span>
-                  </>
-                ) : (
-                  <>
-                    <Compass className="w-3.5 h-3.5" />
-                    <span>Analyze</span>
-                  </>
-                )}
-              </button>
-            </form>
-
-            {/* AI mode toggle */}
-            <div className="flex items-center gap-2 text-xs">
-              <span className="text-[#15130F]/50">AI mode:</span>
-              <button
-                type="button"
-                onClick={() => setDeterministicMode(!deterministicMode)}
-                className={`px-2.5 py-1 rounded-lg border font-medium transition-colors flex items-center gap-1.5 ${
-                  deterministicMode
-                    ? "bg-[#3F5B6C]/10 text-[#3F5B6C] border-[#3F5B6C]/25"
-                    : "bg-[#2F6E4E]/10 text-[#2F6E4E] border-[#2F6E4E]/25"
-                }`}
-              >
-                <Sparkles className="w-3.5 h-3.5" />
-                <span>{deterministicMode ? "Deterministic Only" : "LLM + Verifier"}</span>
-              </button>
+              <div className="text-[11px] text-[#15130F]/55 mt-0.5 font-medium">High-confidence zones</div>
+            </div>
+            <div className="px-5 py-3 bg-[#2F6E4E]/6 rounded-r-xl">
+              <div className="text-2xl font-semibold text-[#2F6E4E] flex items-center gap-2" style={{ fontFamily: "var(--font-display)" }}>
+                {isLivePostgres && <span className="live-dot" />}
+                {isLivePostgres ? "Live" : "Snapshot"}
+              </div>
+              <div className="text-[11px] text-[#2F6E4E]/80 mt-0.5 font-medium">
+                {isLivePostgres ? "Real Postgres data, this request" : analysis.dataset.mode}
+              </div>
             </div>
           </div>
         </div>
-
-        {/* KPI Strip */}
-        {analysis && (
-          <div className="px-4 sm:px-8 pb-3">
-            <div className="max-w-[1600px] mx-auto bg-white rounded-xl border border-[#15130F]/15 shadow-sm grid grid-cols-2 sm:grid-cols-4 divide-x divide-y sm:divide-y-0 divide-[#15130F]/12">
-              <div className="px-5 py-3">
-                <div className="text-2xl font-semibold text-[#15130F]" style={{ fontFamily: "var(--font-display)" }}>
-                  {bestScore ?? "—"}
-                </div>
-                <div className="text-[11px] text-[#15130F]/55 mt-0.5 font-medium">Best score</div>
-              </div>
-              <div className="px-5 py-3">
-                <div className="text-2xl font-semibold text-[#15130F]" style={{ fontFamily: "var(--font-display)" }}>
-                  {zonesRanked}
-                </div>
-                <div className="text-[11px] text-[#15130F]/55 mt-0.5 font-medium">Candidate zones</div>
-              </div>
-              <div className="px-5 py-3">
-                <div className="text-2xl font-semibold text-[#15130F]" style={{ fontFamily: "var(--font-display)" }}>
-                  {highConfidenceCount}
-                </div>
-                <div className="text-[11px] text-[#15130F]/55 mt-0.5 font-medium">High-confidence zones</div>
-              </div>
-              <div className="px-5 py-3 bg-[#2F6E4E]/6 rounded-r-xl">
-                <div className="text-2xl font-semibold text-[#2F6E4E] flex items-center gap-2" style={{ fontFamily: "var(--font-display)" }}>
-                  {isLivePostgres && <span className="live-dot" />}
-                  {isLivePostgres ? "Live" : "Snapshot"}
-                </div>
-                <div className="text-[11px] text-[#2F6E4E]/80 mt-0.5 font-medium">
-                  {isLivePostgres ? "Real Postgres data, this request" : analysis.dataset.mode}
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-      </div>
+      )}
 
       {/* ── Main Layout: Map (flex-1) + Right Sidebar (480px) ───────────── */}
-      <main className="flex-1 flex overflow-hidden" style={{ height: "calc(100vh - 165px)", minHeight: 540 }}>
+      <main className="flex-1 flex overflow-hidden" style={{ height: "calc(100vh - 125px)", minHeight: 560 }}>
         {loading && !analysis && (
           <div className="flex-1 flex flex-col items-center justify-center gap-3 text-[#15130F]/45">
             <Loader2 className="w-8 h-8 animate-spin text-[#2F6E4E]" />
