@@ -74,6 +74,18 @@ Carried over from `PROJECT_STATE.md` / `STATUS.md` / `docs/IMPLEMENTATION_AUDIT.
 
 **Summary: 36 of 36 plan steps done (2026-10-18).** Person M completed Phases 0, 1, 3, 4, 5, 6, 7 (agent swarm + observability). Person D completed Phase D (real OSM data — 1,630 H3 cells covering all of Bengaluru, 1,382 eligible, 36,411 POIs with real `osm_id`s) and Phase 2 (Scoring Agent). `origin/main`'s independent Phase D/2 attempt (`person_D/`) was reconciled in rather than discarded. Phase 8 (docs) is now also done — `docs/DEMO.md`, `PROJECT_STATE.md`, `STATUS.md`, `HANDOFF.md` all rewritten to describe the finished, reconciled system. 37/37 backend tests, 21/21 adversarial eval, ruff clean, `npm run build` green — all re-verified at the current `main` HEAD (`33964e5`). The plan as scoped is complete. Remaining work (ESLint cleanup, deployment, rate limiting, live LLM key, `person_D/`'s fate) is tracked in `STATUS.md` §4 as post-plan polish, not part of `plan.md`'s scope.
 
+**UI contrast fix pass (plan §9) — done 2026-10-18:**
+
+| Step | Description | Status | Notes |
+|---|---|---|---|
+| 9.prev | `globals.css` glass-* → solid white; `RankedList.tsx` solid cards + score bar; `explore/page.tsx` KPI strip solid bordered | **Done (previous session)** | Pre-existing at session start |
+| 9.1 | `CompareView.tsx` — score grid cards + signal-delta rows + empty/loading state panels → `bg-white + shadow-sm` | **Done** | commit `e76b115` |
+| 9.2 | `LocationReport.tsx` — nine signal bar cards + strengths/limitations cards + evidence table container → `bg-white + shadow-sm` | **Done** | commit `e76b115` |
+| 9.3 | `ChatPanel.tsx` — prompt pills + agent-trace badge + trace chips + claim chips → `bg-white` | **Done** | commit `e76b115` |
+| 9.4 | `trust/page.tsx` — live-health bar + four provenance taxonomy cards + limitations section → `bg-white + shadow-sm` | **Done** | commit `e76b115` |
+| 9.5 | `npm run build` green post-fix | **Done** | exit 0, TypeScript clean, 5/5 pages |
+| 9.6 | `plan.md` §9 appended | **Done** | change control documented |
+
 ---
 
 ## 3. Decision Log
@@ -149,3 +161,4 @@ The boundary is the `AgentMessage` envelope (`plan.md` §4.2) plus the Scoring A
 | 2026-10-18 | Restructured from ownership-zone split to literal `person_M`/`person_D` git worktrees, branches `person-m`/`person-d` off `main` at `f5dfccc`; merge back into `main` when ready, no push | Owner |
 | 2026-10-18 | Work split into Person D / Person M ownership zones (§5); step table given an Owner column | Owner |
 | 2026-10-18 | Dedicated `person_D/` folder established; Docker PostGIS 16-3.4 stood up; Alembic migrations applied; 417 cells + 2592 POIs migrated; DatabaseLoader, ScoringAgent, idempotency tests, and scoring parity tests verified (Steps D.1–D.9, 2.1.1–2.1.2) | Owner |
+| 2026-10-18 | **UI contrast fix pass (plan §9):** switched all translucent `bg-white/50`–`bg-white/70` interior card surfaces to solid `bg-white + shadow-sm + real border` across `CompareView.tsx`, `LocationReport.tsx`, `ChatPanel.tsx`, `trust/page.tsx` (previous session already handled `globals.css`, `RankedList.tsx`, `explore/page.tsx` KPI strip). `npm run build` exit 0, TypeScript clean, 5/5 pages. Local commit `e76b115`. No push. | Owner (approved as part of this session's task) |
