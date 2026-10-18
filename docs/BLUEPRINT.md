@@ -47,3 +47,27 @@ The deterministic engine computes the numbers, an LLM only narrates them, and a 
    - Graceful repair retry and fallback to deterministic narrator.
 6. **Trust Page (`/trust`)**:
    - Pipeline explanation, provenance definitions, real evaluation metrics from `eval_trust.py`.
+
+---
+
+## C. Addendum — Agent Swarm Redesign (2026-10-18)
+
+*Appended without altering sections A–B above. Full plan and rollout tracking live in `plan.md` / `progress.md` at the repo root.*
+
+**Revised primary problem statement:** Track 2 — Best Open-Source AI Project, **O1 — Autonomous Agent Swarms**, chosen over continuing with O3 alone because:
+- O1 is judged to have the least hype-driven crowding of the three tracks at this event (unlike the Gemma 4 and Sarvam tracks, which are expected to draw volume purely from sponsor visibility).
+- The existing O3 trust/verification engineering (section B.5 above) becomes the swarm's internal accountability layer rather than a separate feature — most agent-swarm entries will not have a dedicated agent that can refuse another agent's output.
+- The change is structural, not a rewrite: the same scoring math, the same verifier rules (V1–V9), and the same external API contracts are reused unchanged, just re-packaged behind explicit agent boundaries with logged hand-offs.
+
+**The four agents** (see `plan.md` §4 for full detail):
+
+| Agent | Wraps | Role |
+|---|---|---|
+| Orchestrator | New | Dispatches a request through the other three agents in order, logs every hand-off with a trace ID |
+| Scoring Agent | `scoring/engine.py`, `signals.py`, `explain.py` | Computes the 9-signal deterministic result |
+| Narrator Agent | `ai/chat.py`, `ai/adapter.py`, `ai/fallback.py` | Drafts a natural-language explanation from the Scoring Agent's evidence |
+| Verifier Agent | `ai/verifier.py`, `ai/evidence.py` | Runs rules V1–V9 against the Narrator Agent's draft before anything reaches the user |
+
+Agents run in-process (no Nasiko, no separate deployment, no new infrastructure) and communicate via a typed `AgentMessage` envelope with a shared `trace_id` per request, so the hand-off sequence can be shown live to judges as proof of autonomous collaboration — not just asserted.
+
+**Explicitly unchanged by this addendum:** scoring formulas and weights, verifier rule logic, the `contracts/openapi.json` external API shape, and all O3-related claims in section A above remain true — O3 compliance is preserved as a property of the swarm, not removed.
